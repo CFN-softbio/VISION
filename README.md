@@ -7,7 +7,7 @@ Key workflows include natural language-controlled (audio, text, or both) **beaml
 
 ![VISION Architecture](images/vision_architecture.png "VISION Modular Architecture")
 
-![NSLS-II Deployment](images/gui_nsls2.png "NSLS-II GUI Deployment")
+![NSLS-II Deployment](images/vision_demo.png "NSLS-II GUI Deployment")
 
 ## Paper
 Please see our paper here - https://arxiv.org/abs/2412.18161
