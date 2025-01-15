@@ -1,0 +1,41 @@
+[
+
+    {
+        "word": "gpCAM",
+        "phonetics": "GP CAM" 
+        
+    },
+
+    {
+        "word": "SAXS",
+        "phonetics": "sax"
+    },
+
+    {
+        "word": "WAXS",
+        "phonetics": "wax"
+    },
+
+    {
+
+        "word": "GISAXS",
+        "phonetics": "G sax"
+
+    },
+
+    {
+        "word": "GIWAXS",
+        "phonetics": "G wax"
+    },
+
+    {
+        "word": "SciAnalysis",
+        "phonetics": "SciAnalysis"
+    },
+    {
+        "word": "bioSAXS",
+        "phonetics": "bio sax"
+    }
+
+]
+

@@ -1,0 +1,43 @@
+#!/bin/bash
+
+if [ "$#" -ne 1 ]; then
+    echo "Usgage: ./open_bsui <window name>"
+    exit 2
+fi
+
+if [ -z "$(xdotool search --name $1)" ]; then
+	echo "Empty"
+	xdotool key "ctrl+shift+n"
+	sleep 0.5
+	xdotool getactivewindow set_window --name $1
+
+	wid="$(xdotool search --name $1)"
+	echo "Window ID: $wid"
+	for i in $(seq 1 1);
+	do
+		#xdotool windowactivate $wid key "ctrl+shift+plus"
+		#xdotool keyup --window $wid a type "bsui"
+		xdotool keyup --window $wid a type "set-title " $1-"Op"
+		xdotool windowactivate $wid key KP_Enter
+		xdotool keyup --window $wid a type "conda activate 2023-2.0-py310-ETsai"
+		xdotool windowactivate $wid key KP_Enter
+		xdotool keyup --window $wid a type "PYTHONPATH=/nsls2/data/cms/shared/config/bluesky_overlay/2022-2.2-py39-tiled/lib/python3.9/site-packages "
+		xdotool windowactivate $wid key KP_Enter
+		xdotool keyup --window $wid a type "ipython --profile=et --IPCompleter.use_jedi=False"
+		#xdotool keyup --window $wid a type "ipython --IPCompleter.use_jedi=False"
+		xdotool windowactivate $wid key KP_Enter
+
+		# xdotool key "ctrl+shift+t"
+		# sleep 0.5
+		# xdotool keyup --window $wid a type "set-title " $1-"Ana"
+		# xdotool windowactivate $wid key KP_Enter
+
+	done
+else
+	wid="$(xdotool search --name $1)"
+	xdotool windowactivate $wid 
+fi
+
+xdotool keyup --window $wid a type "RE.md['experiment_alias_directory'] = '/nsls2/data/cms/legacy/xf11bm/data/2024_3/beamline/ETsai/Test/'"
+xdotool windowactivate $wid key KP_Enter
+

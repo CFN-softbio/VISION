@@ -1,0 +1,398 @@
+[
+    {
+        "input": "Measure for 2 seconds",
+        "expected_output": "Op"
+    },
+    {
+        "input": "Measure for 2 seconds at 0.15 degree",
+        "expected_output": "Op"
+    },
+    {
+        "input": "Measure for 2 seconds at incident angle 0.15",
+        "expected_output": "Op"
+    },
+    {
+        "input": "Move the sample x by -0.5 and align the sample",
+        "expected_output": "Op"
+    },
+    {
+        "input": "Set this as sample origin",
+        "expected_output": "Op"
+    },
+    {
+        "input": "Set incident angle to 0.12",
+        "expected_output": "Op"
+    },
+    {
+        "input": "Increase incident angle by 0.05",
+        "expected_output": "Op"
+    },
+    {
+        "input": "Set this as the origin",
+        "expected_output": "Op"
+    },
+    {
+        "input": "Set this x as the sample origin",
+        "expected_output": "Op"
+    },
+    {
+        "input": "Where is the beam stop",
+        "expected_output": "Op"
+    },
+    {
+        "input": "What is the sample motor positions",
+        "expected_output": "Op"
+    },
+    {
+        "input": "Move the sample up by 1mm",
+        "expected_output": "Op"
+    },
+    {
+        "input": "Lower sample by 2mm",
+        "expected_output": "Op"
+    },
+    {
+        "input": "Move the sample by 0.2mm",
+        "expected_output": "Op"
+    },
+    {
+        "input": "Move the sample x to 0.5mm",
+        "expected_output": "Op"
+    },
+    {
+        "input": "Rotate to 90 degree",
+        "expected_output": "Op"
+    },
+    {
+        "input": "Align the",
+        "expected_output": "Op"
+    },
+    {
+        "input": "Heat up the sample to 200 degree",
+        "expected_output": "Op"
+    },
+    {
+        "input": "Measure the sample for 1s (every 10s), do this for 1 min",
+        "expected_output": "Op"
+    },
+    {
+        "input": "Measure 1s and scan from x 0 to 1mm (with 0.2 step)",
+        "expected_output": "Op"
+    },
+    {
+        "input": "Do a map scan, x range from 0 to 2mm, y from 0 to 5mm, step size is 0.2 horizontally and 0.05 vertically. (Exposure time 1s.)",
+        "expected_output": "Op"
+    },
+    {
+        "input": "Scan incident angle from 0.05 to 1.5 degree (with 0.02 step), exposure time 0.5s",
+        "expected_output": "Op"
+    },
+    {
+        "input": "Measure for 5s every minute until the sample reached 100 degree",
+        "expected_output": "Op"
+    },
+    {
+        "input": "Measure the sample for 1s when heating up from room temperature to 250 degree at a ramp rate of 2 degree per min, measure every 10 degree.",
+        "expected_output": "Op"
+    },
+    {
+        "input": "The sample color changed from black to yellow",
+        "expected_output": "Notebook"
+    },
+    {
+        "input": "The temperature inside the hutch was 26 degC, the humidity was 25%",
+        "expected_output": "Notebook"
+    },
+    {
+        "input": "There is visible beam damage on the sample",
+        "expected_output": "Notebook"
+    },
+    {
+        "input": "The samples are exposed to air since 10am",
+        "expected_output": "Notebook"
+    },
+    {
+        "input": "The overnight scan went well, but when we took the bar out we noticed sample 8 leaked.",
+        "expected_output": "Notebook"
+    },
+    {
+        "input": "Remember, the sample color changed from black to yellow",
+        "expected_output": "Notebook"
+    },
+    {
+        "input": "We need to write this down, the sample color changed from black to yellow",
+        "expected_output": "Notebook"
+    },
+    {
+        "input": "I need to write this down, the temperature inside the hutch was 27 degree, humidity was 25 percent",
+        "expected_output": "Notebook"
+    },
+    {
+        "input": "Make a note on this, the temperature inside the hutch was 29 degree, humidity was 28 percent",
+        "expected_output": "Notebook"
+    },
+    {
+        "input": "Log this, the overnight scan went well, but when we took the bar out we noticed sample 8 leaked",
+        "expected_output": "Notebook"
+    },
+    {
+        "input": "Note this, the overnight scan went well, but when we took the bar out we noticed sample 8 leaked",
+        "expected_output": "Notebook"
+    },
+    {
+        "input": "Note this, the peaks start disappearing",
+        "expected_output": "Notebook"
+    },
+    {
+        "input": "Remember, the peaks start disappearing",
+        "expected_output": "Notebook"
+    },
+    {
+        "input": "I need to write this down, we restarted the measurement because of a bug in the code",
+        "expected_output": "Notebook"
+    },
+    {
+        "input": "Remember, we restarted the measurement because of an error in the instrument",
+        "expected_output": "Notebook"
+    },
+    {
+        "input": "What should we get for dinner? Nothing is open, I need to eat",
+        "expected_output": "Notebook"
+    },
+    {
+        "input": "How do we go back to the dorm, it is pouring",
+        "expected_output": "Notebook"
+    },
+    {
+        "input": "How long does the setup change take, I need to take a shower",
+        "expected_output": "Notebook"
+    },
+    {
+        "input": "We are guessing that the thermal contact wasn't good and that's why we don't see any change when we heat it up",
+        "expected_output": "Notebook"
+    },
+    {
+        "input": "The signal is very weak, we can't really see the peak, we need to seal the sample and measure it in vacuum",
+        "expected_output": "Notebook"
+    },
+    {
+        "input": "I wonder if we can see the lattice expansion within an hour, can we do a peak fitting around q=0.9 to track the peak position and plot the waterfall plot",
+        "expected_output": "Ana"
+    },
+    {
+        "input": "I don't see obvious changes, maybe we need to zoom in on the linecut or radial integration",
+        "expected_output": "Ana"
+    },
+    {
+        "input": "Analyze the data and show us the scattering pattern",
+        "expected_output": "Ana"
+    },
+    {
+        "input": "What is the circular average for this measurement",
+        "expected_output": "Ana"
+    },
+    {
+        "input": "Can we visualize the 1d curve",
+        "expected_output": "Ana"
+    },
+    {
+        "input": "Should I plot the q image",
+        "expected_output": "Ana"
+    },
+    {
+        "input": "What is the sector average for the latest data",
+        "expected_output": "Ana"
+    },
+    {
+        "input": "Can we analyze diffraction for this measurement",
+        "expected_output": "Ana"
+    },
+    {
+        "input": "Show the linecut of the latest result",
+        "expected_output": "Ana"
+    },
+    {
+        "input": "Visualize radial integration for this data",
+        "expected_output": "Ana"
+    },
+    {
+        "input": "Show us the roi for the measurement",
+        "expected_output": "Ana"
+    },
+    {
+        "input": "We want to compare the q image",
+        "expected_output": "Ana"
+    },
+    {
+        "input": "We are interested in the scattering",
+        "expected_output": "Ana"
+    },
+    {
+        "input": "I am curious about the diffraction",
+        "expected_output": "Ana"
+    },
+    {
+        "input": "We want to see changes in the 1d curve",
+        "expected_output": "Ana"
+    },
+    {
+        "input": "What is interesting are the changes in line cut",
+        "expected_output": "Ana"
+    },
+    {
+        "input": "Can we analyze the result",
+        "expected_output": "Ana"
+    },
+    {
+        "input": "How do I visualize the q image for our data",
+        "expected_output": "Ana"
+    },
+    {
+        "input": "How do we plot the qr image",
+        "expected_output": "Ana"
+    },
+    {
+        "input": "How does the average look like",
+        "expected_output": "Ana"
+    },
+    {
+        "input": "What about circular average for my data",
+        "expected_output": "Ana"
+    },
+    {
+        "input": "Analyze us the linecut for our measurement",
+        "expected_output": "Ana"
+    },
+    {
+        "input": "Analyze the roi for my measurement",
+        "expected_output": "Ana"
+    },
+    {
+        "input": "Please run xicam",
+        "expected_output": "xicam"
+    },
+    {
+        "input": "Run xiCam",
+        "expected_output": "xicam"
+    },
+    {
+        "input": "Start XiCam analysis",
+        "expected_output": "xicam"
+    },
+    {
+        "input": "Open XiCam and process the data",
+        "expected_output": "xicam"
+    },
+    {
+        "input": "Initiate XiCam for this session",
+        "expected_output": "xicam"
+    },
+    {
+        "input": "Use XiCam to analyze the dataset",
+        "expected_output": "xicam"
+    },
+    {
+        "input": "Launch XiCam to check the data quickly",
+        "expected_output": "xicam"
+    },
+    {
+        "input": "XiCam should be started now",
+        "expected_output": "xicam"
+    },
+    {
+        "input": "Activate XiCam for data review",
+        "expected_output": "xicam"
+    },
+    {
+        "input": "Begin analysis with XiCam",
+        "expected_output": "xicam"
+    },
+    {
+        "input": "Initialize gPCAM for this autonomous experiment",
+        "expected_output": "gpcam"
+    },
+    {
+        "input": "Run gPCAM analysis",
+        "expected_output": "gpcam"
+    },
+    {
+        "input": "Activate gp cam for autonomous control",
+        "expected_output": "gpcam"
+    },
+    {
+        "input": "Engage GpCAM for the current session",
+        "expected_output": "gpcam"
+    },
+    {
+        "input": "Launch gpCam for data modeling",
+        "expected_output": "gpcam"
+    },
+    {
+        "input": "Prepare gP Cam for sample testing",
+        "expected_output": "gpcam"
+    },
+    {
+        "input": "Use Gp cam to assess the new results",
+        "expected_output": "gpcam"
+    },
+    {
+        "input": "Set up GP CAM for optimization tasks",
+        "expected_output": "gpcam"
+    },
+    {
+        "input": "Start the autonomous process using gp cam",
+        "expected_output": "gpcam"
+    },
+    {
+        "input": "Start GPcam to monitor progress",
+        "expected_output": "gpcam"
+    },
+    {
+        "input": "Beam is hitting the stage instead of the sample. I think we need to move the sample down, by like 250 microns.",
+        "expected_output": "Op"
+    },
+    {
+        "input": "Scan sample left-to-right. Take an image every 500 microns.",
+        "expected_output": "Op"
+    },
+    {
+        "input": "Heat sample to 100C, taking measurements as fast as possible. Then turn off heater and measure on cooling, every 5C.",
+        "expected_output": "Op"
+    },
+    {
+        "input": "probably a sector average would work, like apply a mask from q 0.1 to 0.1 and angle range of horizon to 45 degrees on left side of detector. Let's see what that looks like.",
+        "expected_output": "Ana"
+    },
+    {
+        "input": "Make the thumbnail images use the vge_hdr colormap. Set the name of the protocol to thumbnails3.",
+        "expected_output": "Ana"
+    },
+    {
+        "input": "qr linecut, fit a Gaussian to the peak around 0.042 inverse angstroms.",
+        "expected_output": "Ana"
+    },
+    {
+        "input": "We should use the gradient of the signal as the target, a sort of combination of exploitation and exploration.",
+        "expected_output": "gpcam"
+    },
+    {
+        "input": "Change the objective function to use Shannon entropy.",
+        "expected_output": "gpcam"
+    },
+    {
+        "input": "Start AE now.",
+        "expected_output": "gpcam"
+    },
+    {
+        "input": "Beam dump. Going to dinner while we wait for beam to come back.",
+        "expected_output": "Notebook"
+    },
+    {
+        "input": "Loading sample BZ02. Sample is oriented vertically, with the scratch on the bottom-left (as viewed by the beam).",
+        "expected_output": "Notebook"
+    },
+    {
+        "input": "Removed sample BCP_12. I accidentally dropped the sample, and it broke. I put both fragments in the petri dish outside the hutch.",
+        "expected_output": "Notebook"
+    }
+]

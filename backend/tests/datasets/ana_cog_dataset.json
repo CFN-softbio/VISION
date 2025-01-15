@@ -1,0 +1,150 @@
+[
+    {
+        "command": "What is the 2D scattering data for this data",
+        "expected_output": ["qr_image", "q_image"]
+    },
+    {
+        "command": "What does the scattering data look like",
+        "expected_output": ["qr_image", "q_image"]
+    },
+    {
+        "command": "Can I see the linecut for this data",
+        "expected_output": ["linecut_qr", "linecut_qz"]
+    },
+    {
+        "command": "What is the linecut along qz for this data",
+        "expected_output": ["linecut_qz"]
+    },
+    {
+        "command": "plot the data and show the line cut",
+        "expected_output": ["linecut_qr", "linecut_qz"]
+    },
+    {
+        "command": "Can we check the 2D raw data",
+        "expected_output": ["q_image", "qr_image"]
+    },
+    {
+        "command": "check the data and show the line cut",
+        "expected_output": ["linecut_qz", "linecut_qr"]
+    },
+    {
+        "command": "plot the 1d curve",
+        "expected_output": ["circular_average"]
+    },
+    {
+        "command": "We are interested in the circular average",
+        "expected_output": ["circular_average"]
+    },
+    {
+        "command": "We are interested in the GI data",
+        "expected_output": ["qr_image"]
+    },
+    {
+        "command": "We are interested in the linecut",
+        "expected_output": ["linecut_qr", "linecut_qz"]
+    },
+    {
+        "command": "We are interested in the circular average",
+        "expected_output": ["circular_average"]
+    },
+    {
+        "command": "Can we look at the circular average",
+        "expected_output": ["circular_average"]
+    },
+    {
+        "command": "Can we look at the thin film data",
+        "expected_output": ["qr_image"]
+    },
+    {
+        "command": "Can we look at the sector average",
+        "expected_output": ["sector_average"]
+    },
+    {
+        "command": "Can we look at the 1d curve",
+        "expected_output": ["circular_average"]
+    },
+    {
+        "command": "Can we look at the linecut along qr",
+        "expected_output": ["linecut_qr"]
+    },
+    {
+        "command": "Show line cut",
+        "expected_output": ["linecut_qz", "linecut_qr"]
+    },
+    {
+        "command": "Show average over a sector",
+        "expected_output": ["sector_average"]
+    },
+    {
+        "command": "Show q image",
+        "expected_output": ["q_image"]
+    },
+    {
+        "command": "We want to see changes in the average over pie area",
+        "expected_output": ["sector_average"]
+    },
+    {
+        "command": "We want to see changes in the linecut",
+        "expected_output": ["linecut_qz"]
+    },
+    {
+        "command": "We want to see changes in the 1d data",
+        "expected_output": ["circular_average", "linecut_angle", "linecut_qr", "linecut_qz"]
+    },
+    {
+        "command": "We want to see changes in the q image",
+        "expected_output": ["q_image"]
+    },
+    {
+        "command": "We want to see changes in the corrected data",
+        "expected_output": ["qr_image"]
+    },
+    {
+        "command": "How do we get the average over pie area",
+        "expected_output": ["sector_average"]
+    },
+    {
+        "command": "How do we get the 2D scattering data",
+        "expected_output": ["q_image"]
+    },
+    {
+        "command": "How do we get the linecut along qr",
+        "expected_output": ["linecut_qr"]
+    },
+    {
+        "command": "How do we get the 1d curve",
+        "expected_output": ["circular_average"]
+    },
+    {
+        "command": "I want to see the sector average",
+        "expected_output": ["sector_average"]
+    },
+    {
+        "command": "I want to see the curve",
+        "expected_output": ["circular_average"]
+    },
+    {
+        "command": "I want to see the qr image",
+        "expected_output": ["qr_image"]
+    },
+    {
+        "command": "I want to see the q image",
+        "expected_output": ["q_image"]
+    },
+    {
+        "command": "I want to see the linecut along qr",
+        "expected_output": ["linecut_qr"]
+    },
+    {
+        "command": "Where is the peak on the circular average",
+        "expected_output": ["circular_average_q2I_fit"]
+    },
+    {
+        "command": "What is the peak intensity and peak width",
+        "expected_output": ["circular_average_q2I_fit"]
+    },
+    {
+        "command": "What is the intensity along the ring",
+        "expected_output": ["linecut_angle"]
+    }
+]

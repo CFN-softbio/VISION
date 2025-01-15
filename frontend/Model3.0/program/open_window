@@ -1,0 +1,26 @@
+#!/bin/bash
+
+if [ "$#" -ne 1 ]; then
+    echo "Usgage: ./open_window <window name>"
+    exit 2
+fi
+
+if [ -z "$(xdotool search --name $1)" ]; then
+	echo "Empty"
+	xdotool key "ctrl+shift+n"
+	sleep 1
+	xdotool getactivewindow set_window --name $1
+
+	wid="$(xdotool search --name $1)"
+	echo "Window ID: $wid"
+	for i in $(seq 1 3);
+	do
+		#xdotool windowactivate $wid key "ctrl+shift+plus"
+		xdotool windowactivate $wid key KP_Enter
+	done
+else
+	wid="$(xdotool search --name $1)"
+	xdotool windowactivate $wid 
+fi
+#xdotool keyup --window $wid a type "ssh -o ProxyCommand='ssh etsai@ssh.bnl.gov nc -w 10 %h %p' -X -t etsai@130.199.242.229 'cd ~ && exec bash -l'"
+#xdotool key KP_Enter

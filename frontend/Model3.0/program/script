@@ -1,0 +1,4 @@
+PYTHONPATH=/nsls2/data/cms/shared/config/bluesky_overlay/2023-2.0-py310-ETsai/lib/python3.9/site-packages
+ipython --profile=et --IPCompleter.use_jedi=False
+
+
