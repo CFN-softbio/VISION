@@ -50,7 +50,7 @@ When on Linux, the [pyenv](#alternative-pyenv-manager-linux) package is recommen
 
 ## Setup continued
 1. Install the `requirements.txt`: `pip install -r ./requirements.txt`
-1. Execute `python ./src/hal_beam_com/cog_manager.py` with your Python of choice to launch the UI.
+1. Execute `python ./src/UI/program/executable.py` with your Python of choice to launch the UI.
 
 ## Other requirements
 - xdotool (only for beamline key insertion)
