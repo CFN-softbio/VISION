@@ -1,13 +1,17 @@
 # VISION: A Modular AI Assistant for Natural Human-Instrument Interaction at Scientific User Facilities
-# VISION: A Modular AI Assistant for Beamline Operations
 
 VISION (Virtual Scientific Companion) is an AI-driven assistant designed to streamline operations at synchrotron beamlines and scientific facilities through natural language interaction. Built on a modular architecture, VISION is an assembly of **Cognitive Blocks (Cogs)**—specialized AI components tailored for tasks like transcription, classification, code generation, data analysis, and scientific querying. These cogs operate in predefined **workflows**, enabling seamless communication between users and complex instrumentation.
 
-Key workflows include natural language-controlled (audio, text, or both) **beamline operations**, where commands are classified, converted to executable code, and deployed for data acquisition or analysis; **custom function addition**, where custom functions defined by the user in natural language are dynamically integrated into the system; and a **domain-specific chatbot**, capable of answering scientific queries with precision. This scalable, adaptable system minimizes deployment overhead, accelerates experimentation, and serves as a foundation for AI-augmented scientific discovery.
+Key workflows include natural language-controlled (audio, text, or both) **beamline operations**, where commands are classified, converted to executable code, and deployed for data acquisition or analysis; **custom function addition**, where custom functions defined by the user in natural language are dynamically integrated into the system; and a **domain-specific chatbot**, capable of answering scientific queries with precision. 
 
-![VISION Architecture](images/vision_architecture.png "VISION Modular Architecture")
+![Overview of the VISION architecture](images/vision_architecture.png "VISION Modular Architecture")
 
-![NSLS-II Deployment](images/vision_demo.png "NSLS-II GUI Deployment")
+*Figure 1: Overview of the VISION architecture*
+
+![NSLS-II GUI Deployment](images/vision_demo.png "NSLS-II GUI Deployment")
+
+*Figure 2: VISION deployment at NSLS-II 11-BM CMS: GUI was launched at the beamline workstation, with backend processing performed on HAL. LLM-based cog results are displayed to prompt user confirmation, followed by execution on Bluesky or other software.*
+
 
 ## Paper
 Please see our paper here - https://arxiv.org/abs/2412.18161
@@ -34,7 +38,7 @@ Then execute:
 * `python ./frontend/UI/program/executable.py` for the frontend and 
 * `python ./backend/src/hal_beam_com/cog_manager.py` for the backend.
 
-If you want to use Claude's Anthropic as the main model for the cogs (LLMs with a specialized prompt), please set the `ANTHROPIC_API_KEY` in your environment variables. 
+If you want to use Claude's Anthropic as the main model for the cogs (LLMs with a specialized prompt), please set the `ANTHROPIC_API_KEY` in your environment variables.
 
 Alternatively, you can switch the model setup by changing the `ACTIVE_CONFIG` in `./backend/src/hal_beam_com/utils.py`. Running most models will require having Ollama installed and being able to run your selected models. New models can be added through `base_models_path` and then used when adding it to a configuration in `model_configurations`.
 
