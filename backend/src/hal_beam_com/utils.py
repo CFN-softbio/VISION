@@ -14,7 +14,7 @@ from functools import lru_cache
 from langchain_core.messages import SystemMessage
 from langchain_core.prompts import ChatPromptTemplate, HumanMessagePromptTemplate
 from langchain_huggingface.llms import HuggingFacePipeline
-from langchain.llms import Ollama
+from langchain_community.llms import Ollama
 from langchain_openai import AzureChatOpenAI
 from peft import PeftModel
 from transformers import AutoModelForSpeechSeq2Seq, AutoProcessor
