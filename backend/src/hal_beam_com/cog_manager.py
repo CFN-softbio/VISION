@@ -204,7 +204,7 @@ class WorkflowProcessor:
                         audio_finetuned=get_finetuned_config("audio"),
                         text_base_model=get_model_config("text", "default"),
                         text_finetuned=get_finetuned_config("text"),
-                        use_static_prompt=True
+                        use_static_prompt=False
                     )
                     status = data[0]['status']
                     processing_time = time.time() - start_time
