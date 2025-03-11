@@ -24,7 +24,7 @@ def run_tests_for_all_models(agent_type, num_runs = '5', system_prompt_type = No
         # Get the path relative to this script (going up one level from results/ to tests/)
         current_dir = os.path.dirname(os.path.abspath(__file__))
         test_script = os.path.join(os.path.dirname(current_dir),
-                                 f"test_{agent_type}_agent.py")
+                                 f"test_{agent_type}_cog.py")
         
         cmd = [
             "python3",
@@ -44,10 +44,10 @@ def run_tests_for_all_models(agent_type, num_runs = '5', system_prompt_type = No
             current_dir = os.path.dirname(os.path.abspath(__file__))
 
             if system_prompt_type is not None:
-                model_results_dir = Path(current_dir) / f"{agent_type}_agent/{system_prompt_type.value}" / model_name
+                model_results_dir = Path(current_dir) / f"{agent_type}_cog/{system_prompt_type.value}" / model_name
 
             else:
-                model_results_dir = Path(current_dir) / f"{agent_type}_agent" / model_name
+                model_results_dir = Path(current_dir) / f"{agent_type}_cog" / model_name
 
             if model_results_dir.exists():
                 latest_run = max(model_results_dir.iterdir(), key=os.path.getctime)
@@ -67,10 +67,10 @@ def create_combined_summary(model_results, agent_type, system_prompt_type = None
     current_dir = os.path.dirname(os.path.abspath(__file__))
 
     if system_prompt_type is not None:
-        summary_file = Path(current_dir) / f"{agent_type}_agent/{system_prompt_type.value}" / "model_comparison_summary.txt"
+        summary_file = Path(current_dir) / f"{agent_type}_cog/{system_prompt_type.value}" / "model_comparison_summary.txt"
 
     else:
-        summary_file = Path(current_dir) / f"{agent_type}_agent" / "model_comparison_summary.txt"
+        summary_file = Path(current_dir) / f"{agent_type}_cog" / "model_comparison_summary.txt"
     
     with open(summary_file, "w") as f:
         f.write(f"{agent_type.upper()} Agent Model Comparison Summary - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
