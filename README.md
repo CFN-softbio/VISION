@@ -44,6 +44,8 @@ Alternatively, you can switch the model setup by changing the `ACTIVE_CONFIG` in
 
 More detailed explanations of the install are in the README's of the respective directories.
 
+For this public facing repo, local communication (sending information between the front and back-end using local files) is standard (`CustomS3.py`). Minio functionality can be restored by replacing `CustomS3.py` with the code in `MinioCustomS3.py`. 
+
 ## Citation
 ```bibtex
 @misc{mathur2024visionmodularaiassistant,
