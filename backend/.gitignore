@@ -184,7 +184,7 @@ tests/*/*/*/README*
 .aider*
 
 #Ignore temp folders
-*temp*/
+*/temp/*
 
 #Ignore audio datasets which are used to finetune whisper
 *audio_dataset*/
