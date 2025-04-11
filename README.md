@@ -142,7 +142,8 @@ VISION supports three methods for the communication between frontend and backend
 2. **SSH Connection**
    - For connecting to a remote backend server
    - Requires SSH access to the backend machine
-   - All communication goes through the server, credentials should be that of the server in both files.
+   - All communication goes through the server, credentials should be that of the server in both files
+   - To enable, replace `CustomS3.py` with `SSH<Backend|Frontend>CustomS3.py` in both frontend and backend
    - Configure in both frontend and backend CustomS3.py files:
      ```python
      username = "your_username"
