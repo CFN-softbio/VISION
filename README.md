@@ -238,7 +238,7 @@ To add support for new instruments or functions, you'll need to create JSON entr
    - You can also add functions through the natural language interface
    - Describe the function and its parameters in natural language
    - The system will generate the appropriate JSON and code implementations
-   - Cons: sophisticated format not supported, requires specific model
+   - Cons: sophisticated format not supported, and requires access to a specific model (GPT-4o, used for JSON support)
 
 ## Contact
 
