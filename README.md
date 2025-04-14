@@ -31,9 +31,11 @@ Highlight of the most important files:
             └── executable.py        (main entry-point for front-end)
 ```
 
-## Getting Started Guide
+## $${\color{red}Getting \space Started \space Guide}$$
 
-### Installation
+This guide includes I. Installation, II. Running the System, III. Configuration, and IV. Adding Functionality.
+
+### I. Installation
 
 #### Python Requirements
 Both frontend and backend require Python 3.12.7. Different versions might work but are mostly untested.
@@ -111,7 +113,7 @@ Both frontend and backend require Python 3.12.7. Different versions might work b
 6. Alternative Model Configuration: In this public repository, Claude's models are used by default. This is so one does not need a GPU to run large open-source models locally.
    If you prefer not to use Claude's Anthropic model, you can switch the model setup by changing the `ACTIVE_CONFIG` in `./backend/src/hal_beam_com/utils.py`. Though, most models (except GPT-4o) will require having Ollama installed.
 
-### Running the System
+### II. Running the System
 
 #### Starting the Frontend
 After installation, run the frontend with:
@@ -128,15 +130,14 @@ python ./src/hal_beam_com/cog_manager.py
 ```
 
 
-### Configuration Options
+### III. Configuration Options
 #### Connection Between Frontend and Backend
 VISION supports three methods for the communication between frontend and backend:
 
 1. **Local Filesystem (Default)** 
    - The simplest option for local testing and development
+   - This is the default setting in this public repository. No additional configuration required
    - Data is transferred through files in a shared filesystem
-   - No additional configuration required
-   - This is the default setting in this public repository
    - If the commands become desynced, you can clear the temp folder to resolve it
 
 2. **SSH Connection**
@@ -158,27 +159,26 @@ VISION supports three methods for the communication between frontend and backend
    - Configure connection details in the MinioCustomS3.py files
 
 #### Connection Between Frontend and Instruments
-VISION could connect with scientific instruments through various methods. By default, it uses keyboard injection to be compatible with the software used at the NSLS-II CMS beamline (https://github.com/NSLS-II-CMS/profile_collection).
+Currently, VISION uses keyboard injection for simple deployment; proper integration to the instrument control framework is recommended (work in progress).
 
 1. **Keyboard Injection (xdotool)**
    - Simulates keyboard inputs to control existing instrument interfaces
    - Requires xdotool on Linux (installed with `sudo apt-get install xdotool`)
    - Used by default in the `executeCommand` method in frontend/UI/program/executable.py
 
-However, VISION could be extended by executing the generated code/commands with:
+However, integration to the instrument control framework should be utilized, for example,
+
 2. **Direct API Integration**
    - For instruments with programmable interfaces
    - Configure custom command handlers in the backend
    - Requires specific knowledge of the instrument's API
 
-3. **Bluesky Integration**
-   - For facilities using the Bluesky framework
-   - Commands are translated to Bluesky plans
-   - Configure in the backend to interface with Bluesky RunEngine
 
-### Extending Functionality
+### IV. Adding/Extending Functionality
 #### Adding Instrument/Command Support
-To add support for new instruments or functions, you'll need to create JSON entries that define their respective commands:
+To add support for new instruments or add new functions to the current instrument, you just need to create/modify JSON entries (in `/backend/src/hal_beam_com/beamline_prompts
+/11BM/command_examples.json`) that define their respective commands. 
+For each instrument, a corresponding folder and json is needed, e.g. `/11BM/command_examples.json`, `/12ID/command_examples.json`. 
 
 1. **Define a new function in JSON format:**
    ```json
@@ -210,7 +210,7 @@ To add support for new instruments or functions, you'll need to create JSON entr
    }
    ```
 
-   Only the title and function fields are required. However, using the fields offered allows for more specificity, which in turn can yield higher performance. The above JSON entry will be formatted as the following in the prompt:
+   Only the title and function fields are required. If default is flase, the functions will be put under "Miscellaneous Commands". However, using the fields offered allows for more specificity, which in turn can yield higher performance. The above JSON entry is formatted as the following in the prompt:
    ```
    - **Sample Measurement Commands:**
        - **Snap (Measure Sample without Saving):**
@@ -229,20 +229,16 @@ To add support for new instruments or functions, you'll need to create JSON entr
         - Example phrases:
             - "Measure sample 2 seconds, no save."
    ```
-   If default is not set to true, the functions will be put under "Miscellaneous Commands".
-2. **Add to the functions database:**
-   - Currently, VISION's 11BM path is hardcoded, but this will change in future iterations.
-   - Therefore, it is best to overwrite the 11BM file initially and change it to your use-case.
 
-3. **Using the dynamic function creation workflow (not recommended for now):**
-   - You can also add functions through the natural language interface
-   - Describe the function and its parameters in natural language
-   - The system will generate the appropriate JSON and code implementations
+3. **Using the dynamic function creation workflow:**
+   - You can also add functions through the natural language UI. This is for quick-adding functionality during online operation. Note that for deploying VISION to a new instrument, it is recommended to create/modify command_examples.json instead of using the UI.
+   - Describe the function and its parameters in natural language, and then the system will generate the appropriate JSON and code implementations.
    - Cons: sophisticated format not supported, and requires access to a specific model (GPT-4o, used for JSON support)
+
 
 ## Contact
 
-Feel free to reach out to us for any questions or installation issues: Esther Tsai (etsai@bnl.gov)
+Feel free to reach out to us for any questions or installation issues. Suggestions/feedback are also appreciated! Esther Tsai (etsai@bnl.gov)
 
 ## Citation
 ```bibtex
