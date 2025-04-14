@@ -210,7 +210,7 @@ For each instrument, a corresponding folder and json is needed, e.g. `/11BM/comm
    }
    ```
 
-   Only the title and function fields are required. If default is flase, the functions will be put under "Miscellaneous Commands". However, using the fields offered allows for more specificity, which in turn can yield higher performance. The above JSON entry is formatted as the following in the prompt:
+   Only the title and function fields are required. If default is `False`, the functions will be put under "Miscellaneous Commands". However, using the fields offered allows for more specificity, which in turn can yield higher performance. The above JSON entry is formatted as the following in the prompt:
    ```
    - **Sample Measurement Commands:**
        - **Snap (Measure Sample without Saving):**
