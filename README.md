@@ -31,7 +31,7 @@ Highlight of the most important files:
             └── executable.py        (main entry-point for front-end)
 ```
 
-## $${\color{red}Getting \space Started \space Guide}$$
+## Getting Started Guide
 
 This guide includes I. Installation, II. Running the System, III. Configuration, and IV. Adding Functionality.
 
