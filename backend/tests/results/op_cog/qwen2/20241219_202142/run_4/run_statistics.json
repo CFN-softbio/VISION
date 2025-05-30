@@ -1,0 +1,38 @@
+{
+    "accuracy": 49.2063492063492,
+    "total_entries": 126,
+    "correct_matches": 62,
+    "average_execution_time": 0.2963349081221081,
+    "metrics_by_complexity": {
+        "simple": {
+            "count": 120,
+            "correct_matches": 62,
+            "accuracy": 51.66666666666667,
+            "average_best_codebleu": {
+                "codebleu": 0.5145042826563329,
+                "ngram_match_score": 0.13121696328020335,
+                "weighted_ngram_match_score": 0.06492847422343472,
+                "syntax_match_score": 0.8618716931216931,
+                "dataflow_match_score": 0.1
+            },
+            "average_best_levenshtein": 4.325,
+            "average_best_normalized_levenshtein": 0.1682529930074082,
+            "average_execution_time": 0.2767720381418864
+        },
+        "complex": {
+            "count": 6,
+            "correct_matches": 0,
+            "accuracy": 0.0,
+            "average_best_codebleu": {
+                "codebleu": 0.48994097206796955,
+                "ngram_match_score": 0.3231400928518923,
+                "weighted_ngram_match_score": 0.35644794875707014,
+                "syntax_match_score": 0.560308908045977,
+                "dataflow_match_score": 0.7198669386169386
+            },
+            "average_best_levenshtein": 44.333333333333336,
+            "average_best_normalized_levenshtein": 0.32692363960345366,
+            "average_execution_time": 0.6875923077265421
+        }
+    }
+}

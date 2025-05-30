@@ -1,0 +1,192 @@
+{
+    "accuracy": [
+        63.49206349206349,
+        63.49206349206349,
+        63.49206349206349,
+        63.49206349206349,
+        63.49206349206349
+    ],
+    "total_entries": [
+        126,
+        126,
+        126,
+        126,
+        126
+    ],
+    "correct_matches": [
+        80,
+        80,
+        80,
+        80,
+        80
+    ],
+    "average_execution_time": [
+        1.4522252499111115,
+        1.4537542187978352,
+        1.4519975355693273,
+        1.4553795144671486,
+        1.450679688226609
+    ],
+    "metrics_by_complexity": [
+        {
+            "simple": {
+                "count": 120,
+                "correct_matches": 80,
+                "accuracy": 66.66666666666666,
+                "average_best_codebleu": {
+                    "codebleu": 0.5363713645120508,
+                    "ngram_match_score": 0.15289581568359817,
+                    "weighted_ngram_match_score": 0.07258302860799125,
+                    "syntax_match_score": 0.9200066137566137,
+                    "dataflow_match_score": 0.1
+                },
+                "average_best_levenshtein": 3.4916666666666667,
+                "average_best_normalized_levenshtein": 0.12084636902282933,
+                "average_execution_time": 1.3393850564956664
+            },
+            "complex": {
+                "count": 6,
+                "correct_matches": 0,
+                "accuracy": 0.0,
+                "average_best_codebleu": {
+                    "codebleu": 0.678793130209431,
+                    "ngram_match_score": 0.46169310537549696,
+                    "weighted_ngram_match_score": 0.5484178359178891,
+                    "syntax_match_score": 0.8663378033205619,
+                    "dataflow_match_score": 0.8387237762237763
+                },
+                "average_best_levenshtein": 31.666666666666668,
+                "average_best_normalized_levenshtein": 0.16644335889392484,
+                "average_execution_time": 3.7090291182200112
+            }
+        },
+        {
+            "simple": {
+                "count": 120,
+                "correct_matches": 80,
+                "accuracy": 66.66666666666666,
+                "average_best_codebleu": {
+                    "codebleu": 0.5363713645120508,
+                    "ngram_match_score": 0.15289581568359817,
+                    "weighted_ngram_match_score": 0.07258302860799125,
+                    "syntax_match_score": 0.9200066137566137,
+                    "dataflow_match_score": 0.1
+                },
+                "average_best_levenshtein": 3.4916666666666667,
+                "average_best_normalized_levenshtein": 0.12084636902282933,
+                "average_execution_time": 1.3412030418713887
+            },
+            "complex": {
+                "count": 6,
+                "correct_matches": 0,
+                "accuracy": 0.0,
+                "average_best_codebleu": {
+                    "codebleu": 0.678793130209431,
+                    "ngram_match_score": 0.46169310537549696,
+                    "weighted_ngram_match_score": 0.5484178359178891,
+                    "syntax_match_score": 0.8663378033205619,
+                    "dataflow_match_score": 0.8387237762237763
+                },
+                "average_best_levenshtein": 31.666666666666668,
+                "average_best_normalized_levenshtein": 0.16644335889392484,
+                "average_execution_time": 3.7047777573267617
+            }
+        },
+        {
+            "simple": {
+                "count": 120,
+                "correct_matches": 80,
+                "accuracy": 66.66666666666666,
+                "average_best_codebleu": {
+                    "codebleu": 0.5363713645120508,
+                    "ngram_match_score": 0.15289581568359817,
+                    "weighted_ngram_match_score": 0.07258302860799125,
+                    "syntax_match_score": 0.9200066137566137,
+                    "dataflow_match_score": 0.1
+                },
+                "average_best_levenshtein": 3.4916666666666667,
+                "average_best_normalized_levenshtein": 0.12084636902282933,
+                "average_execution_time": 1.33934778769811
+            },
+            "complex": {
+                "count": 6,
+                "correct_matches": 0,
+                "accuracy": 0.0,
+                "average_best_codebleu": {
+                    "codebleu": 0.678793130209431,
+                    "ngram_match_score": 0.46169310537549696,
+                    "weighted_ngram_match_score": 0.5484178359178891,
+                    "syntax_match_score": 0.8663378033205619,
+                    "dataflow_match_score": 0.8387237762237763
+                },
+                "average_best_levenshtein": 31.666666666666668,
+                "average_best_normalized_levenshtein": 0.16644335889392484,
+                "average_execution_time": 3.704992492993673
+            }
+        },
+        {
+            "simple": {
+                "count": 120,
+                "correct_matches": 80,
+                "accuracy": 66.66666666666666,
+                "average_best_codebleu": {
+                    "codebleu": 0.5363713645120508,
+                    "ngram_match_score": 0.15289581568359817,
+                    "weighted_ngram_match_score": 0.07258302860799125,
+                    "syntax_match_score": 0.9200066137566137,
+                    "dataflow_match_score": 0.1
+                },
+                "average_best_levenshtein": 3.4916666666666667,
+                "average_best_normalized_levenshtein": 0.12084636902282933,
+                "average_execution_time": 1.3426173269748687
+            },
+            "complex": {
+                "count": 6,
+                "correct_matches": 0,
+                "accuracy": 0.0,
+                "average_best_codebleu": {
+                    "codebleu": 0.678793130209431,
+                    "ngram_match_score": 0.46169310537549696,
+                    "weighted_ngram_match_score": 0.5484178359178891,
+                    "syntax_match_score": 0.8663378033205619,
+                    "dataflow_match_score": 0.8387237762237763
+                },
+                "average_best_levenshtein": 31.666666666666668,
+                "average_best_normalized_levenshtein": 0.16644335889392484,
+                "average_execution_time": 3.710623264312744
+            }
+        },
+        {
+            "simple": {
+                "count": 120,
+                "correct_matches": 80,
+                "accuracy": 66.66666666666666,
+                "average_best_codebleu": {
+                    "codebleu": 0.5363713645120508,
+                    "ngram_match_score": 0.15289581568359817,
+                    "weighted_ngram_match_score": 0.07258302860799125,
+                    "syntax_match_score": 0.9200066137566137,
+                    "dataflow_match_score": 0.1
+                },
+                "average_best_levenshtein": 3.4916666666666667,
+                "average_best_normalized_levenshtein": 0.12084636902282933,
+                "average_execution_time": 1.337965073188146
+            },
+            "complex": {
+                "count": 6,
+                "correct_matches": 0,
+                "accuracy": 0.0,
+                "average_best_codebleu": {
+                    "codebleu": 0.678793130209431,
+                    "ngram_match_score": 0.46169310537549696,
+                    "weighted_ngram_match_score": 0.5484178359178891,
+                    "syntax_match_score": 0.8663378033205619,
+                    "dataflow_match_score": 0.8387237762237763
+                },
+                "average_best_levenshtein": 31.666666666666668,
+                "average_best_normalized_levenshtein": 0.16644335889392484,
+                "average_execution_time": 3.70497198899587
+            }
+        }
+    ]
+}
