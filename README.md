@@ -242,13 +242,17 @@ Feel free to reach out to us for any questions or installation issues. Suggestio
 
 ## Citation
 ```bibtex
-@misc{mathur2024visionmodularaiassistant,
-      title={VISION: A Modular AI Assistant for Natural Human-Instrument Interaction at Scientific User Facilities}, 
-      author={Shray Mathur and Noah van der Vleuten and Kevin Yager and Esther Tsai},
-      year={2024},
-      eprint={2412.18161},
-      archivePrefix={arXiv},
-      primaryClass={cs.AI},
-      url={https://arxiv.org/abs/2412.18161}, 
+@article{Mathur_2025,
+    doi = {10.1088/2632-2153/add9e4},
+    url = {https://dx.doi.org/10.1088/2632-2153/add9e4},
+    year = {2025},
+    month = {jun},
+    publisher = {IOP Publishing},
+    volume = {6},
+    number = {2},
+    pages = {025051},
+    author = {Mathur, Shray and der Vleuten, Noah van and Yager, Kevin G and Tsai, Esther H R},
+    title = {VISION: a modular AI assistant for natural human-instrument interaction at scientific user facilities},
+    journal = {Machine Learning: Science and Technology},
 }
 ```
