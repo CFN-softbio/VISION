@@ -13,9 +13,6 @@ Key workflows include natural language-controlled (audio, text, or both) **beaml
 *Figure 2: VISION deployment at NSLS-II 11-BM CMS: GUI was launched at the beamline workstation, with backend processing performed on HAL. LLM-based cog results are displayed to prompt user confirmation, followed by execution on Bluesky or other software.*
 
 
-## Paper
-Please see our paper here - https://arxiv.org/abs/2412.18161
-
 ## Directory Structure
 Highlight of the most important files:
 ```
