@@ -4,6 +4,9 @@ VISION (Virtual Scientific Companion) is an AI-driven assistant designed to stre
 
 Key workflows include natural language-controlled (audio, text, or both) **beamline operations**, where commands are classified, converted to executable code, and deployed for data acquisition or analysis; **custom function addition**, where custom functions defined by the user in natural language are dynamically integrated into the system; and a **domain-specific chatbot**, capable of answering scientific queries with precision. 
 
+**Demo video** (with audio) https://www.youtube.com/watch?v=NiMLmYVKiQA 
+
+
 ![Overview of the VISION architecture](images/vision_architecture.png "VISION Modular Architecture")
 
 *Figure 1: Overview of the VISION architecture*
