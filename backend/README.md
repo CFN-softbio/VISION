@@ -1,5 +1,5 @@
-# vision_hal
-Repo for all processes on HAL
+# VISION - Backend
+Repo for all processes on our backend server (HAL)
 
 # Installation
 ## Installing Python
