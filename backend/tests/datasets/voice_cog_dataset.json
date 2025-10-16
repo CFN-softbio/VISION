@@ -1,0 +1,1052 @@
+[
+    {
+        "word": "SAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SAXS/audio/mp3/SAXS_0.mp3",
+        "expected_transcription": "Set SAXS in motion for this analysis."
+    },
+    {
+        "word": "SAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SAXS/audio/mp3/SAXS_1.mp3",
+        "expected_transcription": "Execute the SAXS workflow."
+    },
+    {
+        "word": "SAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SAXS/audio/mp3/SAXS_2.mp3",
+        "expected_transcription": "Turn on SAXS to manage autonomous functions."
+    },
+    {
+        "word": "SAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SAXS/audio/mp3/SAXS_3.mp3",
+        "expected_transcription": "Harness SAXS for the ongoing session."
+    },
+    {
+        "word": "SAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SAXS/audio/mp3/SAXS_4.mp3",
+        "expected_transcription": "Initiate SAXS for building data models."
+    },
+    {
+        "word": "SAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SAXS/audio/mp3/SAXS_5.mp3",
+        "expected_transcription": "Ready SAXS for testing the samples."
+    },
+    {
+        "word": "SAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SAXS/audio/mp3/SAXS_6.mp3",
+        "expected_transcription": "Utilize SAXS to interpret recent data."
+    },
+    {
+        "word": "SAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SAXS/audio/mp3/SAXS_7.mp3",
+        "expected_transcription": "Configure SAXS for task-specific optimization."
+    },
+    {
+        "word": "SAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SAXS/audio/mp3/SAXS_8.mp3",
+        "expected_transcription": "Begin the automated routine with SAXS."
+    },
+    {
+        "word": "SAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SAXS/audio/mp3/SAXS_9.mp3",
+        "expected_transcription": "Deploy SAXS to track the experiment's status."
+    },
+    {
+        "word": "SAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SAXS/audio/mp3/SAXS_10.mp3",
+        "expected_transcription": "Optimize settings for advanced tasks using SAXS."
+    },
+    {
+        "word": "SAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SAXS/audio/mp3/SAXS_11.mp3",
+        "expected_transcription": "Leverage SAXS for forecasting and modeling."
+    },
+    {
+        "word": "SAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SAXS/audio/mp3/SAXS_12.mp3",
+        "expected_transcription": "Apply SAXS techniques to train the system."
+    },
+    {
+        "word": "SAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SAXS/audio/mp3/SAXS_13.mp3",
+        "expected_transcription": "Test samples through SAXS procedures."
+    },
+    {
+        "word": "SAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SAXS/audio/mp3/SAXS_14.mp3",
+        "expected_transcription": "Process data through SAXS to uncover insights."
+    },
+    {
+        "word": "SAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SAXS/audio/mp3/SAXS_15.mp3",
+        "expected_transcription": "Enable automated functions with SAXS."
+    },
+    {
+        "word": "SAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SAXS/audio/mp3/SAXS_16.mp3",
+        "expected_transcription": "Use SAXS to diagnose system inefficiencies."
+    },
+    {
+        "word": "SAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SAXS/audio/mp3/SAXS_17.mp3",
+        "expected_transcription": "Draft the protocol by integrating SAXS."
+    },
+    {
+        "word": "SAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SAXS/audio/mp3/SAXS_18.mp3",
+        "expected_transcription": "Streamline workflows using SAXS tools."
+    },
+    {
+        "word": "SAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SAXS/audio/mp3/SAXS_19.mp3",
+        "expected_transcription": "Examine datasets comprehensively with SAXS."
+    },
+    {
+        "word": "SAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SAXS/audio/mp3/SAXS_20.mp3",
+        "expected_transcription": "Trigger the SAXS module for detailed processing."
+    },
+    {
+        "word": "SAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SAXS/audio/mp3/SAXS_21.mp3",
+        "expected_transcription": "Assign SAXS its core operations."
+    },
+    {
+        "word": "SAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SAXS/audio/mp3/SAXS_22.mp3",
+        "expected_transcription": "Calibrate the device using SAXS methodologies."
+    },
+    {
+        "word": "SAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SAXS/audio/mp3/SAXS_23.mp3",
+        "expected_transcription": "Kick off high-performance computations with SAXS."
+    },
+    {
+        "word": "SAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SAXS/audio/mp3/SAXS_24.mp3",
+        "expected_transcription": "Conduct performance benchmarking via SAXS."
+    },
+    {
+        "word": "SAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SAXS/audio/mp3/SAXS_25.mp3",
+        "expected_transcription": "Track progress in the pipeline using SAXS functions."
+    },
+    {
+        "word": "SAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SAXS/audio/mp3/SAXS_26.mp3",
+        "expected_transcription": "Simulate environmental tests with SAXS solutions."
+    },
+    {
+        "word": "SAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SAXS/audio/mp3/SAXS_27.mp3",
+        "expected_transcription": "Activate SAXS to generate outcome predictions."
+    },
+    {
+        "word": "SAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SAXS/audio/mp3/SAXS_28.mp3",
+        "expected_transcription": "Prepare the system with SAXS for on-the-fly analysis."
+    },
+    {
+        "word": "SAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SAXS/audio/mp3/SAXS_29.mp3",
+        "expected_transcription": "Implement SAXS for validating experimental workflows."
+    },
+    {
+        "word": "WAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/WAXS/audio/mp3/WAXS_0.mp3",
+        "expected_transcription": "Set WAXS in motion for this analysis."
+    },
+    {
+        "word": "WAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/WAXS/audio/mp3/WAXS_1.mp3",
+        "expected_transcription": "Execute the WAXS workflow."
+    },
+    {
+        "word": "WAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/WAXS/audio/mp3/WAXS_2.mp3",
+        "expected_transcription": "Turn on WAXS to manage autonomous functions."
+    },
+    {
+        "word": "WAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/WAXS/audio/mp3/WAXS_3.mp3",
+        "expected_transcription": "Harness WAXS for the ongoing session."
+    },
+    {
+        "word": "WAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/WAXS/audio/mp3/WAXS_4.mp3",
+        "expected_transcription": "Initiate WAXS for building data models."
+    },
+    {
+        "word": "WAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/WAXS/audio/mp3/WAXS_5.mp3",
+        "expected_transcription": "Ready WAXS for testing the samples."
+    },
+    {
+        "word": "WAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/WAXS/audio/mp3/WAXS_6.mp3",
+        "expected_transcription": "Utilize WAXS to interpret recent data."
+    },
+    {
+        "word": "WAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/WAXS/audio/mp3/WAXS_7.mp3",
+        "expected_transcription": "Configure WAXS for task-specific optimization."
+    },
+    {
+        "word": "WAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/WAXS/audio/mp3/WAXS_8.mp3",
+        "expected_transcription": "Begin the automated routine with WAXS."
+    },
+    {
+        "word": "WAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/WAXS/audio/mp3/WAXS_9.mp3",
+        "expected_transcription": "Deploy WAXS to track the experiment's status."
+    },
+    {
+        "word": "WAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/WAXS/audio/mp3/WAXS_10.mp3",
+        "expected_transcription": "Optimize settings for advanced tasks using WAXS."
+    },
+    {
+        "word": "WAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/WAXS/audio/mp3/WAXS_11.mp3",
+        "expected_transcription": "Leverage WAXS for forecasting and modeling."
+    },
+    {
+        "word": "WAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/WAXS/audio/mp3/WAXS_12.mp3",
+        "expected_transcription": "Apply WAXS techniques to train the system."
+    },
+    {
+        "word": "WAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/WAXS/audio/mp3/WAXS_13.mp3",
+        "expected_transcription": "Test samples through WAXS procedures."
+    },
+    {
+        "word": "WAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/WAXS/audio/mp3/WAXS_14.mp3",
+        "expected_transcription": "Process data through WAXS to uncover insights."
+    },
+    {
+        "word": "WAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/WAXS/audio/mp3/WAXS_15.mp3",
+        "expected_transcription": "Enable automated functions with WAXS."
+    },
+    {
+        "word": "WAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/WAXS/audio/mp3/WAXS_16.mp3",
+        "expected_transcription": "Use WAXS to diagnose system inefficiencies."
+    },
+    {
+        "word": "WAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/WAXS/audio/mp3/WAXS_17.mp3",
+        "expected_transcription": "Draft the protocol by integrating WAXS."
+    },
+    {
+        "word": "WAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/WAXS/audio/mp3/WAXS_18.mp3",
+        "expected_transcription": "Streamline workflows using WAXS tools."
+    },
+    {
+        "word": "WAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/WAXS/audio/mp3/WAXS_19.mp3",
+        "expected_transcription": "Examine datasets comprehensively with WAXS."
+    },
+    {
+        "word": "WAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/WAXS/audio/mp3/WAXS_20.mp3",
+        "expected_transcription": "Trigger the WAXS module for detailed processing."
+    },
+    {
+        "word": "WAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/WAXS/audio/mp3/WAXS_21.mp3",
+        "expected_transcription": "Assign WAXS its core operations."
+    },
+    {
+        "word": "WAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/WAXS/audio/mp3/WAXS_22.mp3",
+        "expected_transcription": "Calibrate the device using WAXS methodologies."
+    },
+    {
+        "word": "WAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/WAXS/audio/mp3/WAXS_23.mp3",
+        "expected_transcription": "Kick off high-performance computations with WAXS."
+    },
+    {
+        "word": "WAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/WAXS/audio/mp3/WAXS_24.mp3",
+        "expected_transcription": "Conduct performance benchmarking via WAXS."
+    },
+    {
+        "word": "WAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/WAXS/audio/mp3/WAXS_25.mp3",
+        "expected_transcription": "Track progress in the pipeline using WAXS functions."
+    },
+    {
+        "word": "WAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/WAXS/audio/mp3/WAXS_26.mp3",
+        "expected_transcription": "Simulate environmental tests with WAXS solutions."
+    },
+    {
+        "word": "WAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/WAXS/audio/mp3/WAXS_27.mp3",
+        "expected_transcription": "Activate WAXS to generate outcome predictions."
+    },
+    {
+        "word": "WAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/WAXS/audio/mp3/WAXS_28.mp3",
+        "expected_transcription": "Prepare the system with WAXS for on-the-fly analysis."
+    },
+    {
+        "word": "WAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/WAXS/audio/mp3/WAXS_29.mp3",
+        "expected_transcription": "Implement WAXS for validating experimental workflows."
+    },
+    {
+        "word": "gpCAM",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/gpCAM/audio/mp3/gpCAM_0.mp3",
+        "expected_transcription": "Set gpCAM in motion for this analysis."
+    },
+    {
+        "word": "gpCAM",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/gpCAM/audio/mp3/gpCAM_1.mp3",
+        "expected_transcription": "Execute the gpCAM workflow."
+    },
+    {
+        "word": "gpCAM",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/gpCAM/audio/mp3/gpCAM_2.mp3",
+        "expected_transcription": "Turn on gpCAM to manage autonomous functions."
+    },
+    {
+        "word": "gpCAM",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/gpCAM/audio/mp3/gpCAM_3.mp3",
+        "expected_transcription": "Harness gpCAM for the ongoing session."
+    },
+    {
+        "word": "gpCAM",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/gpCAM/audio/mp3/gpCAM_4.mp3",
+        "expected_transcription": "Initiate gpCAM for building data models."
+    },
+    {
+        "word": "gpCAM",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/gpCAM/audio/mp3/gpCAM_5.mp3",
+        "expected_transcription": "Ready gpCAM for testing the samples."
+    },
+    {
+        "word": "gpCAM",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/gpCAM/audio/mp3/gpCAM_6.mp3",
+        "expected_transcription": "Utilize gpCAM to interpret recent data."
+    },
+    {
+        "word": "gpCAM",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/gpCAM/audio/mp3/gpCAM_7.mp3",
+        "expected_transcription": "Configure gpCAM for task-specific optimization."
+    },
+    {
+        "word": "gpCAM",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/gpCAM/audio/mp3/gpCAM_8.mp3",
+        "expected_transcription": "Begin the automated routine with gpCAM."
+    },
+    {
+        "word": "gpCAM",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/gpCAM/audio/mp3/gpCAM_9.mp3",
+        "expected_transcription": "Deploy gpCAM to track the experiment's status."
+    },
+    {
+        "word": "gpCAM",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/gpCAM/audio/mp3/gpCAM_10.mp3",
+        "expected_transcription": "Optimize settings for advanced tasks using gpCAM."
+    },
+    {
+        "word": "gpCAM",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/gpCAM/audio/mp3/gpCAM_11.mp3",
+        "expected_transcription": "Leverage gpCAM for forecasting and modeling."
+    },
+    {
+        "word": "gpCAM",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/gpCAM/audio/mp3/gpCAM_12.mp3",
+        "expected_transcription": "Apply gpCAM techniques to train the system."
+    },
+    {
+        "word": "gpCAM",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/gpCAM/audio/mp3/gpCAM_13.mp3",
+        "expected_transcription": "Test samples through gpCAM procedures."
+    },
+    {
+        "word": "gpCAM",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/gpCAM/audio/mp3/gpCAM_14.mp3",
+        "expected_transcription": "Process data through gpCAM to uncover insights."
+    },
+    {
+        "word": "gpCAM",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/gpCAM/audio/mp3/gpCAM_15.mp3",
+        "expected_transcription": "Enable automated functions with gpCAM."
+    },
+    {
+        "word": "gpCAM",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/gpCAM/audio/mp3/gpCAM_16.mp3",
+        "expected_transcription": "Use gpCAM to diagnose system inefficiencies."
+    },
+    {
+        "word": "gpCAM",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/gpCAM/audio/mp3/gpCAM_17.mp3",
+        "expected_transcription": "Draft the protocol by integrating gpCAM."
+    },
+    {
+        "word": "gpCAM",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/gpCAM/audio/mp3/gpCAM_18.mp3",
+        "expected_transcription": "Streamline workflows using gpCAM tools."
+    },
+    {
+        "word": "gpCAM",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/gpCAM/audio/mp3/gpCAM_19.mp3",
+        "expected_transcription": "Examine datasets comprehensively with gpCAM."
+    },
+    {
+        "word": "gpCAM",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/gpCAM/audio/mp3/gpCAM_20.mp3",
+        "expected_transcription": "Trigger the gpCAM module for detailed processing."
+    },
+    {
+        "word": "gpCAM",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/gpCAM/audio/mp3/gpCAM_21.mp3",
+        "expected_transcription": "Assign gpCAM its core operations."
+    },
+    {
+        "word": "gpCAM",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/gpCAM/audio/mp3/gpCAM_22.mp3",
+        "expected_transcription": "Calibrate the device using gpCAM methodologies."
+    },
+    {
+        "word": "gpCAM",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/gpCAM/audio/mp3/gpCAM_23.mp3",
+        "expected_transcription": "Kick off high-performance computations with gpCAM."
+    },
+    {
+        "word": "gpCAM",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/gpCAM/audio/mp3/gpCAM_24.mp3",
+        "expected_transcription": "Conduct performance benchmarking via gpCAM."
+    },
+    {
+        "word": "gpCAM",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/gpCAM/audio/mp3/gpCAM_25.mp3",
+        "expected_transcription": "Track progress in the pipeline using gpCAM functions."
+    },
+    {
+        "word": "gpCAM",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/gpCAM/audio/mp3/gpCAM_26.mp3",
+        "expected_transcription": "Simulate environmental tests with gpCAM solutions."
+    },
+    {
+        "word": "gpCAM",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/gpCAM/audio/mp3/gpCAM_27.mp3",
+        "expected_transcription": "Activate gpCAM to generate outcome predictions."
+    },
+    {
+        "word": "gpCAM",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/gpCAM/audio/mp3/gpCAM_28.mp3",
+        "expected_transcription": "Prepare the system with gpCAM for on-the-fly analysis."
+    },
+    {
+        "word": "gpCAM",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/gpCAM/audio/mp3/gpCAM_29.mp3",
+        "expected_transcription": "Implement gpCAM for validating experimental workflows."
+    },
+    {
+        "word": "GISAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GISAXS/audio/mp3/GISAXS_0.mp3",
+        "expected_transcription": "Set GISAXS in motion for this analysis."
+    },
+    {
+        "word": "GISAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GISAXS/audio/mp3/GISAXS_1.mp3",
+        "expected_transcription": "Execute the GISAXS workflow."
+    },
+    {
+        "word": "GISAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GISAXS/audio/mp3/GISAXS_2.mp3",
+        "expected_transcription": "Turn on GISAXS to manage autonomous functions."
+    },
+    {
+        "word": "GISAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GISAXS/audio/mp3/GISAXS_3.mp3",
+        "expected_transcription": "Harness GISAXS for the ongoing session."
+    },
+    {
+        "word": "GISAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GISAXS/audio/mp3/GISAXS_4.mp3",
+        "expected_transcription": "Initiate GISAXS for building data models."
+    },
+    {
+        "word": "GISAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GISAXS/audio/mp3/GISAXS_5.mp3",
+        "expected_transcription": "Ready GISAXS for testing the samples."
+    },
+    {
+        "word": "GISAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GISAXS/audio/mp3/GISAXS_6.mp3",
+        "expected_transcription": "Utilize GISAXS to interpret recent data."
+    },
+    {
+        "word": "GISAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GISAXS/audio/mp3/GISAXS_7.mp3",
+        "expected_transcription": "Configure GISAXS for task-specific optimization."
+    },
+    {
+        "word": "GISAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GISAXS/audio/mp3/GISAXS_8.mp3",
+        "expected_transcription": "Begin the automated routine with GISAXS."
+    },
+    {
+        "word": "GISAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GISAXS/audio/mp3/GISAXS_9.mp3",
+        "expected_transcription": "Deploy GISAXS to track the experiment's status."
+    },
+    {
+        "word": "GISAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GISAXS/audio/mp3/GISAXS_10.mp3",
+        "expected_transcription": "Optimize settings for advanced tasks using GISAXS."
+    },
+    {
+        "word": "GISAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GISAXS/audio/mp3/GISAXS_11.mp3",
+        "expected_transcription": "Leverage GISAXS for forecasting and modeling."
+    },
+    {
+        "word": "GISAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GISAXS/audio/mp3/GISAXS_12.mp3",
+        "expected_transcription": "Apply GISAXS techniques to train the system."
+    },
+    {
+        "word": "GISAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GISAXS/audio/mp3/GISAXS_13.mp3",
+        "expected_transcription": "Test samples through GISAXS procedures."
+    },
+    {
+        "word": "GISAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GISAXS/audio/mp3/GISAXS_14.mp3",
+        "expected_transcription": "Process data through GISAXS to uncover insights."
+    },
+    {
+        "word": "GISAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GISAXS/audio/mp3/GISAXS_15.mp3",
+        "expected_transcription": "Enable automated functions with GISAXS."
+    },
+    {
+        "word": "GISAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GISAXS/audio/mp3/GISAXS_16.mp3",
+        "expected_transcription": "Use GISAXS to diagnose system inefficiencies."
+    },
+    {
+        "word": "GISAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GISAXS/audio/mp3/GISAXS_17.mp3",
+        "expected_transcription": "Draft the protocol by integrating GISAXS."
+    },
+    {
+        "word": "GISAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GISAXS/audio/mp3/GISAXS_18.mp3",
+        "expected_transcription": "Streamline workflows using GISAXS tools."
+    },
+    {
+        "word": "GISAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GISAXS/audio/mp3/GISAXS_19.mp3",
+        "expected_transcription": "Examine datasets comprehensively with GISAXS."
+    },
+    {
+        "word": "GISAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GISAXS/audio/mp3/GISAXS_20.mp3",
+        "expected_transcription": "Trigger the GISAXS module for detailed processing."
+    },
+    {
+        "word": "GISAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GISAXS/audio/mp3/GISAXS_21.mp3",
+        "expected_transcription": "Assign GISAXS its core operations."
+    },
+    {
+        "word": "GISAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GISAXS/audio/mp3/GISAXS_22.mp3",
+        "expected_transcription": "Calibrate the device using GISAXS methodologies."
+    },
+    {
+        "word": "GISAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GISAXS/audio/mp3/GISAXS_23.mp3",
+        "expected_transcription": "Kick off high-performance computations with GISAXS."
+    },
+    {
+        "word": "GISAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GISAXS/audio/mp3/GISAXS_24.mp3",
+        "expected_transcription": "Conduct performance benchmarking via GISAXS."
+    },
+    {
+        "word": "GISAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GISAXS/audio/mp3/GISAXS_25.mp3",
+        "expected_transcription": "Track progress in the pipeline using GISAXS functions."
+    },
+    {
+        "word": "GISAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GISAXS/audio/mp3/GISAXS_26.mp3",
+        "expected_transcription": "Simulate environmental tests with GISAXS solutions."
+    },
+    {
+        "word": "GISAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GISAXS/audio/mp3/GISAXS_27.mp3",
+        "expected_transcription": "Activate GISAXS to generate outcome predictions."
+    },
+    {
+        "word": "GISAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GISAXS/audio/mp3/GISAXS_28.mp3",
+        "expected_transcription": "Prepare the system with GISAXS for on-the-fly analysis."
+    },
+    {
+        "word": "GISAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GISAXS/audio/mp3/GISAXS_29.mp3",
+        "expected_transcription": "Implement GISAXS for validating experimental workflows."
+    },
+    {
+        "word": "SciAnalysis",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SciAnalysis/audio/mp3/SciAnalysis_0.mp3",
+        "expected_transcription": "Set SciAnalysis in motion for this analysis."
+    },
+    {
+        "word": "SciAnalysis",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SciAnalysis/audio/mp3/SciAnalysis_1.mp3",
+        "expected_transcription": "Execute the SciAnalysis workflow."
+    },
+    {
+        "word": "SciAnalysis",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SciAnalysis/audio/mp3/SciAnalysis_2.mp3",
+        "expected_transcription": "Turn on SciAnalysis to manage autonomous functions."
+    },
+    {
+        "word": "SciAnalysis",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SciAnalysis/audio/mp3/SciAnalysis_3.mp3",
+        "expected_transcription": "Harness SciAnalysis for the ongoing session."
+    },
+    {
+        "word": "SciAnalysis",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SciAnalysis/audio/mp3/SciAnalysis_4.mp3",
+        "expected_transcription": "Initiate SciAnalysis for building data models."
+    },
+    {
+        "word": "SciAnalysis",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SciAnalysis/audio/mp3/SciAnalysis_5.mp3",
+        "expected_transcription": "Ready SciAnalysis for testing the samples."
+    },
+    {
+        "word": "SciAnalysis",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SciAnalysis/audio/mp3/SciAnalysis_6.mp3",
+        "expected_transcription": "Utilize SciAnalysis to interpret recent data."
+    },
+    {
+        "word": "SciAnalysis",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SciAnalysis/audio/mp3/SciAnalysis_7.mp3",
+        "expected_transcription": "Configure SciAnalysis for task-specific optimization."
+    },
+    {
+        "word": "SciAnalysis",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SciAnalysis/audio/mp3/SciAnalysis_8.mp3",
+        "expected_transcription": "Begin the automated routine with SciAnalysis."
+    },
+    {
+        "word": "SciAnalysis",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SciAnalysis/audio/mp3/SciAnalysis_9.mp3",
+        "expected_transcription": "Deploy SciAnalysis to track the experiment's status."
+    },
+    {
+        "word": "SciAnalysis",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SciAnalysis/audio/mp3/SciAnalysis_10.mp3",
+        "expected_transcription": "Optimize settings for advanced tasks using SciAnalysis."
+    },
+    {
+        "word": "SciAnalysis",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SciAnalysis/audio/mp3/SciAnalysis_11.mp3",
+        "expected_transcription": "Leverage SciAnalysis for forecasting and modeling."
+    },
+    {
+        "word": "SciAnalysis",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SciAnalysis/audio/mp3/SciAnalysis_12.mp3",
+        "expected_transcription": "Apply SciAnalysis techniques to train the system."
+    },
+    {
+        "word": "SciAnalysis",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SciAnalysis/audio/mp3/SciAnalysis_13.mp3",
+        "expected_transcription": "Test samples through SciAnalysis procedures."
+    },
+    {
+        "word": "SciAnalysis",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SciAnalysis/audio/mp3/SciAnalysis_14.mp3",
+        "expected_transcription": "Process data through SciAnalysis to uncover insights."
+    },
+    {
+        "word": "SciAnalysis",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SciAnalysis/audio/mp3/SciAnalysis_15.mp3",
+        "expected_transcription": "Enable automated functions with SciAnalysis."
+    },
+    {
+        "word": "SciAnalysis",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SciAnalysis/audio/mp3/SciAnalysis_16.mp3",
+        "expected_transcription": "Use SciAnalysis to diagnose system inefficiencies."
+    },
+    {
+        "word": "SciAnalysis",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SciAnalysis/audio/mp3/SciAnalysis_17.mp3",
+        "expected_transcription": "Draft the protocol by integrating SciAnalysis."
+    },
+    {
+        "word": "SciAnalysis",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SciAnalysis/audio/mp3/SciAnalysis_18.mp3",
+        "expected_transcription": "Streamline workflows using SciAnalysis tools."
+    },
+    {
+        "word": "SciAnalysis",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SciAnalysis/audio/mp3/SciAnalysis_19.mp3",
+        "expected_transcription": "Examine datasets comprehensively with SciAnalysis."
+    },
+    {
+        "word": "SciAnalysis",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SciAnalysis/audio/mp3/SciAnalysis_20.mp3",
+        "expected_transcription": "Trigger the SciAnalysis module for detailed processing."
+    },
+    {
+        "word": "SciAnalysis",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SciAnalysis/audio/mp3/SciAnalysis_21.mp3",
+        "expected_transcription": "Assign SciAnalysis its core operations."
+    },
+    {
+        "word": "SciAnalysis",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SciAnalysis/audio/mp3/SciAnalysis_22.mp3",
+        "expected_transcription": "Calibrate the device using SciAnalysis methodologies."
+    },
+    {
+        "word": "SciAnalysis",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SciAnalysis/audio/mp3/SciAnalysis_23.mp3",
+        "expected_transcription": "Kick off high-performance computations with SciAnalysis."
+    },
+    {
+        "word": "SciAnalysis",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SciAnalysis/audio/mp3/SciAnalysis_24.mp3",
+        "expected_transcription": "Conduct performance benchmarking via SciAnalysis."
+    },
+    {
+        "word": "SciAnalysis",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SciAnalysis/audio/mp3/SciAnalysis_25.mp3",
+        "expected_transcription": "Track progress in the pipeline using SciAnalysis functions."
+    },
+    {
+        "word": "SciAnalysis",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SciAnalysis/audio/mp3/SciAnalysis_26.mp3",
+        "expected_transcription": "Simulate environmental tests with SciAnalysis solutions."
+    },
+    {
+        "word": "SciAnalysis",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SciAnalysis/audio/mp3/SciAnalysis_27.mp3",
+        "expected_transcription": "Activate SciAnalysis to generate outcome predictions."
+    },
+    {
+        "word": "SciAnalysis",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SciAnalysis/audio/mp3/SciAnalysis_28.mp3",
+        "expected_transcription": "Prepare the system with SciAnalysis for on-the-fly analysis."
+    },
+    {
+        "word": "SciAnalysis",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/SciAnalysis/audio/mp3/SciAnalysis_29.mp3",
+        "expected_transcription": "Implement SciAnalysis for validating experimental workflows."
+    },
+    {
+        "word": "bioSAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/bioSAXS/audio/mp3/bioSAXS_0.mp3",
+        "expected_transcription": "Set bioSAXS in motion for this analysis."
+    },
+    {
+        "word": "bioSAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/bioSAXS/audio/mp3/bioSAXS_1.mp3",
+        "expected_transcription": "Execute the bioSAXS workflow."
+    },
+    {
+        "word": "bioSAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/bioSAXS/audio/mp3/bioSAXS_2.mp3",
+        "expected_transcription": "Turn on bioSAXS to manage autonomous functions."
+    },
+    {
+        "word": "bioSAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/bioSAXS/audio/mp3/bioSAXS_3.mp3",
+        "expected_transcription": "Harness bioSAXS for the ongoing session."
+    },
+    {
+        "word": "bioSAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/bioSAXS/audio/mp3/bioSAXS_4.mp3",
+        "expected_transcription": "Initiate bioSAXS for building data models."
+    },
+    {
+        "word": "bioSAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/bioSAXS/audio/mp3/bioSAXS_5.mp3",
+        "expected_transcription": "Ready bioSAXS for testing the samples."
+    },
+    {
+        "word": "bioSAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/bioSAXS/audio/mp3/bioSAXS_6.mp3",
+        "expected_transcription": "Utilize bioSAXS to interpret recent data."
+    },
+    {
+        "word": "bioSAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/bioSAXS/audio/mp3/bioSAXS_7.mp3",
+        "expected_transcription": "Configure bioSAXS for task-specific optimization."
+    },
+    {
+        "word": "bioSAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/bioSAXS/audio/mp3/bioSAXS_8.mp3",
+        "expected_transcription": "Begin the automated routine with bioSAXS."
+    },
+    {
+        "word": "bioSAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/bioSAXS/audio/mp3/bioSAXS_9.mp3",
+        "expected_transcription": "Deploy bioSAXS to track the experiment's status."
+    },
+    {
+        "word": "bioSAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/bioSAXS/audio/mp3/bioSAXS_10.mp3",
+        "expected_transcription": "Optimize settings for advanced tasks using bioSAXS."
+    },
+    {
+        "word": "bioSAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/bioSAXS/audio/mp3/bioSAXS_11.mp3",
+        "expected_transcription": "Leverage bioSAXS for forecasting and modeling."
+    },
+    {
+        "word": "bioSAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/bioSAXS/audio/mp3/bioSAXS_12.mp3",
+        "expected_transcription": "Apply bioSAXS techniques to train the system."
+    },
+    {
+        "word": "bioSAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/bioSAXS/audio/mp3/bioSAXS_13.mp3",
+        "expected_transcription": "Test samples through bioSAXS procedures."
+    },
+    {
+        "word": "bioSAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/bioSAXS/audio/mp3/bioSAXS_14.mp3",
+        "expected_transcription": "Process data through bioSAXS to uncover insights."
+    },
+    {
+        "word": "bioSAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/bioSAXS/audio/mp3/bioSAXS_15.mp3",
+        "expected_transcription": "Enable automated functions with bioSAXS."
+    },
+    {
+        "word": "bioSAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/bioSAXS/audio/mp3/bioSAXS_16.mp3",
+        "expected_transcription": "Use bioSAXS to diagnose system inefficiencies."
+    },
+    {
+        "word": "bioSAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/bioSAXS/audio/mp3/bioSAXS_17.mp3",
+        "expected_transcription": "Draft the protocol by integrating bioSAXS."
+    },
+    {
+        "word": "bioSAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/bioSAXS/audio/mp3/bioSAXS_18.mp3",
+        "expected_transcription": "Streamline workflows using bioSAXS tools."
+    },
+    {
+        "word": "bioSAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/bioSAXS/audio/mp3/bioSAXS_19.mp3",
+        "expected_transcription": "Examine datasets comprehensively with bioSAXS."
+    },
+    {
+        "word": "bioSAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/bioSAXS/audio/mp3/bioSAXS_20.mp3",
+        "expected_transcription": "Trigger the bioSAXS module for detailed processing."
+    },
+    {
+        "word": "bioSAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/bioSAXS/audio/mp3/bioSAXS_21.mp3",
+        "expected_transcription": "Assign bioSAXS its core operations."
+    },
+    {
+        "word": "bioSAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/bioSAXS/audio/mp3/bioSAXS_22.mp3",
+        "expected_transcription": "Calibrate the device using bioSAXS methodologies."
+    },
+    {
+        "word": "bioSAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/bioSAXS/audio/mp3/bioSAXS_23.mp3",
+        "expected_transcription": "Kick off high-performance computations with bioSAXS."
+    },
+    {
+        "word": "bioSAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/bioSAXS/audio/mp3/bioSAXS_24.mp3",
+        "expected_transcription": "Conduct performance benchmarking via bioSAXS."
+    },
+    {
+        "word": "bioSAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/bioSAXS/audio/mp3/bioSAXS_25.mp3",
+        "expected_transcription": "Track progress in the pipeline using bioSAXS functions."
+    },
+    {
+        "word": "bioSAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/bioSAXS/audio/mp3/bioSAXS_26.mp3",
+        "expected_transcription": "Simulate environmental tests with bioSAXS solutions."
+    },
+    {
+        "word": "bioSAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/bioSAXS/audio/mp3/bioSAXS_27.mp3",
+        "expected_transcription": "Activate bioSAXS to generate outcome predictions."
+    },
+    {
+        "word": "bioSAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/bioSAXS/audio/mp3/bioSAXS_28.mp3",
+        "expected_transcription": "Prepare the system with bioSAXS for on-the-fly analysis."
+    },
+    {
+        "word": "bioSAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/bioSAXS/audio/mp3/bioSAXS_29.mp3",
+        "expected_transcription": "Implement bioSAXS for validating experimental workflows."
+    },
+    {
+        "word": "GIWAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GIWAXS/audio/mp3/GIWAXS_0.mp3",
+        "expected_transcription": "Set GIWAXS in motion for this analysis."
+    },
+    {
+        "word": "GIWAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GIWAXS/audio/mp3/GIWAXS_1.mp3",
+        "expected_transcription": "Execute the GIWAXS workflow."
+    },
+    {
+        "word": "GIWAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GIWAXS/audio/mp3/GIWAXS_2.mp3",
+        "expected_transcription": "Turn on GIWAXS to manage autonomous functions."
+    },
+    {
+        "word": "GIWAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GIWAXS/audio/mp3/GIWAXS_3.mp3",
+        "expected_transcription": "Harness GIWAXS for the ongoing session."
+    },
+    {
+        "word": "GIWAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GIWAXS/audio/mp3/GIWAXS_4.mp3",
+        "expected_transcription": "Initiate GIWAXS for building data models."
+    },
+    {
+        "word": "GIWAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GIWAXS/audio/mp3/GIWAXS_5.mp3",
+        "expected_transcription": "Ready GIWAXS for testing the samples."
+    },
+    {
+        "word": "GIWAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GIWAXS/audio/mp3/GIWAXS_6.mp3",
+        "expected_transcription": "Utilize GIWAXS to interpret recent data."
+    },
+    {
+        "word": "GIWAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GIWAXS/audio/mp3/GIWAXS_7.mp3",
+        "expected_transcription": "Configure GIWAXS for task-specific optimization."
+    },
+    {
+        "word": "GIWAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GIWAXS/audio/mp3/GIWAXS_8.mp3",
+        "expected_transcription": "Begin the automated routine with GIWAXS."
+    },
+    {
+        "word": "GIWAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GIWAXS/audio/mp3/GIWAXS_9.mp3",
+        "expected_transcription": "Deploy GIWAXS to track the experiment's status."
+    },
+    {
+        "word": "GIWAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GIWAXS/audio/mp3/GIWAXS_10.mp3",
+        "expected_transcription": "Optimize settings for advanced tasks using GIWAXS."
+    },
+    {
+        "word": "GIWAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GIWAXS/audio/mp3/GIWAXS_11.mp3",
+        "expected_transcription": "Leverage GIWAXS for forecasting and modeling."
+    },
+    {
+        "word": "GIWAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GIWAXS/audio/mp3/GIWAXS_12.mp3",
+        "expected_transcription": "Apply GIWAXS techniques to train the system."
+    },
+    {
+        "word": "GIWAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GIWAXS/audio/mp3/GIWAXS_13.mp3",
+        "expected_transcription": "Test samples through GIWAXS procedures."
+    },
+    {
+        "word": "GIWAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GIWAXS/audio/mp3/GIWAXS_14.mp3",
+        "expected_transcription": "Process data through GIWAXS to uncover insights."
+    },
+    {
+        "word": "GIWAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GIWAXS/audio/mp3/GIWAXS_15.mp3",
+        "expected_transcription": "Enable automated functions with GIWAXS."
+    },
+    {
+        "word": "GIWAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GIWAXS/audio/mp3/GIWAXS_16.mp3",
+        "expected_transcription": "Use GIWAXS to diagnose system inefficiencies."
+    },
+    {
+        "word": "GIWAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GIWAXS/audio/mp3/GIWAXS_17.mp3",
+        "expected_transcription": "Draft the protocol by integrating GIWAXS."
+    },
+    {
+        "word": "GIWAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GIWAXS/audio/mp3/GIWAXS_18.mp3",
+        "expected_transcription": "Streamline workflows using GIWAXS tools."
+    },
+    {
+        "word": "GIWAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GIWAXS/audio/mp3/GIWAXS_19.mp3",
+        "expected_transcription": "Examine datasets comprehensively with GIWAXS."
+    },
+    {
+        "word": "GIWAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GIWAXS/audio/mp3/GIWAXS_20.mp3",
+        "expected_transcription": "Trigger the GIWAXS module for detailed processing."
+    },
+    {
+        "word": "GIWAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GIWAXS/audio/mp3/GIWAXS_21.mp3",
+        "expected_transcription": "Assign GIWAXS its core operations."
+    },
+    {
+        "word": "GIWAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GIWAXS/audio/mp3/GIWAXS_22.mp3",
+        "expected_transcription": "Calibrate the device using GIWAXS methodologies."
+    },
+    {
+        "word": "GIWAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GIWAXS/audio/mp3/GIWAXS_23.mp3",
+        "expected_transcription": "Kick off high-performance computations with GIWAXS."
+    },
+    {
+        "word": "GIWAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GIWAXS/audio/mp3/GIWAXS_24.mp3",
+        "expected_transcription": "Conduct performance benchmarking via GIWAXS."
+    },
+    {
+        "word": "GIWAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GIWAXS/audio/mp3/GIWAXS_25.mp3",
+        "expected_transcription": "Track progress in the pipeline using GIWAXS functions."
+    },
+    {
+        "word": "GIWAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GIWAXS/audio/mp3/GIWAXS_26.mp3",
+        "expected_transcription": "Simulate environmental tests with GIWAXS solutions."
+    },
+    {
+        "word": "GIWAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GIWAXS/audio/mp3/GIWAXS_27.mp3",
+        "expected_transcription": "Activate GIWAXS to generate outcome predictions."
+    },
+    {
+        "word": "GIWAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GIWAXS/audio/mp3/GIWAXS_28.mp3",
+        "expected_transcription": "Prepare the system with GIWAXS for on-the-fly analysis."
+    },
+    {
+        "word": "GIWAXS",
+        "audio_path": "/home2/smathur/vision_hal/tests/asr_data/GIWAXS/audio/mp3/GIWAXS_29.mp3",
+        "expected_transcription": "Implement GIWAXS for validating experimental workflows."
+    }
+]

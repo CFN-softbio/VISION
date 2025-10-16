@@ -1,0 +1,493 @@
+[    
+    {
+    "class": "Beamline information",
+    "title": "Data location",
+    "function": "cd /nsls2/data/smi/proposals/2025-3/",
+    "notes": [
+        "Goes to the user data directory, need to know the proposal number"
+    ],
+    "example_inputs": [
+        "where is my data"
+    ],
+    "cog": "Op",
+    "default": true
+    },
+    {
+        "class": "Beamline information",
+        "title": "Script location",
+        "function": "cd /nsls2/data/smi/shared/config/bluesky/profile_collection/startup/smibase/",
+        "notes": [
+            "Goes to the profile collection folder where all the beamline scripts are stored."
+        ],
+        "example_inputs": [
+            "where are the functions defined",
+            "I want to check profile collection"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline information",
+        "title": "Get metadata",
+        "function": "h = db[158]; pd = h.table()['pin_diode_current2_mean_value'].get(1)",
+        "notes": [
+            "Read metadata table"
+        ],
+        "example_inputs": [
+            "We need the metadata"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline operation",
+        "title": "Set exposure time",
+        "function": "det_exposure_time(t, t)",
+        "params": [
+            {
+                "name": "t",
+                "type": "float",
+                "description": "acquisition time and acquisition duration" 
+            }
+        ],
+        "notes": [
+            "This is a custom python function that sets the acquisition time. Can also use the burst mode to take multiple measurements with low overhead. Note that this does not take data, only set the exposure time and numbers." 
+        ],
+        "usage": [
+            {
+                "input": "Set exposure time to 0.5s",
+                "code": "det_exposure_time(0.5, 0.5)"
+            },
+            {
+                "input": "Set exposure time to 0.5s, take multiple measurements over 60s",
+                "code": "det_exposure_time(0.5, 60)"
+            }
+        ],
+        "example_inputs": [
+            "Set exposure time to 5s"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline operation",
+        "title": "Set sample name",
+        "function": "sample_id(user_name='JK', sample_name=sample_name)",
+        "params": [
+            {
+                "name": "user_name",
+                "type": "string",
+                "description": "User name, usually the initial" 
+            }
+        ],
+        "notes": [
+            "This sets the sample name."
+        ],
+        "usage": [
+            {
+                "input": "Sample name is sam1, user is ET",
+                "code": "sample_id(user_name='ET', sample_name='sam1')"
+            }
+        ],
+        "example_inputs": [
+            "set the sample name to test"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline operation",
+        "title": "Collect Data",
+        "function": "RE(bp.count(det, num=1))",
+        "params": [
+            {
+                "name": "det",
+                "type": "list",
+                "description": "detector, e.g. [pil2M]" 
+            }
+        ],
+        "notes": [
+            "Take measurements with the selected detector. The exposure time needs to be specified, else using previous values."
+        ],
+        "usage": [
+            {
+                "input": "Take a measurement with SAXS detector",
+                "code": "RE(bp.count([pil2M], num=1))"
+            },
+            {
+                "input": "Take a WAXS measurement",
+                "code": "RE(bp.count([pil900KW], num=1))"
+            }
+        ],
+        "example_inputs": [
+            "Collect data"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline operation",
+        "title": "Sample position",
+        "function": "print(piezo.x.position); print(piezo.y.position); print(piezo.z.position);",
+        "notes": [
+            "Prints the sample stage position for the SmarAct stage"
+        ],
+        "example_inputs": [
+            "What is the sample position",
+            "What is the variable for the sample position",
+            "how do I read the sample position",
+            "Show the SmarAct positions"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline operation",
+        "title": "Move SmarAct sample x",
+        "function": "RE(bps.mv(motor, position))",
+        "params": [
+            {
+                "name": "motor",
+                "type": "motor name",
+                "description": "motor to be moved, e.g. piezo.x, piezo.y, piezo.z,  piezo.ch, piezo.th, stage.x, prs" 
+            },
+            {
+                "name": "position",
+                "type": "float",
+                "description": "absolute position to move to" 
+            }
+        ],
+        "notes": [
+            "This moves the sample motor to an absolute position as opposed to relative movement."
+        ],
+        "usage": [
+            {
+                "input": "Move smaract x to 1000",
+                "code": "RE(bps.mv(piezo.x, 1000))"
+            }
+        ],
+        "example_inputs": [
+            "Move sample y to 0"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline operation",
+        "title": "Move SmarAct sample x",
+        "function": "RE(bps.mvr(motor, position))",
+        "params": [
+            {
+                "name": "motor",
+                "type": "motor name",
+                "description": "motor to be moved, e.g. piezo.x, piezo.y, piezo.z,  piezo.ch, piezo.th, stage.x, prs" 
+            },
+            {
+                "name": "distance",
+                "type": "float",
+                "description": "relative distance to move by" 
+            }
+        ],
+        "notes": [
+            "This moves the sample motor by a relateive distance as opposed, the 'r' in 'mvr' stands for relative."
+        ],
+        "usage": [
+            {
+                "input": "Move smaract x by 1mm",
+                "code": "RE(bps.mvr(piezo.x, 1000))"
+            },
+            {
+                "input": "Lower sample y by 200 ",
+                "code": "RE(bps.mvr(piezo.y, -200))"
+            }
+        ],
+        "example_inputs": [
+            "Move sample y by 10"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline operation",
+        "title": "Sample position for hexapod",
+        "function": "print(stage.y.position); print(stage.y.position); print(stage.z.position);",
+        "notes": [
+            "Prints the sample stage position for the hexapod stage"
+        ],
+        "example_inputs": [
+            "What is the hexapod stage position"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline operation",
+        "title": "Open slit or gap",
+        "function": "RE(mv(cslit.vg, 1))",
+        "params": [
+            {
+                "name": "motor",
+                "type": "motor name",
+                "description": "motor gap to change, eslit.vg, cslit.hg" 
+            },
+            {
+                "name": "gap",
+                "type": "float",
+                "description": "gap or opening in mm, usually between 0 and 1mm" 
+            }
+        ],
+        "usage": [
+            {
+                "input": "open the clist vertical gap to 1",
+                "code": "RE(mv(cslit.vg, 1))"
+            },
+            {
+                "input": "set eslit horizontal gap to 0.5",
+                "code": "RE(mv(eslit.hg, 0.5))"
+            }, 
+            {
+                "input": "Change the ssa gap vertically to 0.8",
+                "code": "RE(mv(ssa.vg, 0.8))"
+            }
+    	],
+        "notes": [],
+        "example_inputs": [],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline operation",
+        "title": "Move slit",
+        "function": "RE(mv(cslit.v, -0.13))",
+        "params": [
+            {
+                "name": "motor",
+                "type": "motor name",
+                "description": "motor gap to change, eslit.vg, cslit.hg" 
+            },
+            {
+                "name": "position",
+                "type": "float",
+                "description": "position in mm" 
+            }
+        ],
+        "usage": [
+            {
+                "input": "Set the clist vertical position to -0.13",
+                "code": "RE(mv(cslit.v, -0.13))"
+            },
+            {
+                "input": "set eslit horizontal position to the scan peak position",
+                "code": "RE(mv(eslit.h, ps.peak))"
+            }
+    	],
+        "notes": [],
+        "example_inputs": [],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline configuration",
+        "title": "Relative scan",
+        "function": "RE(rel_scan([pil2M], crl.lens3, -0.1, 0.1, 51))",
+        "params": [
+            {
+                "name": "detector",
+                "type": "list",
+                "description": "detector to collect the data with. Use square bracket around the detector, e.g. [pil2M] for SAXS, [pil900KW] for WAXS." 
+            },
+            {
+                "name": "motor",
+                "type": "motor name",
+                "description": "motor to scan, do not use single quotation, use the motor name directly, e.g. crl.lens3, eslit.v, cslit.h" 
+            },
+            {
+                "name": "scan range",
+                "type": "float",
+                "description": "the relative scan range is given by float, e.g., -0.1, 0.1" 
+            },
+            {
+                "name": "scan points",
+                "type": "int",
+                "description": "the number of points to scan in the scan range" 
+            }
+        ],
+        "notes": [
+            "This custom python function scans over one multi-motor trajectory relative to current position. Suggest user to first turn feedback('off') and set sample_id(user_name='test', sample_name='test')"
+        ],
+        "usage": [
+            {
+                "input": "Scan the crl.lesns2 over 0.2mm with 51 points",
+                "code": "RE(rel_scan([pil2M], crl.lens3, -0.1, 0.1, 51))"
+            },
+            {
+                "input": "Scan the vertical eslit from -0.03 to 0.03",
+                "code": "RE(rel_scan([pil2M], eslit.v, -0.03, 0.03, 21))"
+            },
+            {
+                "input": "Scan ssa vertical over 0.6",
+                "code": "RE(rel_scan([pil2M], ssa.v, -0.3, 0.3, 11))"
+            },
+            {
+                "input": "Scan hexapod stage vertical over 4mm with 15 points with WAXS",
+                "code": "RE(rel_scan([pil900KW], stage.y, -2, 2, 15))"
+            }
+    	],
+        "example_inputs": [
+            "Do a relative scan"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline configuration",
+        "title": "Change SAXS beamstop",
+        "function": "RE(pil2M.insert_beamstop(beamstop))",
+        "params": [
+            {
+                "name": "beamstop",
+                "description": "beamstop" 
+            }
+        ],
+        "notes": [
+            "This function allows switching between beamstops. There is a rod beamstop for grazing-incidence (GI) thin film measurements. The pindiode (pd) round beamstop is for transmission measurement where the direct transmission is needed."
+        ],
+        "usage": [
+            {
+                "input": "For SAXS, change to the pindiode beam stop",
+                "code": "RE(pil2M.insert_beamstop(pd))"
+            },
+            {
+                "input": "Change to the rod GI beam stop for SAXS",
+                "code": "RE(pil2M.insert_beamstop(rod))"
+            }
+        ],
+        "example_inputs": [
+            "We want to change the SAXS beam stop"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline configuration",
+        "title": "Start a new beamtime",
+        "function": "proposal_id(‘2025_1’, ‘312345’); project_set(‘testing’)",
+        "notes": [
+            "After the data security update in 2025. User start bsui and log in, then set the correct proposal id and sub-project folder."
+        ],
+        "example_inputs": [
+            "How to start a new beamtime",
+            "We are going to measure for a new project"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline operation",
+        "title": "Get the pindiode reading",
+        "function": "RE(bp.count([pil2M, pin_diode]))",
+        "notes": [
+            "When the pindiode beamstop is in, can use this to read the pindiode value. The pindiode saturates at 125000. Should insert attenuator (filter) to aim for a pindiode reading of a few thousands."
+        ],
+        "example_inputs": [
+            "What is the trasmission intensity"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline operation",
+        "title": "Open shutter",
+        "function": "RE(shopen))",
+        "notes": [
+            "At SMI, use this command to turn on the shutter and enable feedback. Do not use the control panel button to turn on shutter."
+        ],
+        "example_inputs": [
+            "Turn on the shutter"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline operation",
+        "title": "Close shutter",
+        "function": "RE(shclose())",
+        "notes": [
+            "At SMI, use this command to disable feedback and close the shutter. Do not use the control panel button to turn off shutter."
+        ],
+        "example_inputs": [
+            "Turn off the shutter"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline configuration",
+        "title": "Switch to alignment mode",
+        "function": "RE(smi.modeAlignment())",
+        "notes": [
+            "This changes the beamline to alignment mode by remove the beamstop that blocks the direct beam and also insert attenuator to reduce direct beam intensity. This allows us to align the sample by rocking the sample and observe the beam intensity change."
+        ],
+        "example_inputs": [
+            "Change to alignment mode"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline configuration",
+        "title": "Set direct beam ROI",
+        "function": "RE(smi.setDirectBeamROI())",
+        "notes": [
+            ""
+        ],
+        "example_inputs": [
+            "Set direct beam"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline configuration",
+        "title": "Plot scan result",
+        "function": "ps(-1, der=True)",
+        "notes": [
+            "After a motor scan, this plots the results and show the statistics and derivative."
+        ],
+        "example_inputs": [
+            "Show scan plot"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline configuration",
+        "title": "Move WAXS detector",
+        "function": "RE(bps.mv(waxs, 20))",
+        "params": [
+            {
+                "name": "detector",
+                "description": "waxs detector" 
+            },
+            {
+                "name": "degree",
+                "description": "move the waxs detector to this degree" 
+            }
+        ],
+        "notes": [
+            "This moves the waxs detector and the WAXS beamstop to the absolute positions. Make sure to use this command and not use the graphic interface to click."
+        ],
+        "usage": [
+            {
+                "input": "move waxs to 20degree",
+                "code": "RE(bps.mv(waxs, 20))"
+            },
+            {
+                "input": "move waxs detector to 0",
+                "code": "RE(bps.mv(waxs, 0))"
+            }
+        ],
+        "cog": "Op",
+        "default": true
+    }
+]

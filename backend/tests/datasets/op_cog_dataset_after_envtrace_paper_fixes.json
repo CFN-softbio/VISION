@@ -1,0 +1,1083 @@
+[
+  {
+    "command": "Measure for 2 seconds",
+    "expected_code": [
+      "sam.measure(2)"
+    ]
+  },
+  {
+    "command": "Measure for 2 seconds at 0.15 degree",
+    "expected_code": [
+      "sam.measureIncidentAngle(0.15, exposure_time=2)",
+      "sam.measureIncidentAngles([0.15], exposure_time=2)",
+      "sam.thabs(0.15)\nsam.measure(2)"
+    ]
+  },
+  {
+    "command": "Measure for 2 seconds at incident angle 0.15",
+    "expected_code": [
+      "sam.measureIncidentAngle(0.15, exposure_time=2)",
+      "sam.measureIncidentAngles([0.15], exposure_time=2)",
+      "sam.thabs(0.15)\nsam.measure(2)"
+    ]
+  },
+  {
+    "command": "Move the sample x by -0.5 and align the sample",
+    "expected_code": [
+      "sam.xr(-0.5)\nsam.align()"
+    ]
+  },
+  {
+    "command": "Set this as sample origin",
+    "expected_code": [
+      "sam.setOrigin(['x', 'y', 'th'])"
+    ]
+  },
+  {
+    "command": "Set incident angle to 0.12",
+    "expected_code": [
+      "sam.thabs(0.12)"
+    ]
+  },
+  {
+    "command": "Increase incident angle by 0.05",
+    "expected_code": [
+      "sam.thr(0.05)"
+    ]
+  },
+  {
+    "command": "Set this as the origin",
+    "expected_code": [
+      "sam.setOrigin(['x', 'y', 'th'])",
+      "sam.setOrigin(['y', 'th'])"
+    ]
+  },
+  {
+    "command": "Set this x as the sample origin",
+    "expected_code": [
+      "sam.setOrigin(['x'])"
+    ]
+  },
+  {
+    "command": "What is the sample motor positions",
+    "expected_code": [
+      "wsam()",
+      "sam.pos()"
+    ]
+  },
+  {
+    "command": "Move the sample up by 1mm",
+    "expected_code": [
+      "sam.yr(1)"
+    ]
+  },
+  {
+    "command": "Lower sample by 2mm",
+    "expected_code": [
+      "sam.yr(-2)"
+    ]
+  },
+  {
+    "command": "Move the sample by 0.2mm",
+    "expected_code": [
+      "sam.xr(0.2)"
+    ]
+  },
+  {
+    "command": "Move the sample x to 0.5mm",
+    "expected_code": [
+      "sam.xabs(0.5)"
+    ]
+  },
+  {
+    "command": "Rotate to 90 degree",
+    "expected_code": [
+      "sam.phiabs(90)"
+    ]
+  },
+  {
+    "command": "Align the sample and note down the position",
+    "expected_code": [
+      "sam.align()\nwsam()",
+      "sam.align()\nsam.pos()"
+    ]
+  },
+  {
+    "command": "Set sample target temp to 200 degree",
+    "expected_code": [
+      "sam.setLinkamTemperature(200)",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(200)"
+    ]
+  },
+  {
+    "command": "Move the polymer sample x by 9.7 and align the polymer sample",
+    "expected_code": [
+      "sam.xr(9.7); sam.align()",
+      "sam.xr(9.7)\nsam.align()",
+      "sam = Sample('polymer')\nsam.xr(9.7); sam.align()",
+      "sam = Sample('polymer')\nsam.xr(9.7)\nsam.align()"
+    ]
+  },
+  {
+    "command": "Move it x by 2.6 and align it",
+    "expected_code": [
+      "sam.xr(2.6); sam.align()",
+      "sam.xr(2.6)\nsam.align()"
+    ]
+  },
+  {
+    "command": "Move the thin film x by 2.7 and align the thin film",
+    "expected_code": [
+      "sam.xr(2.7); sam.align()",
+      "sam.xr(2.7)\nsam.align()",
+      "sam = Sample('thin film')\nsam.xr(2.7); sam.align()",
+      "sam = Sample('thin film')\nsam.xr(2.7)\nsam.align()"
+    ]
+  },
+  {
+    "command": "Move the thin film x by 8.3 and align the thin film",
+    "expected_code": [
+      "sam.xr(8.3); sam.align()",
+      "sam.xr(8.3)\nsam.align()",
+      "sam = Sample('thin film')\nsam.xr(8.3); sam.align()",
+      "sam = Sample('thin film')\nsam.xr(8.3)\nsam.align()"
+    ]
+  },
+  {
+    "command": "Move the organic thin film x by 5.8 and align the organic thin film",
+    "expected_code": [
+      "sam.xr(5.8); sam.align()",
+      "sam.xr(5.8)\nsam.align()",
+      "sam = Sample('organic thin film')\nsam.xr(5.8); sam.align()",
+      "sam = Sample('organic thin film')\nsam.xr(5.8)\nsam.align()"
+    ]
+  },
+  {
+    "command": "Move it x position by 0.1 mm, align it",
+    "expected_code": [
+      "sam.xr(0.1); sam.align()",
+      "sam.xr(0.1)\nsam.align()"
+    ]
+  },
+  {
+    "command": "Move the polymer sample x position by 5.0 mm, align the polymer sample",
+    "expected_code": [
+      "sam = Sample('polymer')\nsam.xr(5.0); sam.align()",
+      "sam = Sample('polymer')\nsam.xr(5.0)\nsam.align()",
+      "sam.xr(5.0); sam.align()",
+      "sam.xr(5.0)\nsam.align()"
+    ]
+  },
+  {
+    "command": "Move the polymer sample x position by 8.2 mm, align the polymer sample",
+    "expected_code": [
+      "sam.xr(8.2); sam.align()",
+      "sam.xr(8.2)\nsam.align()",
+      "sam = Sample('polymer')\nsam.xr(8.2); sam.align()",
+      "sam = Sample('polymer')\nsam.xr(8.2)\nsam.align()"
+    ]
+  },
+  {
+    "command": "Move the thin film x position by 9.5 mm, align the thin film",
+    "expected_code": [
+      "sam.xr(9.5); sam.align()",
+      "sam.xr(9.5)\nsam.align()",
+      "sam = Sample('thin film')\nsam.xr(9.5); sam.align()",
+      "sam = Sample('thin film')\nsam.xr(9.5)\nsam.align()"
+    ]
+  },
+  {
+    "command": "Move sample x position by 4.8 mm, align sample",
+    "expected_code": [
+      "sam.xr(4.8); sam.align()",
+      "sam.xr(4.8)\nsam.align()"
+    ]
+  },
+  {
+    "command": "Measure for 43.0 seconds at incident angle 0.11",
+    "expected_code": [
+      "sam.measureIncidentAngle(0.11, exposure_time=43.0)"
+    ]
+  },
+  {
+    "command": "Measure for 22.5 seconds at incident angle 0.02",
+    "expected_code": [
+      "sam.measureIncidentAngle(0.02, exposure_time=22.5)"
+    ]
+  },
+  {
+    "command": "Measure for 14.0 seconds at incident angle 0.31",
+    "expected_code": [
+      "sam.measureIncidentAngle(0.31, exposure_time=14.0)"
+    ]
+  },
+  {
+    "command": "Measure for 8.0 seconds at incident angle 0.36",
+    "expected_code": [
+      "sam.measureIncidentAngle(0.36, exposure_time=8.0)"
+    ]
+  },
+  {
+    "command": "Measure for 42.0 seconds at incident angle 0.2",
+    "expected_code": [
+      "sam.measureIncidentAngle(0.2, exposure_time=42.0)"
+    ]
+  },
+  {
+    "command": "Measure the thin film at incident angle 0.49 for 25.5 seconds",
+    "expected_code": [
+      "sam.measureIncidentAngle(0.49, exposure_time=25.5)",
+      "sam = SampleGISAXS_Generic('thin film')\nsam.measureIncidentAngle(0.49, exposure_time=25.5)"
+    ]
+  },
+  {
+    "command": "Measure the perovskite sample at incident angle 0.05 for 7.5 seconds",
+    "expected_code": [
+      "sam.measureIncidentAngle(0.05, exposure_time=7.5)",
+      "sam = SampleGISAXS_Generic('perovskite')\nsam.measureIncidentAngle(0.05, exposure_time=7.5)"
+    ]
+  },
+  {
+    "command": "Measure sample at incident angle 0.32 for 12.5 seconds",
+    "expected_code": [
+      "sam.measureIncidentAngle(0.32, exposure_time=12.5)"
+    ]
+  },
+  {
+    "command": "Measure the sample at incident angle 0.24 for 46.0 seconds",
+    "expected_code": [
+      "sam.measureIncidentAngle(0.24, exposure_time=46.0)"
+    ]
+  },
+  {
+    "command": "Measure the thin film sample at incident angle 0.39 for 16.5 seconds",
+    "expected_code": [
+      "sam.measureIncidentAngle(0.39, exposure_time=16.5)",
+      "sam = SampleGISAXS_Generic('thin film')\nsam.measureIncidentAngle(0.39, exposure_time=16.5)"
+    ]
+  },
+  {
+    "command": "Measure the sample for 53.0 seconds",
+    "expected_code": [
+      "sam.measure(53.0)",
+      "sam.measure(exposure_time=53.0)"
+    ]
+  },
+  {
+    "command": "Measure the thin film for 28.5 seconds",
+    "expected_code": [
+      "sam.measure(28.5)",
+      "sam.measure(exposure_time=28.5)",
+      "sam = Sample('thin film')\nsam.measure(28.5)",
+      "sam = Sample('thin film')\nsam.measure(exposure_time=28.5)"
+    ]
+  },
+  {
+    "command": "Measure the thin film sample for 32.0 seconds",
+    "expected_code": [
+      "sam.measure(32.0)",
+      "sam.measure(exposure_time=32.0)",
+      "sam = Sample('thin film')\nsam.measure(32.0)",
+      "sam = Sample('thin film')\nsam.measure(exposure_time=32.0)"
+    ]
+  },
+  {
+    "command": "Measure the polymer sample for 39.0 seconds",
+    "expected_code": [
+      "sam.measure(39.0)",
+      "sam.measure(exposure_time=39.0)",
+      "sam = Sample('polymer')\nsam.measure(39.0)",
+      "sam = Sample('polymer')\nsam.measure(exposure_time=39.0)"
+    ]
+  },
+  {
+    "command": "Measure the thin film for 35.0 seconds",
+    "expected_code": [
+      "sam.measure(35.0)",
+      "sam.measure(exposure_time=35.0)",
+      "sam = Sample('thin film')\nsam.measure(35.0)",
+      "sam = Sample('thin film')\nsam.measure(exposure_time=35.0)"
+    ]
+  },
+  {
+    "command": "Set the incident angle to 0.45",
+    "expected_code": [
+      "sam.thabs(0.45)"
+    ]
+  },
+  {
+    "command": "Set the incident angle to 0.37",
+    "expected_code": [
+      "sam.thabs(0.37)"
+    ]
+  },
+  {
+    "command": "Set the incident angle to 0.41",
+    "expected_code": [
+      "sam.thabs(0.41)"
+    ]
+  },
+  {
+    "command": "Set the incident angle to 0.21",
+    "expected_code": [
+      "sam.thabs(0.21)"
+    ]
+  },
+  {
+    "command": "Set the incident angle to 0.47",
+    "expected_code": [
+      "sam.thabs(0.47)"
+    ]
+  },
+  {
+    "command": "Use incident angle 0.08 degree",
+    "expected_code": [
+      "sam.thabs(0.08)"
+    ]
+  },
+  {
+    "command": "Use incident angle 0.07 degree",
+    "expected_code": [
+      "sam.thabs(0.07)"
+    ]
+  },
+  {
+    "command": "Use incident angle 0.01 degree",
+    "expected_code": [
+      "sam.thabs(0.01)"
+    ]
+  },
+  {
+    "command": "Use incident angle 0.29 degree",
+    "expected_code": [
+      "sam.thabs(0.29)"
+    ]
+  },
+  {
+    "command": "Use incident angle 0.49 degree",
+    "expected_code": [
+      "sam.thabs(0.49)"
+    ]
+  },
+  {
+    "command": "Set theta to 0.04",
+    "expected_code": [
+      "sam.thabs(0.04)"
+    ]
+  },
+  {
+    "command": "Set theta to 0.14",
+    "expected_code": [
+      "sam.thabs(0.14)"
+    ]
+  },
+  {
+    "command": "Set theta to 0.08",
+    "expected_code": [
+      "sam.thabs(0.08)"
+    ]
+  },
+  {
+    "command": "Set theta to 0.27",
+    "expected_code": [
+      "sam.thabs(0.27)"
+    ]
+  },
+  {
+    "command": "Move the perovskite sample up by 1.6 mm",
+    "expected_code": [
+      "sam.yr(1.6)",
+      "sam = Sample('perovskite')\nsam.yr(1.6)"
+    ]
+  },
+  {
+    "command": "Move the organic thin film up by 9.6 mm",
+    "expected_code": [
+      "sam.yr(9.6)",
+      "sam = Sample('organic thin film')\nsam.yr(9.6)"
+    ]
+  },
+  {
+    "command": "Move it up by 5.0 mm",
+    "expected_code": [
+      "sam.yr(5.0)"
+    ]
+  },
+  {
+    "command": "Move sample up by 5.1 mm",
+    "expected_code": [
+      "sam.yr(5.1)"
+    ]
+  },
+  {
+    "command": "Move the perovskite sample up by 6.7 mm",
+    "expected_code": [
+      "sam.yr(6.7)",
+      "sam = Sample('perovskite')\nsam.yr(6.7)"
+    ]
+  },
+  {
+    "command": "Move sample x by 2.6 mm",
+    "expected_code": [
+      "sam.xr(2.6)"
+    ]
+  },
+  {
+    "command": "Move the thin film sample x by 4.1 mm",
+    "expected_code": [
+      "sam.xr(4.1)",
+      "sam = Sample('thin film')\nsam.xr(4.1)"
+    ]
+  },
+  {
+    "command": "Move the thin film sample x by 6.4 mm",
+    "expected_code": [
+      "sam.xr(6.4)",
+      "sam = Sample('thin film')\nsam.xr(6.4)"
+    ]
+  },
+  {
+    "command": "Move the perovskite sample x by 5.2 mm",
+    "expected_code": [
+      "sam.xr(5.2)",
+      "sam = Sample('perovskite')\nsam.xr(5.2)"
+    ]
+  },
+  {
+    "command": "Move the polymer sample x by 3.1 mm",
+    "expected_code": [
+      "sam.xr(3.1)",
+      "sam = Sample('polymer')\nsam.xr(3.1)"
+    ]
+  },
+  {
+    "command": "Move the polymer sample x to 1.0 mm",
+    "expected_code": [
+      "sam.xabs(1.0)",
+      "sam = Sample('polymer')\nsam.xabs(1.0)"
+    ]
+  },
+  {
+    "command": "Move the thin film sample x to 8.3 mm",
+    "expected_code": [
+      "sam.xabs(8.3)",
+      "sam = Sample('thin film')\nsam.xabs(8.3)"
+    ]
+  },
+  {
+    "command": "Move the organic thin film x to 4.0 mm",
+    "expected_code": [
+      "sam.xabs(4.0)",
+      "sam = Sample('organic thin film')\nsam.xabs(4.0)"
+    ]
+  },
+  {
+    "command": "Move sample x to 5.0 mm",
+    "expected_code": [
+      "sam.xabs(5.0)"
+    ]
+  },
+  {
+    "command": "Move the organic thin film x to 4.9 mm",
+    "expected_code": [
+      "sam.xabs(4.9)",
+      "sam = Sample('organic thin film')\nsam.xabs(4.9)"
+    ]
+  },
+  {
+    "command": "Lower the thin film sample by 2.0 mm",
+    "expected_code": [
+      "sam.yr(-2.0)",
+      "sam = Sample('thin film')\nsam.yr(-2.0)"
+    ]
+  },
+  {
+    "command": "Lower the perovskite sample by 2.4 mm",
+    "expected_code": [
+      "sam.yr(-2.4)",
+      "sam = Sample('perovskite')\nsam.yr(-2.4)"
+    ]
+  },
+  {
+    "command": "Lower the sample by 3.5 mm",
+    "expected_code": [
+      "sam.yr(-3.5)"
+    ]
+  },
+  {
+    "command": "Lower the polymer sample by 2.5 mm",
+    "expected_code": [
+      "sam.yr(-2.5)",
+      "sam = Sample('polymer')\nsam.yr(-2.5)"
+    ]
+  },
+  {
+    "command": "Lower the organic thin film by 7.1 mm",
+    "expected_code": [
+      "sam.yr(-7.1)",
+      "sam = Sample('organic thin film')\nsam.yr(-7.1)"
+    ]
+  },
+  {
+    "command": "Increase the incident angle by 0.22 degree",
+    "expected_code": [
+      "sam.thr(0.22)"
+    ]
+  },
+  {
+    "command": "Increase the incident angle by 0.05 degree",
+    "expected_code": [
+      "sam.thr(0.05)"
+    ]
+  },
+  {
+    "command": "Increase the incident angle by 0.07 degree",
+    "expected_code": [
+      "sam.thr(0.07)"
+    ]
+  },
+  {
+    "command": "Increase the incident angle by 0.45 degree",
+    "expected_code": [
+      "sam.thr(0.45)"
+    ]
+  },
+  {
+    "command": "Increase the incident angle by 0.39 degree",
+    "expected_code": [
+      "sam.thr(0.39)"
+    ]
+  },
+  {
+    "command": "Rotate it by 331.0",
+    "expected_code": [
+      "sam.phir(331.0)"
+    ]
+  },
+  {
+    "command": "Rotate sample by 54.6",
+    "expected_code": [
+      "sam.phir(54.6)"
+    ]
+  },
+  {
+    "command": "Rotate the polymer sample by 54.3",
+    "expected_code": [
+      "sam.phir(54.3)",
+      "sam = Sample('polymer')\nsam.phir(54.3)"
+    ]
+  },
+  {
+    "command": "Rotate it by 351.5",
+    "expected_code": [
+      "sam.phir(351.5)"
+    ]
+  },
+  {
+    "command": "Rotate the organic thin film by 74.6",
+    "expected_code": [
+      "sam.phir(74.6)",
+      "sam = Sample('organic thin film')\nsam.phir(74.6)"
+    ]
+  },
+  {
+    "command": "Rotate sample to 217.3 degree",
+    "expected_code": [
+      "sam.phiabs(217.3)"
+    ]
+  },
+  {
+    "command": "Rotate the thin film to 236.8 degree",
+    "expected_code": [
+      "sam.phiabs(236.8)",
+      "sam = Sample('thin film')\nsam.phiabs(236.8)"
+    ]
+  },
+  {
+    "command": "Rotate the thin film sample to 223.0 degree",
+    "expected_code": [
+      "sam.phiabs(223.0)",
+      "sam = Sample('thin film')\nsam.phiabs(223.0)"
+    ]
+  },
+  {
+    "command": "Rotate the thin film sample to 217.9 degree",
+    "expected_code": [
+      "sam.phiabs(217.9)",
+      "sam = Sample('thin film')\nsam.phiabs(217.9)"
+    ]
+  },
+  {
+    "command": "Rotate the sample to 136.6 degree",
+    "expected_code": [
+      "sam.phiabs(136.6)"
+    ]
+  },
+  {
+    "command": "Align the organic thin film and read the sample position",
+    "expected_code": [
+      "sam.align(); wsam()",
+      "sam.align()\nwsam()",
+      "sam = Sample('organic thin film')\nsam.align(); wsam()",
+      "sam = Sample('organic thin film')\nsam.align()\nwsam()"
+    ]
+  },
+  {
+    "command": "Align the sample and read the sample position",
+    "expected_code": [
+      "sam.align(); wsam()",
+      "sam.align()\nwsam()",
+      "sam.align()\nsam.pos()"
+    ]
+  },
+  {
+    "command": "Align the thin film and read the sample position",
+    "expected_code": [
+      "sam.align(); wsam()",
+      "sam.align()\nwsam()",
+      "sam.align()\nsam.pos()",
+      "sam = Sample('thin film')\nsam.align(); wsam()",
+      "sam = Sample('thin film')\nsam.align()\nwsam()"
+    ]
+  },
+  {
+    "command": "Heat up the thin film sample to 70.6",
+    "expected_code": [
+      "sam.setLinkamTemperature(70.6)\nsam.setLinkamOn()",
+      "sam.setLinkamTemperature(70.6)",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(70.6)\nsam.setLinkamOn()",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(70.6)",
+      "sam = Sample('thin film')\nsam.setLinkamTemperature(70.6)"
+    ],
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:TEMP"
+    ]
+  },
+  {
+    "command": "Heat up the thin film sample to 301.9",
+    "expected_code": [
+      "sam.setLinkamTemperature(301.9)\nsam.setLinkamOn()",
+      "sam.setLinkamTemperature(301.9)",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(301.9)\nsam.setLinkamOn()",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(301.9)",
+      "sam = Sample('thin film')\nsam.setLinkamTemperature(301.9)"
+    ],
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:TEMP"
+    ]
+  },
+  {
+    "command": "Heat up the thin film sample to 313.2",
+    "expected_code": [
+      "sam.setLinkamTemperature(313.2)\nsam.setLinkamOn()",
+      "sam.setLinkamTemperature(313.2)",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(313.2)\nsam.setLinkamOn()",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(313.2)",
+      "sam = Sample('thin film')\nsam.setLinkamTemperature(313.2)"
+    ],
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:TEMP"
+    ]
+  },
+  {
+    "command": "Heat up the perovskite sample to 313.5",
+    "expected_code": [
+      "sam.setLinkamTemperature(313.5)\nsam.setLinkamOn()",
+      "sam.setLinkamTemperature(313.5)",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(313.5)\nsam.setLinkamOn()",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(313.5)",
+      "sam = Sample('perovskite')\nsam.setLinkamTemperature(313.5)"
+    ],
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:TEMP"
+    ]
+  },
+  {
+    "command": "Heat up the thin film sample to 102.7",
+    "expected_code": [
+      "sam.setLinkamTemperature(102.7)\nsam.setLinkamOn()",
+      "sam.setLinkamTemperature(102.7)",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(102.7)\nsam.setLinkamOn()",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(102.7)",
+      "sam = Sample('thin film')\nsam.setLinkamTemperature(102.7)"
+    ],
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:TEMP"
+    ]
+  },
+  {
+    "command": "Increase the temperature to 247.0",
+    "expected_code": [
+      "sam.setLinkamTemperature(247.0)\nsam.setLinkamOn()",
+      "sam.setLinkamTemperature(247.0)",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(247.0)\nsam.setLinkamOn()",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(247.0)"
+    ],
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:TEMP"
+    ]
+  },
+  {
+    "command": "Increase the temperature to 321.7",
+    "expected_code": [
+      "sam.setLinkamTemperature(321.7)\nsam.setLinkamOn()",
+      "sam.setLinkamTemperature(321.7)",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(321.7)\nsam.setLinkamOn()",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(321.7)"
+    ],
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:TEMP"
+    ]
+  },
+  {
+    "command": "Increase the temperature to 266.7",
+    "expected_code": [
+      "sam.setLinkamTemperature(266.7)\nsam.setLinkamOn()",
+      "sam.setLinkamTemperature(266.7)",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(266.7)\nsam.setLinkamOn()",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(266.7)"
+    ],
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:TEMP"
+    ]
+  },
+  {
+    "command": "Increase the temperature to 159.7",
+    "expected_code": [
+      "sam.setLinkamTemperature(159.7)\nsam.setLinkamOn()",
+      "sam.setLinkamTemperature(159.7)",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(159.7)\nsam.setLinkamOn()",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(159.7)"
+    ],
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:TEMP"
+    ]
+  },
+  {
+    "command": "Increase the temperature to 299.6",
+    "expected_code": [
+      "sam.setLinkamTemperature(299.6)\nsam.setLinkamOn()",
+      "sam.setLinkamTemperature(299.6)",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(299.6)\nsam.setLinkamOn()",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(299.6)"
+    ],
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:TEMP"
+    ]
+  },
+  {
+    "command": "Cool the perovskite sample to 80.4",
+    "expected_code": [
+      "sam.setLinkamTemperature(80.4)\nsam.setLinkamOn()",
+      "sam.setLinkamTemperature(80.4)",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(80.4)\nsam.setLinkamOn()",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(80.4)",
+      "sam = Sample('perovskite')\nsam.setLinkamTemperature(80.4)"
+    ],
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:TEMP"
+    ]
+  },
+  {
+    "command": "Cool the sample to 307.3",
+    "expected_code": [
+      "sam.setLinkamTemperature(307.3)\nsam.setLinkamOn()",
+      "sam.setLinkamTemperature(307.3)",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(307.3)\nsam.setLinkamOn()",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(307.3)"
+    ],
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:TEMP"
+    ]
+  },
+  {
+    "command": "Cool sample to -131.1",
+    "expected_code": [
+      "sam.setLinkamTemperature(-131.1)\nsam.setLinkamOn()",
+      "sam.setLinkamTemperature(-131.1)",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(-131.1)\nsam.setLinkamOn()",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(-131.1)"
+    ],
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:TEMP"
+    ]
+  },
+  {
+    "command": "Cool the perovskite sample to -13.6",
+    "expected_code": [
+      "sam.setLinkamTemperature(-13.6)\nsam.setLinkamOn()",
+      "sam.setLinkamTemperature(-13.6)",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(-13.6)\nsam.setLinkamOn()",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(-13.6)",
+      "sam = Sample('perovskite')\nsam.setLinkamTemperature(-13.6)"
+    ],
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:TEMP"
+    ]
+  },
+  {
+    "command": "Cool the perovskite sample to 200.7",
+    "expected_code": [
+      "sam.setLinkamTemperature(200.7)\nsam.setLinkamOn()",
+      "sam.setLinkamTemperature(200.7)",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(200.7)\nsam.setLinkamOn()",
+      "sam.setLinkamRate(30)\nsam.setLinkamTemperature(200.7)",
+      "sam = Sample('perovskite')\nsam.setLinkamTemperature(200.7)"
+    ],
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:TEMP"
+    ]
+  },
+  {
+    "command": "Set this as the sample origin",
+    "expected_code": [
+      "sam.setOrigin(['x', 'y', 'th'])"
+    ]
+  },
+  {
+    "command": "Set this x as origin",
+    "expected_code": [
+      "sam.setOrigin(['x'])"
+    ]
+  },
+  {
+    "command": "What are the sample motor positions",
+    "expected_code": [
+      "wsam()",
+      "sam.pos()"
+    ]
+  },
+  {
+    "command": "Where is the organic thin film",
+    "expected_code": [
+      "wsam()",
+      "sam.pos()"
+    ]
+  },
+  {
+    "command": "Where is the thin film sample",
+    "expected_code": [
+      "wsam()",
+      "sam.pos()"
+    ]
+  },
+  {
+    "command": "Where is the sample",
+    "expected_code": [
+      "wsam()",
+      "sam.pos()"
+    ]
+  },
+  {
+    "command": "Sample where",
+    "expected_code": [
+      "wsam()",
+      "sam.pos()"
+    ]
+  },
+  {
+    "command": "Measure the sample for 1s (every 10s), do this for 1 min",
+    "expected_code": [
+      "for ii in np.arange(6):\n    sam.measure(1)\n    time.sleep(9)",
+      "import time\n\nfor _ in range(6):\n    sam.measure(1)\n    time.sleep(9)",
+      "import time\n\nstart_time = time.time()\nend_time = start_time + 60\n\nwhile time.time() < end_time:\n     loop_start = time.time()\n     sam.measure(1)\n     elapsed = time.time() - loop_start\n     if elapsed < 10:\n          time.sleep(10 - elapsed)"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Measure 1s and scan from x 0 to 1mm (with 0.25 step)",
+    "expected_code": [
+      "for xpos in np.arange(0, 1 + 0.25/2, 0.25):\n    sam.xabs(xpos)\n    sam.measure(1)",
+      "for x in np.arange(0, 1 + 0.25/2, 0.25):\n    sam.xabs(x)\n    sam.measure(1)",
+      "import numpy as np\n\nfor xpos in np.arange(0, 1 + 0.25/2, 0.25):\n    sam.xabs(xpos)\n    sam.measure(1)",
+      "sam.measureSpots(num_spots=int(1 / 0.25 + 1), translation_amount=0.25, axis='x', exposure_time=1)"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Do a map scan, x range from 0 to 0.3mm, y from 0 to 0.6mm, step size is 0.15 horizontally and 0.2 vertically. (Exposure time 1s.)",
+    "expected_code": [
+      "for x in np.arange(0, 0.3 + 0.15/2, 0.15):\n    for y in np.arange(0, 0.6 + 0.2/2, 0.2):\n        sam.xabs(x)\n        sam.yabs(y)\n        sam.measure(1)"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Scan incident angle from 0.5 to 1.5 degree (with 0.5 step), exposure time 0.5s",
+    "expected_code": [
+      "for th in np.arange(0.5, 1.5 + 0.5/2, 0.5):\n    sam.thabs(th)\n    sam.measure(0.5)",
+      "for angle in np.arange(0.5, 1.5 + 0.5/2, 0.5):\n    sam.thabs(angle)\n    sam.measure(exposure_time=0.5)",
+      "for angle in np.arange(0.5, 1.5 + 0.5/2, 0.5):\n    sam.measureIncidentAngle(angle, exposure_time=0.5)",
+      "sam.measureIncidentAngles([0.5, 1.0, 1.5], exposure_time=0.5)"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Heat sample to 100 degrees at rate 20 degrees per min, then measure for 1s every 5 seconds until temperature reaches 100 degrees",
+    "expected_code": [
+      "sam.setLinkamRate(20)\nsam.setLinkamTemperature(100)\nsam.setLinkamOn()\n\nwhile sam.linkamTemperature() < 100 - 0.1:\n    t0 = time.time()\n    sam.measure(1)\n    elapsed = time.time() - t0\n    if elapsed < 5:\n        time.sleep(5 - elapsed)",
+      "sam.setLinkamRate(20)\nsam.setLinkamTemperature(100)\nsam.setLinkamOn()\n\nwhile sam.linkamTemperature() < 100:\n    t0 = time.time()\n    sam.measure(1)\n    elapsed = time.time() - t0\n    if elapsed < 5:\n        time.sleep(5 - elapsed)",
+      "import time\n\nsam.setLinkamRate(20)\nsam.setLinkamTemperature(100)\nsam.setLinkamOn()\n\nwhile sam.linkamTemperature() < 100 - 0.1:\n    t0 = time.time()\n    sam.measure(1)\n    elapsed = time.time() - t0\n    if elapsed < 5:\n        time.sleep(5 - elapsed)",
+      "import time\n\nsam.setLinkamRate(20)\nsam.setLinkamTemperature(100)\nsam.setLinkamOn()\n\nwhile sam.linkamTemperature() < 100:\n    t0 = time.time()\n    sam.measure(1)\n    elapsed = time.time() - t0\n    if elapsed < 5:\n        time.sleep(5 - elapsed)"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Measure the sample for 0.5s when heating up from room temperature to 150 degree at a ramp rate of 5 degree per min, measure every 20 degree.",
+    "expected_code": [
+    "sam.setLinkamRate(5)\nsam.setLinkamOn()\nstart_temp = int(sam.linkamTemperature())\ntemp_goals = list(range(start_temp, 151, 20))\nfor temp_goal in temp_goals:\n    sam.setLinkamTemperature(temp_goal)\n    while sam.linkamTemperature() < temp_goal - 0.1:\n        pass\n    sam.measure(0.5)\n\nif temp_goals[-1] < 150:\n    sam.setLinkamTemperature(150)",
+    "sam.setLinkamRate(5)\nsam.setLinkamOn()\nstart_temp = int(sam.linkamTemperature())\nmeasure_points = list(range(start_temp, 151, 20))\nsam.setLinkamTemperature(150)\n\nfor point in measure_points:\n    while sam.linkamTemperature() < point - 0.1:\n        pass\n    sam.measure(0.5)"
+  ],
+    "is_complex": true,
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:SETPOINT:SET",
+      "XF:11BM-ES:{LINKAM}:STARTHEAT"
+    ]
+  },
+  {
+    "command": "Scan from x=0 to 1mm at a step of 0.5mm, exposure time 0.5s, wait 10s between measurements",
+    "expected_code": [
+      "import time\nimport numpy as np\n\nfor x in np.arange(0, 1.1, 0.5):\n    sam.xabs(x)\n    start_time = time.time()\n    sam.measure(0.5)\n    measurement_time = time.time() - start_time\n    wait_time = max(0, 10 - measurement_time)\n    time.sleep(wait_time)",
+      "import time\n\nfor x in [0, 0.5, 1]:\n    sam.xabs(x)\n    start_time = time.time()\n    sam.measure(0.5)\n    measurement_time = time.time() - start_time\n    wait_time = max(0, 10 - measurement_time)\n    time.sleep(wait_time)",
+      "import time\nfor xc in [0 , 0.5, 1. ]:\n    sam.xabs(xc)\n    sam.measure(0.5)\n    time.sleep(10)"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Scan in x and y, use the sample origin as the center, scan a 3 by 3 grid, each for 1 second, with step size of 0.2mm in x and 0.1mm in y with a wait time of 10s between measurements.",
+    "expected_code": [
+      "import time\nimport numpy as np\n\nx_range = np.linspace(-0.2, 0.2, 3)\ny_range = np.linspace(-0.1, 0.1, 3)\n\nfor x in x_range:\n    sam.xabs(x)\n    for y in y_range:\n        sam.yabs(y)\n        start_time = time.time()\n        sam.measure(1)\n        measurement_time = time.time() - start_time\n        wait_time = max(0, 10 - measurement_time)\n        time.sleep(wait_time)",
+      "import time\n\nx_vals = [-0.2, 0, 0.2]\ny_vals = [-0.1, 0, 0.1]\n\nfor x in x_vals:\n    sam.xabs(x)\n    for y in y_vals:\n        sam.yabs(y)\n        start_time = time.time()\n        sam.measure(1)\n        measurement_time = time.time() - start_time\n        wait_time = max(0, 10 - measurement_time)\n        time.sleep(wait_time)",
+      "import time\nimport numpy as np\n\nx_range = np.linspace(-0.2, 0.2, 3)\ny_range = np.linspace(-0.1, 0.1, 3)\n\nfor y in y_range:\n    sam.yabs(y)\n    for x in x_range:\n        sam.xabs(x)\n        start_time = time.time()\n        sam.measure(1)\n        measurement_time = time.time() - start_time\n        wait_time = max(0, 10 - measurement_time)\n        time.sleep(wait_time)",
+      "import time\n\nx_vals = [-0.2, 0, 0.2]\ny_vals = [-0.1, 0, 0.1]\n\nfor y in y_vals:\n    sam.yabs(y)\n    for x in x_vals:\n        sam.xabs(x)\n        start_time = time.time()\n        sam.measure(1)\n        measurement_time = time.time() - start_time\n        wait_time = max(0, 10 - measurement_time)\n        time.sleep(wait_time)"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Scan in x and y, use the sample origin as the center, measure the center first with the name 'cen' and then scan a 3 by 3 grid with step size of 0.2mm in x and 0.1mm in y, each for 1 second.",
+    "expected_code": [
+      "import numpy as np\n\n# Measure center first\nsam.xabs(0)\nsam.yabs(0)\nsam.measure(1, name='cen')\n\n# Scan grid\nx_range = np.linspace(-0.2, 0.2, 3)\ny_range = np.linspace(-0.1, 0.1, 3)\n\nfor x in x_range:\n    sam.xabs(x)\n    for y in y_range:\n        # Skip the center point as we already measured it\n        if x == 0 and y == 0:\n            continue\n        sam.yabs(y)\n        sam.measure(1)",
+      "import numpy as np\n\n# Measure center first\nsam.xabs(0)\nsam.yabs(0)\nsam.measure(1, name='cen')\n\n# Scan grid\nx_range = np.linspace(-0.2, 0.2, 3)\ny_range = np.linspace(-0.1, 0.1, 3)\n\n# Scan the entire grid including center (will measure center twice)\nfor x in x_range:\n    sam.xabs(x)\n    for y in y_range:\n        sam.yabs(y)\n        sam.measure(1)",
+      "# Measure center first\nsam.xabs(0)\nsam.yabs(0)\nsam.measure(1, name='cen')\n\n# Scan grid\nx_vals = [-0.2, 0, 0.2]\ny_vals = [-0.1, 0, 0.1]\n\nfor x in x_vals:\n    sam.xabs(x)\n    for y in y_vals:\n        # Skip the center point as we already measured it\n        if x == 0 and y == 0:\n            continue\n        sam.yabs(y)\n        sam.measure(1)",
+      "import numpy as np\n\n# Measure center first\nsam.xabs(0)\nsam.yabs(0)\nsam.measure(1, name='cen')\n\n# Scan grid\nx_range = np.linspace(-0.2, 0.2, 3)\ny_range = np.linspace(-0.1, 0.1, 3)\n\nfor y in y_range:\n    sam.yabs(y)\n    for x in x_range:\n        # Skip the center point as we already measured it\n        if x == 0 and y == 0:\n            continue\n        sam.xabs(x)\n        sam.measure(1)",
+      "import numpy as np\n\n# Measure center first\nsam.xabs(0)\nsam.yabs(0)\nsam.measure(1, name='cen')\n\n# Scan grid\nx_range = np.linspace(-0.2, 0.2, 3)\ny_range = np.linspace(-0.1, 0.1, 3)\n\n# Scan the entire grid including center (will measure center twice)\nfor y in y_range:\n    sam.yabs(y)\n    for x in x_range:\n        sam.xabs(x)\n        sam.measure(1)",
+      "# Measure center first\nsam.xabs(0)\nsam.yabs(0)\nsam.measure(1, name='cen')\n\n# Scan grid\nx_vals = [-0.2, 0, 0.2]\ny_vals = [-0.1, 0, 0.1]\n\nfor y in y_vals:\n    sam.yabs(y)\n    for x in x_vals:\n        # Skip the center point as we already measured it\n        if x == 0 and y == 0:\n            continue\n        sam.xabs(x)\n        sam.measure(1)"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Align the sample at x origin, then move to x=5mm then align again. Save the average of two positions and take average y and theta to be the new origin, then move to this new origin",
+    "expected_code": [
+      "# Align at origin\nsam.xabs(0)\nsam.align()\nx1, y1, th1 = sam.x(), sam.y(), sam.th()\n\n# Align at x=5mm\nsam.xabs(5)\nsam.align()\nx2, y2, th2 = sam.x(), sam.y(), sam.th()\n\n# Calculate average positions\nx_avg = (x1 + x2) / 2\ny_avg = (y1 + y2) / 2\nth_avg = (th1 + th2) / 2\n\n# Set new origin\nsam.setOrigin(['y', 'th'], [y_avg, th_avg])\n\n# Move to the new origin\nsam.yabs(0)\nsam.thabs(0)",
+      "# Align at origin\nsam.xabs(0)\nsam.align()\nx1, y1, th1 = sam.x(), sam.y(), sam.th()\n\n# Align at x=5mm\nsam.xabs(5)\nsam.align()\nx2, y2, th2 = sam.x(), sam.y(), sam.th()\n\n# Calculate average positions\nx_avg = (x1 + x2) / 2\ny_avg = (y1 + y2) / 2\nth_avg = (th1 + th2) / 2\n\n# Set new origin\nsam.setOrigin(['y', 'th'], [y_avg, th_avg])\n\n# Move to the new origin\nsam.thabs(0)\nsam.yabs(0)"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Measure the sample for 1s when heating up from current temperature to 61 degree at a ramp rate of 2 degree per min, measure every 20 degrees starting from the current temperature",
+    "expected_code": [
+      "sam.setLinkamRate(2)\nsam.setLinkamTemperature(61)\nsam.setLinkamOn()\n\ncurrent_temp = sam.linkamTemperature()\ncurrent_goal_temp = current_temp + 20\n\nwhile current_goal_temp < 61:\n    while sam.linkamTemperature() < current_goal_temp - 0.1:\n        pass\n    \n    sam.measure(1)\n    current_goal_temp += 20\n\n# Final measurement at target temperature\nwhile sam.linkamTemperature() < 61 - 0.1:\n    pass\nsam.measure(1)",
+      "import time\n\nsam.setLinkamRate(2)\nsam.setLinkamTemperature(61)\nsam.setLinkamOn()\n\ncurrent_temp = sam.linkamTemperature()\ncurrent_goal_temp = current_temp + 20\n\nwhile current_goal_temp < 61:\n    while sam.linkamTemperature() < current_goal_temp - 0.1:\n        time.sleep(0.1)\n    \n    sam.measure(1)\n    current_goal_temp += 20\n\n# Final measurement at target temperature\nwhile sam.linkamTemperature() < 61 - 0.1:\n    time.sleep(0.1)\nsam.measure(1)"
+    ],
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:SETPOINT:SET",
+      "XF:11BM-ES:{LINKAM}:STARTHEAT"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Measure the sample for 2s when heating up from current temperature to 75 degree at a ramp rate of 2 degree per min, measure every 25 degrees starting from the current temperature, then hold at 75 degree for 5 seconds before measuring",
+    "expected_code": [
+      "import time\nimport numpy as np\n\n# Set temperature ramp rate\nsam.setLinkamRate(2)\nsam.setLinkamOn()\n\n# Get current temperature and set up measurement points\ncurrent_temp = sam.linkamTemperature()\ntemp_points = list(np.arange(current_temp, 75, 25))\n\n# Set target temperature\nsam.setLinkamTemperature(75)\n\n# Measure at each temperature point\nfor temp in temp_points:\n    while sam.linkamTemperature() < temp:\n        time.sleep(0.1)\n    sam.measure(2)\n\n# Hold at target temperature for 5 seconds before final measurement\nwhile sam.linkamTemperature() < 75:\n    time.sleep(0.1)\ntime.sleep(5)  # 5 seconds\nsam.measure(2)",
+      "import time\n\n# Set temperature ramp rate\nsam.setLinkamRate(2)\nsam.setLinkamOn()\n\n# Get current temperature and set up measurement points\ncurrent_temp = sam.linkamTemperature()\ntemp_points = []\nfor i in range(3):\n    next_temp = current_temp + i*25\n    if next_temp < 75:\n        temp_points.append(next_temp)\n\n# Set target temperature\nsam.setLinkamTemperature(75)\n\n# Measure at each temperature point\nfor temp in temp_points:\n    while sam.linkamTemperature() < temp:\n        time.sleep(0.1)\n    sam.measure(2)\n\n# Hold at target temperature for 5 seconds before final measurement\nwhile sam.linkamTemperature() < 75:\n    time.sleep(0.1)\ntime.sleep(5)  # 5 seconds\nsam.measure(2)"
+    ],
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:SETPOINT:SET",
+      "XF:11BM-ES:{LINKAM}:STARTHEAT"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Measure the sample for 2s when heating up from current temperature to 70 degrees at a ramp rate of 5 degrees per min, measure every 20 degrees, then cool it down to 60 degrees, wait for 3 seconds, move x by 0.5 mm then measure for 3 s",
+    "expected_code": [
+      "import time\nimport numpy as np\n\n# Set temperature ramp rate\nsam.setLinkamRate(5)\nsam.setLinkamOn()\n\n# Get current temperature and set up measurement points\ncurrent_temp = sam.linkamTemperature()\ntemp_points = list(np.arange(current_temp, 70, 20))\n\n# Set target temperature\nsam.setLinkamTemperature(70)\n\n# Measure at each temperature point\nfor temp in temp_points:\n    while sam.linkamTemperature() < temp:\n        time.sleep(0.1)\n    sam.measure(2)\n\n# Cool down to 60 degrees\nsam.setLinkamTemperature(60)\nwhile sam.linkamTemperature() > 60:\n    time.sleep(0.1)\n\n# Wait for 3 seconds\ntime.sleep(3)\n\n# Move x by 0.5 mm and measure\nsam.xr(0.5)\nsam.measure(3)",
+      "import time\n\nsam.setLinkamRate(5)\nsam.setLinkamTemperature(70)\nsam.setLinkamOn()\n\ncurrent_goal_temp = sam.linkamTemperature() + 20\n\nwhile current_goal_temp < 70 - 0.1:\n    while sam.linkamTemperature() < current_goal_temp - 0.1:\n        pass\n    sam.measure(2)\n    current_goal_temp += 20\n\nsam.setLinkamTemperature(60)\nwhile sam.linkamTemperature() > 60 + 0.1:\n    pass\n\ntime.sleep(3)\nsam.xr(0.5)\nsam.measure(3)"
+    ],
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:SETPOINT:SET",
+      "XF:11BM-ES:{LINKAM}:STARTHEAT"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Heat sample from current temperature to 65 degrees at 10 degrees per min, measuring for 2s every 10 degrees, then cool down to 30 degrees while measuring every 2 seconds with 1.5s exposure time",
+    "expected_code": [
+      "import time\nimport numpy as np\n\n# Set temperature ramp rate\nsam.setLinkamRate(10)\nsam.setLinkamOn()\n\n# Get current temperature and set up measurement points\ncurrent_temp = sam.linkamTemperature()\ntemp_points = list(np.arange(current_temp, 65, 10))\n\n# Set target temperature\nsam.setLinkamTemperature(65)\n\n# Measure at each temperature point during heating\nfor temp in temp_points:\n    while sam.linkamTemperature() < temp:\n        time.sleep(0.2)\n    sam.measure(2)\n\n# Make sure we measure at the maximum temperature\nwhile sam.linkamTemperature() < 65:\n    time.sleep(0.2)\nsam.measure(2)\n\n# Cool down to 30 degrees with measurements every 2 seconds\nsam.setLinkamTemperature(30)\nstart_time = time.time()\nwhile sam.linkamTemperature() > 30:\n    current_time = time.time()\n    if current_time - start_time >= 2:\n        sam.measure(1.5)\n        start_time = current_time\n    time.sleep(0.2)",
+      "import time\nimport numpy as np\n\n# Set temperature ramp rate\nsam.setLinkamRate(10)\nsam.setLinkamOn()\n\n# Get current temperature and set up measurement points\ncurrent_temp = sam.linkamTemperature()\ntemp_points = list(np.arange(current_temp, 65, 10))\n\n# Set target temperature\nsam.setLinkamTemperature(65)\n\n# Measure at each temperature point during heating\nfor temp in temp_points:\n    while sam.linkamTemperature() < temp:\n        time.sleep(0.2)\n    sam.measure(2)\n\n# Make sure we measure at the maximum temperature\nwhile sam.linkamTemperature() < 65:\n    time.sleep(0.2)\nsam.measure(2)\n\n# Cool down to 30 degrees with measurements every 2 seconds\nsam.setLinkamTemperature(30)\nstart_time = time.time()\nwhile sam.linkamTemperature() > 30:\n    current_time = time.time()\n    if current_time - start_time >= 2:\n        sam.measure(1.5)\n        start_time = current_time\n    else:\n        time.sleep(0.2)"
+    ],
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:SETPOINT:SET",
+      "XF:11BM-ES:{LINKAM}:STARTHEAT"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Measure the sample at 20, 50, and 70 celsius with 10deg/min ramp rate, measure for 1s at incident angle 0.15 at each temperature, then cool down to 20 and measure again for 2s",
+    "expected_code": [
+      "import time\n\n# Set temperature ramp rate\nsam.setLinkamRate(10)\nsam.setLinkamOn()\n\n# Define temperature points\ntemp_points = [20, 50, 70]\n\n# Measure at each temperature point\nfor temp in temp_points:\n    # Set target temperature\n    sam.setLinkamTemperature(temp)\n    \n    # Wait until temperature is reached\n    while abs(sam.linkamTemperature() - temp) > 1:\n        time.sleep(0.2)\n    \n    # Measure for 1s at incident angle 0.15\n    sam.measureIncidentAngle(0.15, exposure_time=1)\n\n# Cool down to 20 degrees\nsam.setLinkamTemperature(20)\nwhile sam.linkamTemperature() > 21:\n    time.sleep(0.2)\n\n# Measure for 2s at incident angle 0.15\nsam.measureIncidentAngle(0.15, exposure_time=2)",
+      "import time\n\n# Set temperature ramp rate\nsam.setLinkamRate(10)\nsam.setLinkamOn()\n\n# Define temperature points\ntemp_points = [20, 50, 70]\n\n# Measure at each temperature point\nfor temp in temp_points:\n    # Set target temperature\n    sam.setLinkamTemperature(temp)\n    \n    # Wait until temperature is reached\n    while abs(sam.linkamTemperature() - temp) > 1:\n        time.sleep(0.2)\n    \n    # Measure for 1s at incident angle 0.15\n    sam.measureIncidentAngle(0.15, exposure_time=1)\n\n# Cool down to 20 degrees\nsam.setLinkamTemperature(20)\nwhile sam.linkamTemperature() > 21:\n    time.sleep(0.2)\n\n# Measure for 2s at incident angle 0.15\nsam.measureIncidentAngle(0.15, exposure_time=2)"
+    ],
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:SETPOINT:SET",
+      "XF:11BM-ES:{LINKAM}:STARTHEAT"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Heat sample from 25 to 100 degrees with expected phase transition between 50-75 degrees. Measure every 25 degrees, but measure every 10 degrees in the transition region. Ramprate should be 10. Measure for 1 second.",
+    "expected_code": [
+      "import time\n\n# Set temperature ramp rate\nsam.setLinkamRate(10)\nsam.setLinkamOn()\n\n# Define measurement temperatures\nmeasurement_temps = [25, 50, 60, 70, 75, 100]\n\n# Set target temperature\nsam.setLinkamTemperature(100)\n\n# Measure at each temperature point\nfor temp in measurement_temps:\n    while sam.linkamTemperature() < temp:\n        time.sleep(0.1)\n    sam.measure(1)"
+    ],
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:SETPOINT:SET",
+      "XF:11BM-ES:{LINKAM}:STARTHEAT"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Heat sample to 80 degrees at 10 deg/min, measuring at two positions (x=0 and x=5mm) every 20 degrees with 1s exposure time, start from 40 degrees",
+    "expected_code": [
+      "import time\n\n# Set temperature ramp rate\nsam.setLinkamRate(10)\nsam.setLinkamOn()\n\n# Define measurement temperatures\ntemperatures = [40, 60, 80]\n\n# Define sample positions\npositions = [0, 5]\n\n# Set target temperature\nsam.setLinkamTemperature(80)\n\n# Measure at each temperature point\nfor temp in temperatures:\n    while sam.linkamTemperature() < temp:\n        time.sleep(0.1)\n    \n    # Measure at each position\n    for pos in positions:\n        sam.xabs(pos)\n        sam.measure(1)",
+      "import time\n\n# Set temperature ramp rate\nsam.setLinkamRate(10)\nsam.setLinkamOn()\n\n# Define measurement temperatures\ncurrent_temp = sam.linkamTemperature()\ntemperatures = []\nfor t in range(40, 81, 20):\n    if t > current_temp:\n        temperatures.append(t)\n\n# Define sample positions\npositions = [0, 5]\n\n# Set target temperature\nsam.setLinkamTemperature(80)\n\n# Measure at each temperature point\nfor temp in temperatures:\n    while sam.linkamTemperature() < temp:\n        pass  # Busy wait for temperature\n    \n    # Measure at each position\n    for pos in positions:\n        sam.xabs(pos)\n        sam.measure(1)"
+    ],
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:SETPOINT:SET",
+      "XF:11BM-ES:{LINKAM}:STARTHEAT"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Move sample in x and y simultaneously to create a 45-degree line until both reach 2mm, measuring every 0.5 units with exposure time increasing by 0.25 seconds each measurement (starting at 1s). The first motor you should move is in the x direction.",
+    "expected_code": [
+      "import numpy as np\n\n# Points from 0.0 to 2.0 inclusive, every 0.5\npoints = np.arange(0, 2.0001, 0.5)\n\nexposure_time = 1.0\n\n# Move to starting position\nsam.xabs(0)\nsam.yabs(0)\n\n# Scan along the 45-degree line\nfor pos in points:\n    sam.xabs(pos)  # X first\n    sam.yabs(pos)\n    sam.measure(exposure_time)\n    exposure_time += 0.25",
+      "import numpy as np\n\n# Start measuring at 0.5 and stop at 2.0\npoints = [0.5, 1.0, 1.5, 2.0]\nexposure_time = 1.0\n\nsam.xabs(0)\nsam.yabs(0)\n\nfor pos in points:\n    sam.xabs(pos)  # X first\n    sam.yabs(pos)\n    sam.measure(exposure_time)\n    exposure_time += 0.25",
+      "import numpy as np\n\nstep = 0.5\nexposure_time = 1.0\n\nsam.xabs(0)\nsam.yabs(0)\n\n# 4 steps of 0.5 reach exactly 2.0 (0.5, 1.0, 1.5, 2.0)\nfor _ in range(int(2 / step)):  # 4 iterations\n    sam.xr(step)   # X first\n    sam.yr(step)\n    sam.measure(exposure_time)\n    exposure_time += 0.25"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Move the x-axis to 1 with a 0.2 step-size, every time measure the sample for 1 second while the incident angle will be the current x position *2",
+    "expected_code": [
+      "import numpy as np\n\n# Define x positions from 0 to 1 with 0.2 step size\nx_positions = np.arange(0, 1 + 0.2/2, 0.2)\n\n# Loop through each x position\nfor x in x_positions:\n    # Move to the x position\n    sam.xabs(x)\n    \n    # Measure at incident angle x*2 for 1 second\n    sam.measureIncidentAngle(x * 2, exposure_time=1)",
+      "# Define x positions from 0 to 1 with 0.2 step size\nx_positions = [0, 0.2, 0.4, 0.6, 0.8, 1.0]\n\n# Loop through each x position\nfor x in x_positions:\n    # Move to the x position\n    sam.xabs(x)\n    \n    # Set the incident angle to x*2\n    sam.thabs(x * 2)\n    \n    # Measure for 1 second\n    sam.measure(1)"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Measure at the origin, then measure the perimeter of a square with step size 1 around the origin (2mm by 2mm square), the square has its corners at (±1,±1), start at the bottom left then going counter-clockwise, measuring the outside of the square. Exposure time 1.",
+    "expected_code": [
+      "# Define function to generate square perimeter points\ndef square_perimeter(size):\n    # Returns points around the perimeter of a square with side length 2*size+1\n    # Starting from bottom-left, going counterclockwise\n    return (\n        # Bottom edge: (-size,-size) to (size,-size)\n        [(x, -size) for x in range(-size, size+1)] +\n        # Right edge: (size,-size+1) to (size,size)\n        [(size, y) for y in range(-size+1, size+1)] +\n        # Top edge: (size-1,size) to (-size,size)\n        [(x, size) for x in range(size-1, -size-1, -1)] +\n        # Left edge: (-size,size-1) to (-size,-size+1)\n        [(-size, y) for y in range(size-1, -size, -1)]\n    )\n\n# First measure at the origin\nsam.xabs(0)\nsam.yabs(0)\nsam.measure(1)\n\n# Measure around the perimeter of a 3x3 square (size=1)\nfor x, y in square_perimeter(1):\n    sam.xabs(x)\n    sam.yabs(y)\n    sam.measure(1)",
+      "# Define function to generate square perimeter points\ndef square_perimeter(size):\n    # Returns points around the perimeter of a square with side length 2*size+1\n    points = []\n    \n    # Bottom edge: (-size,-size) to (size,-size)\n    for x in range(-size, size+1):\n        points.append((x, -size))\n    \n    # Right edge: (size,-size+1) to (size,size)\n    for y in range(-size+1, size+1):\n        points.append((size, y))\n    \n    # Top edge: (size-1,size) to (-size,size)\n    for x in range(size-1, -size-1, -1):\n        points.append((x, size))\n    \n    # Left edge: (-size,size-1) to (-size,-size+1)\n    for y in range(size-1, -size, -1):\n        points.append((-size, y))\n    \n    return points\n\n# First measure at the origin\nsam.xabs(0)\nsam.yabs(0)\nsam.measure(1)\n\n# Measure around the perimeter of a 3x3 square (size=1)\nfor x, y in square_perimeter(1):\n    sam.xabs(x)\n    sam.yabs(y)\n    sam.measure(1)"
+    ],
+    "is_complex": true
+  }
+]

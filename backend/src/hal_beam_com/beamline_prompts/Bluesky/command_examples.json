@@ -1,0 +1,1396 @@
+[
+    {
+        "example_inputs": [
+            "Measure the sample for 5 seconds and increase the temperature by 10 degrees."
+        ],
+        "output": "",
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Analyze the diffraction patterns and perform peak fitting."
+        ],
+        "output": "",
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Set the humidity to 60% and start the beamline measurement."
+        ],
+        "output": "",
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Convert the detector images to reciprocal space q images and perform data reduction."
+        ],
+        "output": "",
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Record that we observed unexpected peaks at high temperatures."
+        ],
+        "output": "",
+        "cog": "Notebook",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Note: The sample alignment was off by 2 degrees."
+        ],
+        "output": "",
+        "cog": "Notebook",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Write that the temperature reached 25\u00b0C during the experiment."
+        ],
+        "output": "",
+        "cog": "Notebook",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "We need gpcam"
+        ],
+        "output": "",
+        "cog": "gpcam",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Start gp cam for autonomous experiment"
+        ],
+        "output": "",
+        "cog": "gpcam",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Can we start Tsuchinoko"
+        ],
+        "output": "",
+        "cog": "gpcam",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Start xicam"
+        ],
+        "output": "",
+        "cog": "xicam",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "We need xiCAM"
+        ],
+        "output": "",
+        "cog": "xicam",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Check data with xi-cam"
+        ],
+        "output": "",
+        "cog": "xicam",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Measure sample for 5 seconds."
+        ],
+        "output": "sam.measure(5)",
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Sample is perovskite."
+        ],
+        "output": "sam = Sample('perovskite')",
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Move sample x to 1.5."
+        ],
+        "output": "sam.xabs(1.5)",
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Align the sample."
+        ],
+        "output": "sam.align()",
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Increase the temperature to 250 degrees at a ramp rate of 2 degrees per minute."
+        ],
+        "output": "sam.setLinkamRate(2) \nsam.setLinkamTemperature(250)",
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Measure for 1 second at theta 0.12."
+        ],
+        "output": "sam.measureIncidentAngle(0.12, exposure_time=1)",
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Move sample up by 1.5."
+        ],
+        "output": "sam.yr(1.5)",
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "What is the sample temperature?"
+        ],
+        "output": "sam.linkamTemperature()",
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Measure sample for 10 seconds but don't save the data."
+        ],
+        "output": "sam.snap(10)",
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Set incident angle to 0.2 degrees."
+        ],
+        "output": "sam.thabs(0.2)",
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "check the sample motors"
+        ],
+        "output": "wsam()",
+        "cog": "Op",
+        "default": false
+    },
+    {
+        "example_inputs": [
+            "I want to look at the data, how does the measurement look?"
+        ],
+        "output": "thumbnails",
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "We should check the 1d curve"
+        ],
+        "output": "circular_average",
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "We should check the integration along the rings"
+        ],
+        "output": "circular_average",
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "What is the qr_image"
+        ],
+        "output": "qr_image",
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Show me the q image."
+        ],
+        "output": "q_image",
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "I want to see the circular average, where is the peak?"
+        ],
+        "output": "circular_average",
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Show me linecut qr at qz=0.1, thickness=0.05"
+        ],
+        "output": "linecut_qr 0.1",
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Show me linecut qz at qr=1.5, thickness=0.05"
+        ],
+        "output": "linecut_qz 1.5",
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "I want to see the linecut angle at q=0.1."
+        ],
+        "output": "linecut_angle 0.1",
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "For a fixed q, we want to know the angular intensity variation"
+        ],
+        "output": "linecut_angle",
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Show the sector average"
+        ],
+        "output": "sector_average",
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Where is the peak for circular average?"
+        ],
+        "output": "circular_average_q2I_fit",
+        "cog": "Ana",
+        "default": false
+    },
+    {
+        "class": "Beamline Operation",
+        "title": "Count",
+        "function": "RE(count(detectors,num=1,delay=None,*,md=None))",
+        "params": [
+            {
+                "name": "detectors",
+                "type": "list",
+                "description": "list of readable objects"
+            },
+            {
+                "name": "num",
+                "type": "integer, optional",
+                "description": "number of readings to take; default is 1If None, capture data until canceled"
+            },
+            {
+                "name": "delay",
+                "type": "iterable or scalar, optional",
+                "description": "time delay between successive readings; default is 0"
+            },
+            {
+                "name": "md",
+                "type": "dict, optional",
+                "description": "metadata"
+            }
+        ],
+        "notes": [
+            "Take one or more readings from detectors."
+        ],
+        "usage": [
+            {
+                "input": "Take one reading from the detector",
+                "code": "RE(count([det]))"
+            },
+            {
+                "input": "Take three readings from the detector",
+                "code": "RE(count([det], num=3))"
+            }
+        ],
+        "example_inputs": [
+            "Take three readings from the detector det"
+        ],
+        "cog": "Op",
+        "default": "true"
+    },
+    {
+        "class": "Beamline Operation",
+        "title": "Scan",
+        "function": "RE(scan(detectors,motor,start,stop,num,*,per_step=None,md=None))",
+        "params": [
+            {
+                "name": "detectors",
+                "type": "list",
+                "description": "list of readable objects"
+            },
+            {
+                "name": "motor",
+                "type": "object",
+                "description": "any setable object (motor, temp controller, etc.)"
+            },
+            {
+                "name": "start",
+                "type": "float",
+                "description": "starting position of motor"
+            },
+            {
+                "name": "stop",
+                "type": "float",
+                "description": "ending position of motor"
+            },
+            {
+                "name": "num",
+                "type": "int",
+                "description": "number of steps"
+            },
+            {
+                "name": "per_step",
+                "type": "callable, optional",
+                "description": "hook for cutomizing action of inner loop (messages per step)\nExpected signature:f(detectors,motor,step)"
+            },
+            {
+                "name": "md",
+                "type": "dict, optional",
+                "description": "metadata"
+            }
+        ],
+        "notes": [
+            "Scan over one variable in equally spaced steps."
+        ],
+        "usage": [
+            {
+                "input": "Scan motor from -1 to 1 in 10 steps while measuring det",
+                "code": "RE(scan([det], motor, -1, 1, 10))"
+            }
+        ],
+        "example_inputs": [
+            "Move motor from -1 to 1 in 10 steps, reading det at each position."
+        ],
+        "cog": "Op",
+        "default": "true"
+    },
+    {
+        "class": "Beamline Operation",
+        "title": "Relative scan",
+        "function": "RE(relative_scan(detectors,motor,start,stop,num,*,per_step=None,md=None))",
+        "params": [
+            {
+                "name": "detectors",
+                "type": "list",
+                "description": "list of readable objects"
+            },
+            {
+                "name": "motor",
+                "type": "object",
+                "description": "any setable object (motor, temp controller, etc.)"
+            },
+            {
+                "name": "start",
+                "type": "float",
+                "description": "starting position of motor"
+            },
+            {
+                "name": "stop",
+                "type": "float",
+                "description": "ending position of motor"
+            },
+            {
+                "name": "num",
+                "type": "int",
+                "description": "number of steps"
+            },
+            {
+                "name": "per_step",
+                "type": "callable, optional",
+                "description": "hook for cutomizing action of inner loop (messages per step)\nExpected signature:f(detectors,motor,step)"
+            },
+            {
+                "name": "md",
+                "type": "dict, optional",
+                "description": "metadata"
+            }
+        ],
+        "notes": [
+            "Scan over one variable in equally spaced steps relative to current positon."
+        ],
+        "usage": [
+            {
+                "input": "Scan motor ±0.1 around current position in 51 points",
+                "code": "RE(relative_scan([pil2M], crl.lens3, -0.1, 0.1, 51))"
+            },
+            {
+                "input": "Scan the vertical eslit from -0.03 to 0.03",
+                "code": "RE(relative_scan([pil2M], eslit.v, -0.03, 0.03, 21))"
+            },
+            {
+                "input": "Scan ssa vertically over 0.6",
+                "code": "RE(relative_scan([pil2M], ssa.v, -0.3, 0.3, 11))"
+            },
+            {
+                "input": "Scan hexapod stage vertical over 4mm with 15 points using WAXS",
+                "code": "RE(relative_scan([pil900KW], stage.y, -2, 2, 15))"
+            }
+        ],
+        "example_inputs": [
+            "Perform a scan relative to the current position of motor, moving from -1 to 1 in 10 steps, and reading det at each position."
+        ],
+        "cog": "Op",
+        "default": "true"
+    },
+    {
+        "class": "Beamline Operation",
+        "title": "List scan",
+        "function": "RE(list_scan(detectors,motor,steps,*,per_step=None,md=None))",
+        "params": [
+            {
+                "name": "detectors",
+                "type": "list",
+                "description": "list of readable objects"
+            },
+            {
+                "name": "motor",
+                "type": "object",
+                "description": "any setable object (motor, temp controller, etc.)"
+            },
+            {
+                "name": "steps",
+                "type": "list",
+                "description": "list of positions"
+            },
+            {
+                "name": "per_step",
+                "type": "callable, optional",
+                "description": "hook for cutomizing action of inner loop (messages per step)\nExpected signature:f(detectors,motor,step)->plan(agenerator)"
+            },
+            {
+                "name": "md",
+                "type": "dict, optional",
+                "description": "metadata"
+            }
+        ],
+        "notes": [
+            "Scan over one variable in steps."
+        ],
+        "usage": [
+            {
+                "input": "Move motor through 5 specific positions and read detector",
+                "code": "RE(list_scan([det], motor, [1, 2, 3, 5, 8]))"
+            }
+        ],
+        "example_inputs": [
+            "Move motor to each position in the list [1, 2, 3, 5, 8], reading det at each position."
+        ],
+        "cog": "Op",
+        "default": "true"
+    },
+    {
+        "class": "Beamline Operation",
+        "title": "Relative list scan",
+        "function": "RE(relative_list_scan(detectors,motor,steps,*,per_step=None,md=None))",
+        "params": [
+            {
+                "name": "detectors",
+                "type": "list",
+                "description": "list of readable objects"
+            },
+            {
+                "name": "motor",
+                "type": "object",
+                "description": "any setable object (motor, temp controller, etc.)"
+            },
+            {
+                "name": "steps",
+                "type": "list",
+                "description": "list of positions relative to current position"
+            },
+            {
+                "name": "per_step",
+                "type": "callable, optional",
+                "description": "hook for cutomizing action of inner loop (messages per step)\nExpected signature:f(detectors,motor,step)"
+            },
+            {
+                "name": "md",
+                "type": "dict, optional",
+                "description": "metadata"
+            }
+        ],
+        "notes": [
+            "Scan over one variable in steps relative to current position."
+        ],
+        "usage": [
+            {
+                "input": "Move motor relative to its position by [-1, 0, 1] and read detector",
+                "code": "RE(relative_list_scan([det], motor, [-1, 0, 1]))"
+            }
+        ],
+        "example_inputs": [
+            "Perform a scan relative to the current position of motor, moving by -1, 0, and 1 units, and reading det at each position."
+        ],
+        "cog": "Op",
+        "default": "true"
+    },
+    {
+        "class": "Beamline Operation",
+        "title": "Log scan",
+        "function": "RE(log_scan(detectors,motor,start,stop,num,*,per_step=None,md=None))",
+        "params": [
+            {
+                "name": "detectors",
+                "type": "list",
+                "description": "list of readable objects"
+            },
+            {
+                "name": "motor",
+                "type": "object",
+                "description": "any setable object (motor, temp controller, etc.)"
+            },
+            {
+                "name": "start",
+                "type": "float",
+                "description": "starting position of motor"
+            },
+            {
+                "name": "stop",
+                "type": "float",
+                "description": "ending position of motor"
+            },
+            {
+                "name": "num",
+                "type": "int",
+                "description": "number of steps"
+            },
+            {
+                "name": "per_step",
+                "type": "callable, optional",
+                "description": "hook for cutomizing action of inner loop (messages per step)\nExpected signature:f(detectors,motor,step)"
+            },
+            {
+                "name": "md",
+                "type": "dict, optional",
+                "description": "metadata"
+            }
+        ],
+        "notes": [
+            "Scan over one variable in log-spaced steps."
+        ],
+        "usage": [
+            {
+                "input": "Scan motor from 1 to 100 in log-spaced steps",
+                "code": "RE(log_scan([det], motor, 1, 100, 5))"
+            }
+        ],
+        "example_inputs": [
+            "Move motor from 1 to 100 in 5 logarithmically spaced steps, reading det at each position."
+        ],
+        "cog": "Op",
+        "default": "true"
+    },
+    {
+        "class": "Beamline Operation",
+        "title": "Relative log scan",
+        "function": "RE(relative_log_scan(detectors,motor,start,stop,num,*,per_step=None,md=None))",
+        "params": [
+            {
+                "name": "detectors",
+                "type": "list",
+                "description": "list of readable objects"
+            },
+            {
+                "name": "motor",
+                "type": "object",
+                "description": "any setable object (motor, temp controller, etc.)"
+            },
+            {
+                "name": "start",
+                "type": "float",
+                "description": "starting position of motor"
+            },
+            {
+                "name": "stop",
+                "type": "float",
+                "description": "ending position of motor"
+            },
+            {
+                "name": "num",
+                "type": "int",
+                "description": "number of steps"
+            },
+            {
+                "name": "per_step",
+                "type": "callable, optional",
+                "description": "hook for cutomizing action of inner loop (messages per step)\nExpected signature:f(detectors,motor,step)"
+            },
+            {
+                "name": "md",
+                "type": "dict, optional",
+                "description": "metadata"
+            }
+        ],
+        "notes": [
+            "Scan over one variable in log-spaced steps relative to current position."
+        ],
+        "usage": [
+            {
+                "input": "Perform log-spaced scan around motor’s current position",
+                "code": "RE(relative_log_scan([det], motor, 1, 100, 5))"
+            }
+        ],
+        "example_inputs": [
+            "Perform a logarithmic scan relative to the current position of motor, moving from 1 to 100 in 5 steps, and reading det at each position."
+        ],
+        "cog": "Op",
+        "default": "true"
+    },
+    {
+        "class": "Beamline Operation",
+        "title": "Inner product scan",
+        "function": "RE(inner_product_scan(detectors,num,*args,*,per_step=None,md=None))",
+        "params": [
+            {
+                "name": "detectors",
+                "type": "list",
+                "description": "list of readable objects"
+            },
+            {
+                "name": "num",
+                "type": "integer",
+                "description": "number of steps"
+            },
+            {
+                "name": "*args",
+                "type": "{Positioner, Positioner, int}",
+                "description": "patterned like (motor1,start1,stop1,...,motorN,startN,stopN)\nMotors can be any setable object (motor, temp controller, etc.)"
+            },
+            {
+                "name": "per_step",
+                "type": "callable, optional",
+                "description": "hook for cutomizing action of inner loop (messages per step)\nSee docstring of bluesky.plans.one_nd_step (the default) for\ndetails."
+            },
+            {
+                "name": "md",
+                "type": "dict, optional",
+                "description": "metadata"
+            }
+        ],
+        "notes": [
+            "Scan over one multi-motor trajectory."
+        ],
+        "usage": [
+            {
+                "input": "Scan motor1 from -1 to 1 and motor2 from -10 to 10 in 5 steps",
+                "code": "RE(inner_product_scan([det], 5, motor1, -1, 1, motor2, -10, 10))"
+            }
+        ],
+        "example_inputs": [
+            "Move motor1 and motor2 together through 5 steps, from -1 to 1 and -10 to 10 respectively, reading det at each position."
+        ],
+        "cog": "Op",
+        "default": "true"
+    },
+    {
+        "class": "Beamline Operation",
+        "title": "Outer product scan",
+        "function": "RE(outer_product_scan(detectors,*args,*,per_step=None,md=None))",
+        "params": [
+            {
+                "name": "detectors",
+                "type": "list",
+                "description": "list of readable objects"
+            },
+            {
+                "name": "per_step",
+                "type": "callable, optional",
+                "description": "hook for cutomizing action of inner loop (messages per step)\nSee docstring of bluesky.plans.one_nd_step (the default) for\ndetails."
+            },
+            {
+                "name": "md",
+                "type": "dict, optional",
+                "description": "metadata"
+            }
+        ],
+        "notes": [
+            "Scan over a mesh; each motor is on an independent trajectory."
+        ],
+        "usage": [
+            {
+                "input": "Perform a grid scan over motor1 and motor2",
+                "code": "RE(outer_product_scan([det], motor1, -1, 1, 3, motor2, -10, 10, 5))"
+            }
+        ],
+        "example_inputs": [
+            "Perform a grid scan over motor1 and motor2, with 3 and 5 steps respectively, reading det at each position."
+        ],
+        "cog": "Op",
+        "default": "true"
+    },
+    {
+        "class": "Beamline Operation",
+        "title": "Relative inner product scan",
+        "function": "RE(relative_inner_product_scan(detectors,num,*args,*,per_step=None,md=None))",
+        "params": [
+            {
+                "name": "detectors",
+                "type": "list",
+                "description": "list of readable objects"
+            },
+            {
+                "name": "num",
+                "type": "integer",
+                "description": "number of steps"
+            },
+            {
+                "name": "per_step",
+                "type": "callable, optional",
+                "description": "hook for cutomizing action of inner loop (messages per step)\nSee docstring of bluesky.plans.one_nd_step (the default) for\ndetails."
+            },
+            {
+                "name": "md",
+                "type": "dict, optional",
+                "description": "metadata"
+            }
+        ],
+        "notes": [
+            "Scan over one multi-motor trajectory relative to current position."
+        ],
+        "usage": [
+            {
+                "input": "Perform relative inner product scan on motor1 and motor2 over 5 steps",
+                "code": "RE(relative_inner_product_scan([det], 5, motor1, -1, 1, motor2, -10, 10))"
+            }
+        ],
+        "example_inputs": [
+            "Perform a relative inner product scan over motor1 and motor2, moving through 5 steps, and reading det at each position."
+        ],
+        "cog": "Op",
+        "default": "true"
+    },
+    {
+        "class": "Beamline Operation",
+        "title": "Relative outer product scan",
+        "function": "RE(relative_outer_product_scan(detectors,*args,*,per_step=None,md=None))",
+        "params": [
+            {
+                "name": "detectors",
+                "type": "list",
+                "description": "list of readable objects"
+            },
+            {
+                "name": "per_step",
+                "type": "callable, optional",
+                "description": "hook for cutomizing action of inner loop (messages per step)\nSee docstring of bluesky.plans.one_nd_step (the default) for\ndetails."
+            },
+            {
+                "name": "md",
+                "type": "dict, optional",
+                "description": "metadata"
+            }
+        ],
+        "notes": [
+            "Scan over a mesh relative to current position."
+        ],
+        "usage": [
+            {
+                "input": "Perform relative 2D mesh scan over motor1 and motor2",
+                "code": "RE(relative_outer_product_scan([det], motor1, -1, 1, 3, motor2, -10, 10, 5))"
+            }
+        ],
+        "example_inputs": [
+            "Perform a relative grid scan over motor1 and motor2, with 3 and 5 steps respectively, reading det at each position."
+        ],
+        "cog": "Op",
+        "default": "true"
+    },
+    {
+        "class": "Beamline Operation",
+        "title": "Scan nd",
+        "function": "RE(scan_nd(detectors,cycler,*,per_step=None,md=None))",
+        "params": [
+            {
+                "name": "detectors",
+                "type": "list",
+                "description": ""
+            },
+            {
+                "name": "cycler",
+                "type": "Cycler",
+                "description": "list of dictionaries mapping motors to positions"
+            },
+            {
+                "name": "per_step",
+                "type": "callable, optional",
+                "description": "hook for cutomizing action of inner loop (messages per step)\nSee docstring of bluesky.plans.one_nd_step (the default) for\ndetails."
+            },
+            {
+                "name": "md",
+                "type": "dict, optional",
+                "description": "metadata"
+            }
+        ],
+        "notes": [
+            "Scan over an arbitrary N-dimensional trajectory."
+        ],
+        "usage": [
+            {
+                "input": "Perform N-dimensional scan using motor1 and motor2 cyclers",
+                "code": "RE(scan_nd([det], cycler(motor1=[1,2,3], motor2=[4,5,6])))"
+            }
+        ],
+        "example_inputs": [
+            "Perform a multi-dimensional scan over motor1 and motor2 using the specified cycler, reading det at each position."
+        ],
+        "cog": "Op",
+        "default": "true"
+    },
+    {
+        "class": "Beamline Operation",
+        "title": "Spiral",
+        "function": "RE(spiral(detectors,x_motor,y_motor,x_start,y_start,x_range,y_range,dr,nth,*,tilt=0.0,per_step=None,md=None))",
+        "params": [
+            {
+                "name": "x_motor",
+                "type": "object",
+                "description": "any setable object (motor, temp controller, etc.)"
+            },
+            {
+                "name": "y_motor",
+                "type": "object",
+                "description": "any setable object (motor, temp controller, etc.)"
+            },
+            {
+                "name": "x_start",
+                "type": "float",
+                "description": "x center"
+            },
+            {
+                "name": "y_start",
+                "type": "float",
+                "description": "y center"
+            },
+            {
+                "name": "x_range",
+                "type": "float",
+                "description": "x width of spiral"
+            },
+            {
+                "name": "y_range",
+                "type": "float",
+                "description": "y width of spiral"
+            },
+            {
+                "name": "dr",
+                "type": "float",
+                "description": "Delta radius"
+            },
+            {
+                "name": "nth",
+                "type": "float",
+                "description": "Number of theta steps"
+            },
+            {
+                "name": "tilt",
+                "type": "float, optional",
+                "description": "Tilt angle in radians, default 0.0"
+            },
+            {
+                "name": "per_step",
+                "type": "callable, optional",
+                "description": "hook for cutomizing action of inner loop (messages per step)\nSee docstring of bluesky.plans.one_nd_step (the default) for\ndetails."
+            },
+            {
+                "name": "md",
+                "type": "dict, optional",
+                "description": "metadata"
+            }
+        ],
+        "notes": [
+            "Spiral scan, centered around (x_start, y_start)"
+        ],
+        "usage": [
+            {
+                "input": "Perform spiral scan centered at (0, 0) with radius 10",
+                "code": "RE(spiral([det], x_motor, y_motor, 0, 0, 10, 10, 0.5, 10))"
+            }
+        ],
+        "example_inputs": [
+            "Perform a spiral scan centered at (0,0) over x_motor and y_motor, with specified ranges and step sizes, reading det at each position."
+        ],
+        "cog": "Op",
+        "default": "true"
+    },
+    {
+        "class": "Beamline Operation",
+        "title": "Spiral fermat",
+        "function": "RE(spiral_fermat(detectors,x_motor,y_motor,x_start,y_start,x_range,y_range,dr,factor,*,tilt=0.0,per_step=None,md=None))",
+        "params": [
+            {
+                "name": "detectors",
+                "type": "list",
+                "description": "list of readable objects"
+            },
+            {
+                "name": "x_motor",
+                "type": "object",
+                "description": "any setable object (motor, temp controller, etc.)"
+            },
+            {
+                "name": "y_motor",
+                "type": "object",
+                "description": "any setable object (motor, temp controller, etc.)"
+            },
+            {
+                "name": "x_start",
+                "type": "float",
+                "description": "x center"
+            },
+            {
+                "name": "y_start",
+                "type": "float",
+                "description": "y center"
+            },
+            {
+                "name": "x_range",
+                "type": "float",
+                "description": "x width of spiral"
+            },
+            {
+                "name": "y_range",
+                "type": "float",
+                "description": "y width of spiral"
+            },
+            {
+                "name": "dr",
+                "type": "float",
+                "description": "delta radius"
+            },
+            {
+                "name": "factor",
+                "type": "float",
+                "description": "radius gets divided by this"
+            },
+            {
+                "name": "tilt",
+                "type": "float, optional",
+                "description": "Tilt angle in radians, default 0.0"
+            },
+            {
+                "name": "per_step",
+                "type": "callable, optional",
+                "description": "hook for cutomizing action of inner loop (messages per step)\nSee docstring of bluesky.plans.one_nd_step (the default) for\ndetails."
+            },
+            {
+                "name": "md",
+                "type": "dict, optional",
+                "description": "metadata"
+            }
+        ],
+        "notes": [
+            "Absolute fermat spiral scan, centered around (x_start, y_start)"
+        ],
+        "usage": [
+            {
+                "input": "Perform Fermat spiral scan centered at (0, 0)",
+                "code": "RE(spiral_fermat([det], x_motor, y_motor, 0, 0, 10, 10, 0.5, 1.0))"
+            }
+        ],
+        "example_inputs": [
+            "Perform a Fermat spiral scan centered at (0,0) over x_motor and y_motor, with specified ranges and parameters, reading det at each position."
+        ],
+        "cog": "Op",
+        "default": "true"
+    },
+    {
+        "class": "Beamline Operation",
+        "title": "Relative spiral",
+        "function": "RE(relative_spiral(detectors,x_motor,y_motor,x_range,y_range,dr,nth,*,tilt=0.0,per_step=None,md=None))",
+        "params": [
+            {
+                "name": "x_motor",
+                "type": "object",
+                "description": "any setable object (motor, temp controller, etc.)"
+            },
+            {
+                "name": "y_motor",
+                "type": "object",
+                "description": "any setable object (motor, temp controller, etc.)"
+            },
+            {
+                "name": "x_start",
+                "type": "float",
+                "description": "x center"
+            },
+            {
+                "name": "y_start",
+                "type": "float",
+                "description": "y center"
+            },
+            {
+                "name": "x_range",
+                "type": "float",
+                "description": "x width of spiral"
+            },
+            {
+                "name": "y_range",
+                "type": "float",
+                "description": "y width of spiral"
+            },
+            {
+                "name": "dr",
+                "type": "float",
+                "description": "Delta radius"
+            },
+            {
+                "name": "nth",
+                "type": "float",
+                "description": "Number of theta steps"
+            },
+            {
+                "name": "tilt",
+                "type": "float, optional",
+                "description": "Tilt angle in radians, default 0.0"
+            },
+            {
+                "name": "per_step",
+                "type": "callable, optional",
+                "description": "hook for cutomizing action of inner loop (messages per step)\nSee docstring of bluesky.plans.one_nd_step (the default) for\ndetails."
+            },
+            {
+                "name": "md",
+                "type": "dict, optional",
+                "description": "metadata"
+            }
+        ],
+        "notes": [
+            "Relative spiral scan"
+        ],
+        "usage": [
+            {
+                "input": "Do spiral scan relative to current position with 10 points",
+                "code": "RE(relative_spiral([det], x_motor, y_motor, 10, 10, 0.5, 10))"
+            }
+        ],
+        "example_inputs": [
+            "Perform a relative spiral scan over x_motor and y_motor, with specified ranges and step sizes, reading det at each position."
+        ],
+        "cog": "Op",
+        "default": "true"
+    },
+    {
+        "class": "Beamline Operation",
+        "title": "Relative spiral fermat",
+        "function": "RE(relative_spiral_fermat(detectors,x_motor,y_motor,x_range,y_range,dr,factor,*,tilt=0.0,per_step=None,md=None))",
+        "params": [
+            {
+                "name": "detectors",
+                "type": "list",
+                "description": "list of readable objects"
+            },
+            {
+                "name": "x_motor",
+                "type": "object",
+                "description": "any setable object (motor, temp controller, etc.)"
+            },
+            {
+                "name": "y_motor",
+                "type": "object",
+                "description": "any setable object (motor, temp controller, etc.)"
+            },
+            {
+                "name": "x_range",
+                "type": "float",
+                "description": "x width of spiral"
+            },
+            {
+                "name": "y_range",
+                "type": "float",
+                "description": "y width of spiral"
+            },
+            {
+                "name": "dr",
+                "type": "float",
+                "description": "delta radius"
+            },
+            {
+                "name": "factor",
+                "type": "float",
+                "description": "radius gets divided by this"
+            },
+            {
+                "name": "tilt",
+                "type": "float, optional",
+                "description": "Tilt angle in radians, default 0.0"
+            },
+            {
+                "name": "per_step",
+                "type": "callable, optional",
+                "description": "hook for cutomizing action of inner loop (messages per step)\nSee docstring of bluesky.plans.one_nd_step (the default) for\ndetails."
+            },
+            {
+                "name": "md",
+                "type": "dict, optional",
+                "description": "metadata"
+            }
+        ],
+        "notes": [
+            "Relative fermat spiral scan"
+        ],
+        "usage": [
+            {
+                "input": "Do relative Fermat spiral scan from current position",
+                "code": "RE(relative_spiral_fermat([det], x_motor, y_motor, 10, 10, 0.5, 1.0))"
+            }
+        ],
+        "example_inputs": [
+            "Perform a relative Fermat spiral scan over x_motor and y_motor, with specified ranges and parameters, reading det at each position."
+        ],
+        "cog": "Op",
+        "default": "true"
+    },
+    {
+        "class": "Beamline Operation",
+        "title": "Adaptive scan",
+        "function": "RE(adaptive_scan(detectors,target_field,motor,start,stop,min_step,max_step,target_delta,backstep,threshold=0.8,*,md=None))",
+        "params": [
+            {
+                "name": "detectors",
+                "type": "list",
+                "description": "list of readable objects"
+            },
+            {
+                "name": "target_field",
+                "type": "string",
+                "description": "data field whose output is the focus of the adaptive tuning"
+            },
+            {
+                "name": "motor",
+                "type": "object",
+                "description": "any setable object (motor, temp controller, etc.)"
+            },
+            {
+                "name": "start",
+                "type": "float",
+                "description": "starting position of motor"
+            },
+            {
+                "name": "stop",
+                "type": "float",
+                "description": "ending position of motor"
+            },
+            {
+                "name": "min_step",
+                "type": "float",
+                "description": "smallest step for fast-changing regions"
+            },
+            {
+                "name": "max_step",
+                "type": "float",
+                "description": "largest step for slow-chaning regions"
+            },
+            {
+                "name": "target_delta",
+                "type": "float",
+                "description": "desired fractional change in detector signal between steps"
+            },
+            {
+                "name": "backstep",
+                "type": "bool",
+                "description": "whether backward steps are allowed  this is concern with some motors"
+            },
+            {
+                "name": "threshold",
+                "type": "float, optional",
+                "description": "threshold for going backward and rescanning a region, default is 0.8"
+            },
+            {
+                "name": "md",
+                "type": "dict, optional",
+                "description": "metadata"
+            }
+        ],
+        "notes": [
+            "Scan over one variable with adaptively tuned step size."
+        ],
+        "usage": [
+            {
+                "input": "Adaptively scan motor from 1 to 5 adjusting based on det",
+                "code": "RE(adaptive_scan([det], 'det', motor, 1, 5, 0.1, 1.0, 0.05, True))"
+            }
+        ],
+        "example_inputs": [
+            "Perform an adaptive scan over motor from 1 to 5, adjusting step sizes based on changes in the 'det' signal, reading det at each position."
+        ],
+        "cog": "Op",
+        "default": "true"
+    },
+    {
+        "class": "Beamline Operation",
+        "title": "Relative adaptive scan",
+        "function": "RE(relative_adaptive_scan(detectors,target_field,motor,start,stop,min_step,max_step,target_delta,backstep,threshold=0.8,*,md=None))",
+        "params": [
+            {
+                "name": "detectors",
+                "type": "list",
+                "description": "list of readable objects"
+            },
+            {
+                "name": "target_field",
+                "type": "string",
+                "description": "data field whose output is the focus of the adaptive tuning"
+            },
+            {
+                "name": "motor",
+                "type": "object",
+                "description": "any setable object (motor, temp controller, etc.)"
+            },
+            {
+                "name": "start",
+                "type": "float",
+                "description": "starting position of motor"
+            },
+            {
+                "name": "stop",
+                "type": "float",
+                "description": "ending position of motor"
+            },
+            {
+                "name": "min_step",
+                "type": "float",
+                "description": "smallest step for fast-changing regions"
+            },
+            {
+                "name": "max_step",
+                "type": "float",
+                "description": "largest step for slow-chaning regions"
+            },
+            {
+                "name": "target_delta",
+                "type": "float",
+                "description": "desired fractional change in detector signal between steps"
+            },
+            {
+                "name": "backstep",
+                "type": "bool",
+                "description": "whether backward steps are allowed  this is concern with some motors"
+            },
+            {
+                "name": "threshold",
+                "type": "float, optional",
+                "description": "threshold for going backward and rescanning a region, default is 0.8"
+            },
+            {
+                "name": "md",
+                "type": "dict, optional",
+                "description": "metadata"
+            }
+        ],
+        "notes": [
+            "Relative scan over one variable with adaptively tuned step size."
+        ],
+        "usage": [
+            {
+                "input": "Adaptively scan motor around current position using det signal",
+                "code": "RE(relative_adaptive_scan([det], 'det', motor, 1, 5, 0.1, 1.0, 0.05, True))"
+            }
+        ],
+        "example_inputs": [
+            "Perform a relative adaptive scan over motor, adjusting step sizes based on changes in the 'det' signal, reading det at each position."
+        ],
+        "cog": "Op",
+        "default": "true"
+    },
+    {
+        "class": "Beamline Operation",
+        "title": "Tweak",
+        "function": "RE(tweak(detector,target_field,motor,step,*,md=None))",
+        "params": [
+            {
+                "name": "detetector",
+                "type": "Device",
+                "description": ""
+            },
+            {
+                "name": "target_field",
+                "type": "string",
+                "description": "data field whose output is the focus of the adaptive tuning"
+            },
+            {
+                "name": "motor",
+                "type": "Device",
+                "description": ""
+            },
+            {
+                "name": "step",
+                "type": "float",
+                "description": "initial suggestion for step size"
+            },
+            {
+                "name": "md",
+                "type": "dict, optional",
+                "description": "metadata"
+            }
+        ],
+        "notes": [
+            "Move and motor and read a detector with an interactive prompt."
+        ],
+        "usage": [
+            {
+                "input": "Manually tweak motor by 0.1 while monitoring det",
+                "code": "RE(tweak(det, 'det', motor, 0.1))"
+            }
+        ],
+        "example_inputs": [
+            "Interactively adjust motor in steps of 0.1, monitoring the 'det' signal, and reading det at each position."
+        ],
+        "cog": "Op",
+        "default": "true"
+    },
+    {
+        "class": "Beamline Operation",
+        "title": "Fly",
+        "function": "RE(fly(flyers,*,md=None))",
+        "params": [
+            {
+                "name": "flyers",
+                "type": "collection",
+                "description": "objects that support the flyer interface"
+            },
+            {
+                "name": "md",
+                "type": "dict, optional",
+                "description": "metadata"
+            }
+        ],
+        "notes": [
+            "Perform a fly scan with one or more flyers."
+        ],
+        "usage": [
+            {
+                "input": "Run a fly scan using one or more flyer devices",
+                "code": "RE(fly([flyer]))"
+            }
+        ],
+        "example_inputs": [
+            "Perform a fly scan using the flyer device, collecting data continuously as the device moves."
+        ],
+        "cog": "Op",
+        "default": "true"
+    }
+]

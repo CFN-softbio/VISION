@@ -1,4 +1,5 @@
 import os
+from enum import Enum
 
 from semantic_router.encoders import HuggingFaceEncoder, AzureOpenAIEncoder
 from semantic_router import Route
@@ -15,6 +16,13 @@ from src.hal_beam_com.chatbot_prompts import (
 
 )
 
+from src.hal_beam_com.naive_rag_utils import (
+
+    RAGConfig,
+    RAGSystem,
+
+)
+
 def call_azure_openai_gpt4(prompt, task, history):
 
     system_prompt = f"Consider the conversation history if necessary \n\n History: {history}"
@@ -28,7 +36,7 @@ def call_azure_openai_gpt4(prompt, task, history):
 
     if task == "question":
         print("SETTING QUESTION SYSTEM PROMPT")
-        system_prompt = question_llm
+        system_prompt += question_llm
 
     if task == "toolselector":
         print("SETTING TOOL SELECTOR SYSTEM PROMPT")
@@ -208,3 +216,96 @@ def use_semantic_router(user_input):
         prompt_type = use_generic_llm(user_input, task="question")
 
     return prompt_type
+
+def use_naive_rag(user_input, history, docs_dir, persist_dir, force_reload = False):
+
+    config = RAGConfig(
+        azure_api_key=os.environ.get('AZURE_API_KEY'),  # Replace with your key
+        azure_api_base=os.environ.get('AZURE_API_BASE'),  # Replace with your endpoint
+        azure_deployment_name=os.environ.get('AZURE_DEPLOYMENT'),  # Replace with your deployment name
+        docs_dir=docs_dir,  # Replace with your PDF directory
+        persist_dir = persist_dir,
+        # persist_dir="/home2/common/chroma_vectordb_dir/",
+        force_reload = force_reload # Replace with where you want to save the vector DB
+    )
+
+    try:
+        # Initialize RAG system
+        rag = RAGSystem(config)
+        print("RAG system initialized successfully!")
+        answer = rag.query(user_input, history)
+        return answer   
+
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        return 1
+    
+
+# Add these imports at the top
+from openai import AzureOpenAI
+import os
+
+# Add new functions for GPT-4o and o1
+def use_gpt4o(prompt, history=""):
+
+    client = AzureOpenAI(
+            api_key = os.environ.get('AZURE_API_KEY'),  
+            api_version='2023-05-15',
+            azure_endpoint = os.environ.get('AZURE_API_BASE'),
+            azure_deployment = os.environ.get('AZURE_DEPLOYMENT')
+            )
+
+    try:
+        messages = [{"role": "system", "content": "You are a helpful assistant."}]
+        
+        # Add history if exists
+        if history:
+            # Parse history and add to messages
+            for line in history.split('\n'):
+                if line.startswith('Human: '):
+                    messages.append({"role": "user", "content": line[7:]})
+                elif line.startswith('AI: '):
+                    messages.append({"role": "assistant", "content": line[4:]})
+        
+        # Add current prompt
+        messages.append({"role": "user", "content": prompt})
+        
+        response = client.chat.completions.create(
+            model="gpt-4o",  # or your deployed model name for GPT-4
+            messages=messages
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        return f"Error with GPT-4o: {str(e)}"
+    
+
+def use_o1(prompt, history=""):
+
+    client = AzureOpenAI(
+            api_key = os.environ.get('AZURE_o1_API_KEY'),  
+            api_version='2024-12-01-preview',
+            azure_endpoint = os.environ.get('AZURE_o1_API_BASE'),
+            azure_deployment = os.environ.get('AZURE_o1_DEPLOYMENT')
+            )
+    try:
+        messages = [{"role": "system", "content": "You are a helpful assistant."}]
+        
+        # Add history if exists
+        if history:
+            # Parse history and add to messages
+            for line in history.split('\n'):
+                if line.startswith('Human: '):
+                    messages.append({"role": "user", "content": line[7:]})
+                elif line.startswith('AI: '):
+                    messages.append({"role": "assistant", "content": line[4:]})
+        
+        # Add current prompt
+        messages.append({"role": "user", "content": prompt})
+        
+        response = client.chat.completions.create(
+            model="o1",  # or your deployed model name for o1
+            messages=messages
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        return f"Error with o1: {str(e)}"

@@ -3,6 +3,14 @@ from typing import Dict, List, Tuple, Collection
 from src.hal_beam_com.utils import load_model, load_whisper_model
 
 
+class _HumanModelStub:
+    """Dummy stand-in returned when base_model=='human'."""
+    def __call__(self, *args, **kwargs):
+        raise RuntimeError(
+            "The 'human' model is only a placeholder and must not be used for inference."
+        )
+
+
 class ModelManager:
     """
     Singleton class to manage loading and caching of models.
@@ -13,15 +21,15 @@ class ModelManager:
 
     @staticmethod
     def get_model(base_model: str) -> any:
-        """
-        Get a text model, loading it if not already cached.
+        # --- special placeholders ---------------------------------
+        # A human-supplied or debug answer does not require a real LLM.
+        if base_model.lower() in ("human", "debug"):
+            key = base_model.lower()
+            if key not in ModelManager._text_models:
+                ModelManager._text_models[key] = _HumanModelStub()
+            return ModelManager._text_models[key]
 
-        Args:
-            base_model (str): Name of the model to load
-
-        Returns:
-            The loaded model
-        """
+        """Get a text model, loading it if not already cached."""
         print(f"Accessing model {base_model}. Cache contains: {list(ModelManager._text_models.keys())}")
         if base_model not in ModelManager._text_models:
             print(f"Loading model {base_model} as it's not in cache")
@@ -60,6 +68,8 @@ class ModelManager:
 
         print(f"Preloading {len(text_models)} text models and {len(whisper_models)} whisper models")
         for model_name in text_models:
+            if model_name.lower() in ("human", "debug"):
+                continue            # placeholders – nothing to load
             ModelManager.get_model(model_name)
 
         for model_name, finetuned in whisper_models:

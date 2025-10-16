@@ -1,0 +1,56 @@
+**Jargon**:
+- **Rotate**: Usually refers to PRS phi rotation unless otherwise specified.
+- **Tilt**: Can refers to theta (usually) or chi
+- **Move**: Usually refers to moving along the x-axis unless otherwise specified.
+- **map scan**: Is not a function, but refers to nested for loops of the desired axes to measure over.
+
+**Beamline Overview:**
+   - The SMI beamline features two endstations that support a variety of X-ray scattering techniques, including small- and wide-angle scattering, reflectivity and X-ray fluorescence methods across a wide range of X-ray energy. Both endstations target different scientific communities. While the SWAXS endstation is well suited to examine the nanostructure of solid thin films and bulk samples, the OPLS endstation is designed for investigation of liquid interfaces.
+
+**Beamline Configuration:**
+   - In 2025 May, the new SAXS detector is changed from pil1M to pil2M with more modules.   
+   - To change from low-divergence to microbeam, 
+   (1) inset FS to get rough pitch and roll to see beam. 
+   (2) Put in CRL, Change voltage (HFM by -300V and VFM -427V), close ssa vertical and horizontal 0.2, rel_scan CRL with Pilatus2M to get good CRL center
+   (3) Open hutch, put in knife edge and YAG on the same sample holder, use YAG to see the beam on on-axis camera
+   (4) Check xbpm3 (sum in X and Y should be around 3.1, positions should be 0 if feedback ON) before turning feedback ON.
+   - To change from microbeam to low-div (large beam), 
+   (1) put in YAG to see beam on on-axis with fast shutter on, CRL extract, set voltage for HFM and VFM. Open ssa back to 0.8. 
+   (2) ssa vpos 0.02 step until quad em ssaslit 3 and 4 reading are around the same (0.08); 
+	ssa hpos 0.02 step until ssaslit 1 and 2 are around the same (0.08)
+   (3) Scan eslit and cslit.
+   (4) Add attenuator, move beamstop away, check beam on detector.
+   - When scanning a slit, for example cslit or eslit, set vertically gap to 0.5, do a rel_scan, do 'ps()' then move the slit position to the peak, then open the gap back to 1.0; Do this vertically and horizontally. 
+
+
+**Sample Initialization:**
+   - sample_id(user_name='ET', sample_name = 'test') 
+
+ 
+**Beam Energy:**
+    - Users are **not** allowed to change the beam energy, please inquire staff on this setup change request.
+    - Energy range at the SWAXS endstation at 12-ID SMI is 2.05keV to 24 keV. Flux is 10^12 to 10^13.  
+    - After changing energy, you might need to adjust the detector thresholds, e.g. 'setthreshold energy 16100 autog 11000' for typical hard x-ray measurements, or 'setthreshold energy 2500 uhighg 1600' for tender x-ray experiments.
+
+**Beam Size:**
+  At SMI, we can have micro-focusing to have a small beam, or we can set to low-divergence to have a larger beam. 
+    - Microfocusing (FWHM): ~ 2.1(vertical) micron x 25 (horizontal) micron
+    - Low divergence mode is 20 (v) micron x 200 (H) micron
+    - The beam center box is the greenbox-overlay on the on-axis camera for vacuum setup. 
+    
+**CD-SAXS:**
+-- **Align Stage**: To run CD-SAXS experiment, we need to first align the stages, that is, bring the stages and center of rotation to the beam position.
+     -- Put the sample bar with both the YAG and the push-pin on the sample stage. Move to the YAG and check the beam position with the on-axis camera so the camera ROI is where the beam is. Adjust BPM3x and y, SSA gap, eslit, as needed.
+     -- Next, move to the push-pin to find the rotation stage center. Rotate sample phi (PRS stage) to around -60deg, 0, and 60deg. Check that the pin/sample is in focus, beam on the pin/sample, adjust smx (smartact z) by 50um steps and smx to focus the sample. Adjust hex_x and hex_z as needed.
+     -- Once stage is aligned, note down the smz, should not have to change this much later on.
+-- **Align sample**: Once stage is aligned, we can now load the samples and bring the sample to beam and stage rotation center.
+     -- Normally sample pattern should be facing the -z direction (so facing the incoming x-ray beam) so we can see the sample pattern on the on-axis camera. If we want to avoid beam damage, pattern can be facing z direction, this will however make the alignment difficult, should consider the substrate thickness.
+     -- At PRS=0 or phi_offset, rotate plus minus 50degree or when we can see the sample on the camera. Adjust smz to focus the sample.
+     -- At PRS=0 or phi_offset, move to the sample ROI (move smx or smy) and take a measurement. Tilt the sample chi if the scattering pattern is tilted. 
+     -- At PRS= -60 and 60, tilt sample theta as needed to get sample theta. This should then remain the same throughout the beamtime.
+     -- At PRS= -60 and 60, choose a peak and compare the x positions, adjust PRS by a few degrees to find the phi_offset, usually a few degrees. This should then remain the same throughout the beamtime.
+     -- For a new sample, rotate sample at PRS= -60 and 60 to determine the smz, take data at PRS=0 to check for chi. 
+     
+
+
+

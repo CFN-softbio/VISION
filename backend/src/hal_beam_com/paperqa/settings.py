@@ -153,7 +153,7 @@ class ParsingSettings(BaseModel):
         ),
     )
     use_doc_details: bool = Field(
-        default=True, description="Whether to try to get metadata details for a Doc"
+        default=False, description="Whether to try to get metadata details for a Doc"
     )
     overlap: int = Field(
         default=250, description="Number of characters to overlap chunks"

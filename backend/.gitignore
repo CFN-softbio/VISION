@@ -2,7 +2,6 @@
 __pycache__/
 *.py[cod]
 *$py.class
-*.DS_Store
 
 # C extensions
 *.so
@@ -179,12 +178,28 @@ run_statistics*.json
 adapter*
 tests/*/*/*/README*
 
+# Don't ignore .txt files in parent-directory and all its subdirectories
+!src/hal_beam_com/beamline_prompts/**/*.txt
+
 # S3 files.
 *.npy
+
+# Aider files.
 .aider*
 
-#Ignore temp folders
-*/temp/*
+# Ignore temp folders
+*temp*/
 
-#Ignore audio datasets which are used to finetune whisper
+# Ignore audio datasets which are used to finetune whisper
 *audio_dataset*/
+/tests/results/op_cog/execution_cache.json
+
+# Ignore PyCharm specific run configurations
+.run/
+
+#Ignore nohup process output files
+*.out
+*.pid
+
+# Ignore .env file
+docker-related/.env

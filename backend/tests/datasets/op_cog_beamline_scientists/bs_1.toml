@@ -1,0 +1,308 @@
+###############################################################################
+#  Human-beamline scientist reference answers for op-cog complex questions
+#  ───────────────────────────────────────────────────────────────────────────
+#  Format:
+#      ["<exact command string>"]
+#      code       = '''<preferred solution>'''
+#      code_extra = [ '''<alt-solution-1>''', '''<alt-solution-2>''', … ]  # optional
+#
+#  For Q-1 both variants are kept; for all others there is a single snippet.
+###############################################################################
+
+# ────────────────────────────────────────────────────────────────────────────
+["Measure the sample for 1s (every 10s), do this for 1 min"]
+code = '''
+import time
+# Define a simple reusable function for looping measurements
+def measure_periodic(period=10, total_time=60, exposure_time=1):
+    start_time = time.time()
+    while (time.time() - start_time) < total_time:
+        measure_start = time.time()
+        sam.measure(exposure_time=exposure_time)
+        elapsed = time.time() - measure_start  # account for overhead
+        time.sleep(max(period - elapsed, 0))
+
+measure_periodic(exposure_time=1, period=10, total_time=60)
+'''
+code_extra = [
+    '''
+import time
+start_time = time.time()
+while (time.time() - start_time) < 60:
+    sam.measure(1)
+    time.sleep(10 - 1)
+    '''
+]
+
+# ────────────────────────────────────────────────────────────────────────────
+["Measure 1s and scan from x 0 to 1mm (with 0.25 step)"]
+code = '''
+sam.measureSpots(
+    num_spots=int(1 / 0.25 + 1),
+    translation_amount=0.25,
+    axis='x',
+    exposure_time=1
+)
+'''
+
+["Do a map scan, x range from 0 to 0.3mm, y from 0 to 0.6mm, step size is 0.15 horizontally and 0.2 vertically. (Exposure time 1s.)"]
+code = '''
+for xc in np.arange(0, 0.3 + 0.15, 0.15):
+    for yc in np.arange(0, 0.6 + 0.2, 0.2):
+        sam.xabs(xc)
+        sam.yabs(yc)
+        sam.measure(1, extra='map_scan')
+'''
+
+["Scan incident angle from 0.5 to 1.5 degree (with 0.5 step), exposure time 0.5s"]
+code = '''
+angles = np.arange(0.5, 1.5 + 0.5, 0.5)
+sam.measureIncidentAngles(angles, exposure_time=0.5)
+'''
+
+["Heat sample to 100 degrees at rate 20 degrees per min, then measure for 1s every 5 seconds until temperature reaches 100 degrees"]
+code = '''
+import time
+def heat_sample(target_T=100, rate=20, measure_period=5, exposure_time=1, T_tolerance=0.1):
+    sam.setLinkamRate(rate)
+    sam.setLinkamTemperature(target_T)
+    sam.setLinkamOn()
+    while sam.linkamTemperature() < (target_T - T_tolerance):
+        sam.measure(exposure_time=exposure_time)
+        time.sleep(max(measure_period - exposure_time, 0))
+heat_sample(100, 20, 5, 1)
+'''
+
+["Measure the sample for 0.5s when heating up from room temperature to 150 degree at a ramp rate of 5 degree per min, measure every 20 degree."]
+code = '''
+import time
+def wait_for_T(target_T, tolerance=0.1, wait_time=0.5):
+    while sam.linkamTemperature() < target_T - tolerance:
+        time.sleep(wait_time)
+
+sam.setLinkamRate(5)
+sam.setLinkamTemperature(25)
+sam.setLinkamOn()
+wait_for_T(25)
+sam.measure(0.5)  # room-temperature reference
+
+sam.setLinkamTemperature(150)
+last_T = sam.linkamTemperature()
+
+while sam.linkamTemperature() < (150 - 0.1):
+    new_T = last_T + 20
+    if new_T > 150:
+        break
+    wait_for_T(new_T)
+    sam.measure(0.5)
+    last_T = sam.linkamTemperature()
+'''
+
+["Scan from x=0 to 1mm at a step of 0.5mm, exposure time 0.5s, wait 10s between measurements"]
+code = '''
+import time, numpy as np
+x_positions = np.arange(0, 1 + 0.5, 0.5)
+for xc in x_positions:
+    sam.xabs(xc)
+    sam.measure(0.5)
+    time.sleep(10)
+'''
+
+["Scan in x and y, use the sample origin as the center, scan a 3 by 3 grid, each for 1 second, with step size of 0.2mm in x and 0.1mm in y with a wait time of 10s between measurements."]
+code = '''
+import time
+x_step, y_step = 0.2, 0.1
+xo, yo = sam.origin()['x'], sam.origin()['y']
+for ix in range(-1, 2):
+    sam.xabs(xo + ix * x_step)
+    for iy in range(-1, 2):
+        sam.yabs(yo + iy * y_step)
+        sam.measure(1)
+        time.sleep(10)
+sam.xo(); sam.yo()
+'''
+
+["Scan in x and y, use the sample origin as the center, measure the center first with the name 'cen' and then scan a 3 by 3 grid with step size of 0.2mm in x and 0.1mm in y, each for 1 second."]
+code = '''
+import time
+x_step, y_step = 0.2, 0.1
+xo, yo = sam.origin()['x'], sam.origin()['y']
+
+# Center first
+sam.xo(); sam.yo()
+sam.measure(extra='cen')
+
+for ix in range(-1, 2):
+    sam.xabs(xo + ix * x_step)
+    for iy in range(-1, 2):
+        sam.yabs(yo + iy * y_step)
+        sam.measure(1)
+sam.xo(); sam.yo()
+'''
+
+["Align the sample at x origin, then move to x=5mm then align again. Save the average of two positions and take average y and theta to be the new origin, then move to this new origin"]
+code = '''
+sam.xo(); sam.align()
+xa1, ya1, tha1 = sam.origin()['x'], sam.origin()['y'], sam.origin()['th']
+sam.xabs(5); sam.align()
+xa2, ya2, tha2 = sam.origin()['x'], sam.origin()['y'], sam.origin()['th']
+xac, yac, thac = 0.5 * (xa1 + xa2), 0.5 * (ya1 + ya2), 0.5 * (tha1 + tha2)
+sam.xabs(xac); sam.yabs(yac); sam.thabs(thac)
+sam.setOrigin(['x', 'y', 'th'])
+'''
+
+["Measure the sample for 1s when heating up from current temperature to 61 degree at a ramp rate of 2 degree per min, measure every 20 degrees starting from the current temperature"]
+code = '''
+import time
+def wait_for_T(target_T, tol=0.1):
+    while sam.linkamTemperature() < target_T - tol:
+        time.sleep(0.5)
+
+target_T = 61
+sam.setLinkamRate(2); sam.setLinkamTemperature(target_T)
+current_T = sam.linkamTemperature()
+sam.setLinkamOn()
+
+while current_T < target_T - 0.1:
+    sam.measure(1)
+    current_T += 20
+    wait_for_T(min(current_T, target_T))
+'''
+
+["Measure the sample for 2s when heating up from current temperature to 75 degree at a ramp rate of 2 degree per min, measure every 25 degrees starting from the current temperature, then hold at 75 degree for 5 seconds before measuring"]
+code = '''
+import time
+def wait_for_T(target_T, tol=0.1):
+    while sam.linkamTemperature() < target_T - tol:
+        time.sleep(0.5)
+
+target_T = 75
+sam.setLinkamRate(2); sam.setLinkamTemperature(target_T)
+current_T = sam.linkamTemperature()
+sam.setLinkamOn()
+
+while current_T < target_T - 0.1:
+    sam.measure(2)
+    current_T += 25
+    wait_for_T(min(current_T, target_T))
+wait_for_T(target_T); time.sleep(5); sam.measure(2)
+'''
+
+["Measure the sample for 2s when heating up from current temperature to 70 degrees at a ramp rate of 5 degrees per min, measure every 20 degrees, then cool it down to 60 degrees, wait for 3 seconds, move x by 0.5 mm then measure for 3 s"]
+code = '''
+import time
+def wait_T(target, tol=0.1, mode='heat'):
+    if mode == 'heat':
+        while sam.linkamTemperature() < target - tol: time.sleep(0.5)
+    else:
+        while sam.linkamTemperature() > target + tol: time.sleep(0.5)
+
+sam.setLinkamRate(5); sam.setLinkamTemperature(70)
+current_T = sam.linkamTemperature()
+sam.setLinkamOn()
+
+while current_T < 70 - 0.1:
+    sam.measure(2)
+    current_T += 20
+    wait_T(min(current_T, 70))
+wait_T(70); sam.setLinkamTemperature(60); wait_T(60, mode='cool')
+time.sleep(3); sam.xr(0.5); sam.measure(3)
+'''
+
+["Heat sample from current temperature to 65 degrees at 10 degrees per min, measuring for 2s every 10 degrees, then cool down to 30 degrees while measuring every 2 seconds with 1.5s exposure time"]
+code = '''
+import time, numpy as np
+sam.setLinkamRate(10); sam.setLinkamTemperature(65); sam.setLinkamOn()
+for target in np.arange(sam.linkamTemperature(), 65, 10):
+    while sam.linkamTemperature() < target: time.sleep(0.2)
+    sam.measure(2)
+while sam.linkamTemperature() < 65: time.sleep(0.2)
+sam.measure(2)
+sam.setLinkamTemperature(30)
+
+t0 = time.time()
+while sam.linkamTemperature() > 30:
+    if time.time() - t0 >= 2:
+        sam.measure(1.5)
+        t0 = time.time()
+    else:
+        time.sleep(0.2)
+'''
+
+["Measure the sample at 20, 50, and 70 celsius with 10deg/min ramp rate, measure for 1s at incident angle 0.15 at each temperature, then cool down to 20 and measure again for 2s"]
+code = '''
+import time
+sam.setLinkamRate(10)
+sam.setLinkamOn()
+
+for T in [20, 50, 70]:
+    sam.setLinkamTemperature(T)
+    while abs(sam.linkamTemperature() - T) > 1: time.sleep(0.2)
+    sam.measureIncidentAngle(0.15, exposure_time=1)
+sam.setLinkamTemperature(20)
+while sam.linkamTemperature() > 21: time.sleep(0.2)
+sam.measureIncidentAngle(0.15, exposure_time=2)
+'''
+
+["Heat sample from 25 to 100 degrees with expected phase transition between 50-75 degrees. Measure every 25 degrees, but measure every 10 degrees in the transition region. Ramprate should be 10. Measure for 1 second."]
+code = '''
+import time
+sam.setLinkamRate(10); sam.setLinkamTemperature(100)
+sam.setLinkamOn()
+
+measurement_Ts = [25, 50, 60, 70, 75, 100]
+for T in measurement_Ts:
+    while sam.linkamTemperature() < T: time.sleep(0.1)
+    sam.measure(1)
+'''
+
+["Heat sample to 80 degrees at 10 deg/min, measuring at two positions (x=0 and x=5mm) every 20 degrees with 1s exposure time, start from 40 degrees"]
+code = '''
+import time
+sam.setLinkamRate(10); sam.setLinkamTemperature(80)
+sam.setLinkamOn()
+
+for T in [40, 60, 80]:
+    while sam.linkamTemperature() < T: time.sleep(0.1)
+    for pos in [0, 5]:
+        sam.xabs(pos); sam.measure(1)
+'''
+
+["Move sample in x and y simultaneously to create a 45-degree line until both reach 2mm, measuring every 0.5 units with exposure time increasing by 0.25 seconds each measurement (starting at 1s). The first motor you should move is in the x direction."]
+code = '''
+step = 0.5
+for i, pos in enumerate(np.arange(0, 2 + step, step)):
+    sam.xr(step); sam.yr(step)
+    sam.measure(1 + i * 0.25)
+'''
+
+["Move the x-axis to 1 with a 0.2 step-size, every time measure the sample for 1 second while the incident angle will be the current x position *2"]
+code = '''
+def points(start, target, step):
+    r = (target - start) % step
+    return [start] + list(np.arange(start + r, target, step)) + [target]
+
+for x in points(sam.x(), 1, 0.2):
+    sam.xabs(x)
+    sam.measureIncidentAngle(x * 2, exposure_time=1)
+'''
+
+["Measure at the origin, then measure the perimeter of a square with step size 1 around the origin (2mm by 2mm square), the square has its corners at (±1,±1), start at the bottom left then going counter-clockwise, measuring the outside of the square. Exposure time 1."]
+code = '''
+def square_perimeter(xi, yi, step, size=1):
+    coords = np.arange(-size * step, size * step + step, step)
+    xg, yg = xi + coords, yi + coords
+    x_min, x_max = xg[0], xg[-1]
+    y_min, y_max = yg[0], yg[-1]
+    bottom = np.column_stack((xg, np.full_like(xg, y_min)))
+    right  = np.column_stack((np.full(2 * size - 1, x_max), yg[1:-1]))
+    top    = np.column_stack((xg[::-1], np.full_like(xg, y_max)))
+    left   = np.column_stack((np.full(2 * size - 1, x_min), yg[-2:0:-1]))
+    return np.vstack((bottom, right, top, left))
+
+sam.gotoOrigin()
+sam.measure(1, extra='center')
+xi, yi = sam.origin()['x'], sam.origin()['y']
+for xc, yc in square_perimeter(xi, yi, step=1, size=1):
+    sam.xabs(xc); sam.yabs(yc); sam.measure(1, extra='perimeter')
+'''

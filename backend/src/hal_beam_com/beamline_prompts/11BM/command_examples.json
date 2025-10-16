@@ -139,7 +139,7 @@
         "example_inputs": [
             "Increase the temperature to 250 degrees at a ramp rate of 2 degrees per minute."
         ],
-        "output": "sam.setLinkamRate(2) \nsam.setLinkamTemperature(250)",
+        "output": "sam.setLinkamRate(2)\nsam.setLinkamTemperature(250)\nsam.setLinkamOn()",
         "cog": "Op",
         "default": true
     },
@@ -182,14 +182,6 @@
         "output": "sam.thabs(0.2)",
         "cog": "Op",
         "default": true
-    },
-    {
-        "example_inputs": [
-            "check the sample motors"
-        ],
-        "output": "wsam()",
-        "cog": "Op",
-        "default": false
     },
     {
         "example_inputs": [
@@ -280,12 +272,133 @@
         "default": true
     },
     {
-        "example_inputs": [
-            "Where is the peak for circular average?"
+        "class": "Data Reduction and Analysis Protocols",
+        "title": "Integrate data over a section or pie area",
+        "function": "Protocols.sector_average(angle=70, dangle=10, show_region=True)",
+        "params": [
+            {
+                "name": "angle",
+                "type": "float",
+                "description": "the center of the angle"
+            },
+            {
+                "name": "dangle",
+                "type": "float",
+                "description": "full range of the pie-shape or sector"
+            }
         ],
-        "output": "circular_average_q2I_fit",
+        "notes": [ "This data reduction protocol takes average over a certain sector and output intenstiy over q. The integrates area is pie-shaped."
+        ],
+        "usage": [
+            {
+                "input": "We want to see the sector average, in the direction of 70 degree over a 10 degree range",
+                "code": "Protocols.sector_average(angle=70, dangle=10, show_region=True)"
+            }
+        ],
+        "example_inputs": [
+            "We need the integration but just around angle 45",
+            "I am interested in the sector average"
+        ],
         "cog": "Ana",
-        "default": false
+        "default": true
+    },
+    {
+        "class": "Data Reduction and Analysis Protocols",
+        "title": "Fit peak on circular average",
+        "function": "Protocols.circular_average_q2I_fit(plot_range=[0.8, 1.3, 0, None], qn_power=0.0, trim_range=[0.1, 3.5], fit_range=[0.95, 1.4], num_curves=2, q0=[1.00, 1.2], sigma=0.02, show_curves=1, label_filename=True)",
+        "params": [
+            {
+                "name": "qn_power",
+                "type": "float",
+                "description": "scale q"
+            },
+            {
+                "name": "fit_range",
+                "type": "list of float",
+                "description": "the range to apply fitting to"
+            },
+            {
+                "name": "num_curves",
+                "type": "int",
+                "description": "number of curves to fit. This should match the number of elements in q0"
+            },
+            {
+                "name": "q0",
+                "type": "list of float",
+                "description": "Rough guess of the peak center(s)."
+            }
+        ],
+        "notes": ["This data reduction protocol takes the circular average and output intenstiy over q, and then apply fitting to find the peak position, peak width, peak intensity."   
+        ],
+        "usage": [
+            {
+                "input": "Base on circular average, fit the peak around 0.08",
+                "code": "Protocols.circular_average_q2I_fit(plot_range=[0, 0.08+0.1, 0, None], qn_power=0.0, trim_range=[0, 0.08+0.1], fit_range=[0.08-0.05, 0.08+0.05], num_curves=1, q0=[0.08], sigma=0.02, show_curves=1, label_filename=True)"
+            },
+            {
+                "input": "We think there are two peaks around 0.2 and 0.25",
+                "code": "Protocols.circular_average_q2I_fit(plot_range=[0, 0.25+0.1, 0, None], qn_power=0.0, trim_range=[0, 0.25+0.1], fit_range=[0.2-0.05, 0.25+0.05], num_curves=2, q0=[0.2, 0.25], sigma=0.02, show_curves=1, label_filename=True)"
+            }
+        ],
+        "example_inputs": [
+            "We want to fit the peak"
+        ],
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "class": "Data Reduction and Analysis Protocols",
+        "title": "Circular average over q",
+        "function": "Protocols.circular_average(name='circular_average_folder', ylog=True, twotheta=False)",
+        "params": [
+            {
+                "name": "name",
+                "type": "string",
+                "description": "millimeters"
+            },
+            {
+                "name": "ylog",
+                "type": "binary",
+                "description": "if the intensity is in log10 or not"
+            },
+            {
+                "name": "twotheta",
+                "type": "binary",
+                "description": "show results in intensity versus two-theta"
+            }
+        ],
+        "notes": [ "This data reduction protocol takes the circular average and output intenstiy over q. If the same analysis protocol is peformed twice, can use the 'name' in the function parameter to specify the output result folder. Use can use the 'ylog' flag to enable log10 scale on the intensity. User can use twotheta=True in the function parameter to show internsity over two-theta, else the defaul is internsity over q. "       
+        ],
+        "usage": [
+            {
+                "input": "Show the circular average, plot log intensity",
+                "code": "Protocols.circular_average(name='circular_average_folder', ylog=True, twotheta=False)"
+            },
+            {
+                "input": "Show the data integration, plot over two theta",
+                "code": "Protocols.circular_average(name='circular_average_folder', ylog=False, twotheta=True)"
+            }
+        ],
+        "example_inputs": [
+            "We are interested in the 1d curve",
+            "Let us see the circular average",
+            "What is the radial integration"
+        ],
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "class": "Sample Commands",
+        "title": "Reset sample timer",
+        "function": "sam.reset_clock()",
+        "notes": [
+            "Resets the sample timer to 0."
+        ],
+        "example_inputs": [
+            "set to time zero"
+        ],
+        "cog": "Op",
+        "default": true
     },
     {
         "class": "Sample Measurement Commands",
@@ -377,7 +490,8 @@
         "title": "Increase Temperature with Ramp Rate",
         "function": [
             "sam.setLinkamRate(2)",
-            "sam.setLinkamTemperature(250)"
+            "sam.setLinkamTemperature(250)",
+            "sam.setLinkamOn()"
         ],
         "notes": [
             "This command increases the temperature to the specified value at the specified ramp rate."
@@ -521,7 +635,7 @@
         "title": "Print Sample Position",
         "function": "wsam()",
         "notes": [
-            "Prints motor positions of the sample for x, y, and incident angle (theta).\n\nOutput:\nsmx = <SMX POSITION>\nsmy = <SMY POSITION>\nsth = <STH POSITION>"
+            "Prints motor positions of the sample for x, y, and incident angle (theta).\n\n      ```\n      Output:\n      smx = <SMX POSITION>\n      smy = <SMY POSITION>\n      sth = <STH POSITION>\n      ```"
         ],
         "example_inputs": [
             "Where is the sample",
@@ -530,6 +644,19 @@
             "What is the sample y",
             "write down position",
             "output sample motor positions"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Motor Movements",
+        "title": "Go to sample origin",
+        "function": "sam.gotoOrigin()",
+        "notes": [
+            "Move sample motors to the pre-set origin position."
+        ],
+        "example_inputs": [
+            "Move to sample origin"
         ],
         "cog": "Op",
         "default": true
@@ -576,7 +703,7 @@
     },
     {
         "class": "Motor Movements",
-        "title": "Move to Absolute X Position",
+        "title": "Move to sample absolute X Position",
         "function": "sam.xabs(position)",
         "params": [
             {
@@ -593,7 +720,7 @@
     },
     {
         "class": "Motor Movements",
-        "title": "Move to Absolute Y Position",
+        "title": "Move to sample absolute Y Position",
         "function": "sam.yabs(position)",
         "params": [
             {
@@ -610,7 +737,7 @@
     },
     {
         "class": "Motor Movements",
-        "title": "Set Absolute Incident Angle",
+        "title": "Set sample absolute Incident Angle",
         "function": "sam.thabs(angle)",
         "params": [
             {
@@ -631,7 +758,7 @@
     },
     {
         "class": "Motor Movements",
-        "title": "Set Absolute Phi Angle",
+        "title": "Set sample absolute Phi Angle",
         "function": "sam.phiabs(angle)",
         "params": [
             {
@@ -652,7 +779,7 @@
     },
     {
         "class": "Motor Movements",
-        "title": "Move Relative X",
+        "title": "Move sample relative X",
         "function": "sam.xr(offset)",
         "params": [
             {
@@ -662,18 +789,14 @@
             }
         ],
         "notes": [
-            "When user talks mentions moving the sample, it's along the x-axis, unless otherwise specified."
-        ],
-        "example_inputs": [
-            "Move sample x by 1.5",
-            "Shift sample by 0.6"
+            "When user talks mentions moving the sample, it's along the x-axis, unless otherwise specified. Note the 'r' in 'xr' means this is a relative movement."
         ],
         "cog": "Op",
         "default": true
     },
     {
         "class": "Motor Movements",
-        "title": "Move Relative Y",
+        "title": "Move sample Relative Y",
         "function": "sam.yr(offset)",
         "params": [
             {
@@ -690,7 +813,7 @@
     },
     {
         "class": "Motor Movements",
-        "title": "Move Relative Theta",
+        "title": "Move sample Relative Theta",
         "function": "sam.thr(offset)",
         "params": [
             {
@@ -701,6 +824,34 @@
         ],
         "example_inputs": [
             "Increase incident angle by 0.1 degrees"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Motor Movements",
+        "title": "Move any motor",
+        "function": "%movr s4.yc 0.5",
+        "notes": [
+            "Note the 'r' in 'movr' means this is a relative movement. Without the 'r', it would be an absolute movement."
+        ],
+        "usage": [
+            {
+                "input": "Move slit 4 x by 0.2",
+                "code": "%movr s4.xc 0.2"
+            },
+            {
+                "input": "Open slit 5 y gap to 1.0",
+                "code": "%mov s5.yg 1.0"
+            },
+            {
+                "input": "Set slit 2 x gap to 0.5",
+                "code": "%mov s2.xg 0.5"
+            },
+            {
+                "input": "Move WAXS detector x by 1",
+                "code": "%movr WAXSx 1"
+            }
         ],
         "cog": "Op",
         "default": true
@@ -736,7 +887,8 @@
         "notes": [
             "Always use this command if the user asks you to change temperature, you cannot leave it out.",
             "This is **not** a blocking command. The temperature may take some time to reach the set value.\nUse the `sam.linkamTemperature()` command to check the current temperature if you require to measure at a certain temperature.\nThen keep checking with a while loop if the `desired_temperature` has been reached by using `while sam.linkamTemperature() < desired_temperature - (some epsilon)`.",
-            "You should set a ramp rate before calling this function using `sam.setLinkamRate(rate)`, otherwise it will use the previous ramp rate. If the user leaves it undefined in their utterance- you can put the ramp rate to 30 (maximum)."
+            "You should set a ramp rate before calling this function using `sam.setLinkamRate(rate)`, otherwise it will use the previous ramp rate. If the user leaves it undefined in their utterance- you can put the ramp rate to 30 (maximum).",
+            "To get the Linkam thermal stage to start changing temperature, you need to call 'sam.setLinkamOn()'."
         ],
         "example_inputs": [
             "Set temperature to 50 degrees Celsius"
@@ -759,7 +911,8 @@
         "title": "Go to Temperature as Quickly as Possible",
         "function": [
             "sam.setLinkamRate(30)",
-            "sam.setLinkamTemperature(250)"
+            "sam.setLinkamTemperature(250)",
+            "sam.setLinkamOn()"
         ],
         "notes": [
             "These commands set the temperature with the maximum possible ramp rate."
@@ -773,21 +926,710 @@
         "default": true
     },
     {
+    	"class": "Beamline configuration",
         "title": "Stop a Beamline Measurement",
         "function": [
             "RE.abort()",
             "beam.off()"
         ],
         "notes": [
-            "Tell the user to press ctrl+c on the iPython interactive session.\nIn this case you don't have to strictly write only code as you are allowed to tell them to press ctrl+c and then recommend the commands listed above."
+            "This is a custom python functions at the beamline. Tell the user to press ctrl+c on the iPython interactive session.\nIn this case you don't have to strictly write only code as you are allowed to tell them to press ctrl+c and then recommend the commands listed above."
         ],
         "cog": "Op",
         "default": true
     },
     {
-        "input": "Select the waxs detector",
-        "output": "detselect(pilatus800)",
+    	"class": "Beamline configuration",
+        "title": "Check beam energy",
+        "function": [
+            "beam.energy()"
+        ],
+        "notes": [
+            "Show the current beam energy"
+        ],
         "cog": "Op",
-        "default": false
+        "default": true
+    },
+    {
+    	"class": "Beamline configuration",
+        "title": "Check beam size",
+        "function": [
+            "beam.size()"
+        ],
+        "notes": [
+            "Show the current beam size"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+    	"class": "Beamline configuration",
+        "title": "Check beam divergence",
+        "function": [
+            "beam.divergence()"
+        ],
+        "notes": [
+            "Show the current beam size"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+    	"class": "Beamline configuration",
+        "title": "Set beam divergence",
+        "function": [
+            "## Default divergence (0.14, 0.1)" ,
+            "## Check with beamline staff before adjusting divergence by beam.setDivergence(0.14, 0.1)"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+    	"class": "Beamline configuration",
+        "title": "Check beam size",
+        "function": [
+            "beam.setSize()"
+        ],
+        "notes": [
+            "Change beam size by changing slit2 (s2) or slit4 (s4)"
+        ],
+        "usage": [
+            {
+                "input": "Set beam size to 200 by 50",
+                "code": "beam.setSize(200, 50)"
+            },
+            {
+                "input": "Set beamsize with slit 2, to 200 by 200",
+                "code": "beam.setS2Size(200, 200)"
+            },
+            {
+                "input": "Define beam size by using slit 4, set it to 200 by 50",
+                "code": "beam.setS4Size(200, 50)"
+            }
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline configuration",
+        "title": "Set beam transmission",
+        "function": "beam.setTransmission(0.5)",
+        "params": [
+            {
+                "name": "transmission",
+                "type": "float",
+                "description": "beam transmission, anything equal or smaller to 1"
+            }
+        ],
+        "notes": [
+            "Set transmission by attenuating the beam"
+        ],
+        "usage": [
+            {
+                "input": "Set transmission to 1",
+                "code": "beam.setTransmission(1)"
+            },
+            {
+                "input": "Attenuate the beam",
+                "code": "beam.setTransmission(1e-6)"
+            }
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline configuration",
+        "title": "Select the beamline measurement mode",
+        "function": "cms.modeMeasurement()",
+        "notes": [
+            "Goes to the beamline measurement mode, which means the beamstop is put in and transmission set to 1, ready for measurement"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline configuration",
+        "title": "Select the beamline alignment mode",
+        "function": "cms.modeAlignment()",
+        "notes": [
+            "Goes to the beamline alignment mode, which means the beamstop is out and transmission set to 1e-6, ready for alignment or checking the direct beam."
+        ],
+        "usage": [
+            {
+                "input": "Check the direct beam",
+                "code": "cms.modeAlignment(); sam = Sample('test'); sam.snap()"
+            }
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Detector Selection",
+        "title": "Select WAXS Detector",
+        "function": "detselect(pilatus800)",
+        "notes": [
+            "This is a custom python function that selects the WAXS detector to perform measurements."
+        ],
+        "example_inputs": [
+            "Select the WAXS detector.",
+            "We want to collect waxs data",
+            "this selects the waxs detector for measurement"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Detector Selection",
+        "title": "Select MAXS Detector",
+        "function": "detselect(pilatus8002)",
+        "notes": [
+            "This is a custom python function that selects the MAXS detector in the open sample area or the modular table."
+        ],
+        "example_inputs": [
+            "I need maxs",
+            "Select the MAXS detector"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Detector Selection",
+        "title": "Select SAXS Detector",
+        "function": "detselect(pilatus2M)",
+        "notes": [
+            "This is a custom python function that selects the SAXS detector to perform measurements."
+        ],
+        "example_inputs": [
+            "We want to do saxs measurements",
+            "Select the SAXS detector"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Detector Selection",
+        "title": "Select SWAXS Detectors (SAXS + WAXS)",
+        "function": "detselect([pilatus2M, pilatus800])",
+        "notes": [
+            "This is a custom python function that selects both saxs and waxs detector to do SWAXS measurements."
+        ],
+        "example_inputs": [
+            "We want to do saxs and waxs measurements",
+            "I want both detectors",
+            "Do swaxs"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline configuration",
+        "title": "Check beamstop",
+        "function": "wbs()",
+        "notes": [
+            "Checks the beam stop positions, including `bsx`, `bsy`, and `bphi`."
+        ],
+        "example_inputs": [
+            "Where is the beamstop",
+            "What is the beam stop position"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline configuration",
+        "title": "Set up beamstop",
+        "function": "bs = Beamstop.goto('round')" ,
+        "params": [
+            {
+                "name": "beamstop type",
+                "type": "string",
+                "description": "round beamstop or rod beamstop"
+            }
+        ],
+        "usage": [
+            {
+                "input": "We need the round beamstop",
+                "code": "bs = Beamstop.goto('round')"
+            },
+            {
+                "input": "I want the rod beam stop",
+                "code": "bs = Beamstop.goto('rod')"
+            },
+            {
+                "input": "We need the GI beamstop",
+                "code": "bs = Beamstop.goto('rod')"
+            },
+            {
+                "input": "We need the beamstop to do transmission measurement",
+                "code": "bs = Beamstop.goto('round')"
+            }
+    	],
+        "notes": [
+            "Move `bsx`, `bsy`, and `bphi` to the beamstop for transmission or GI measurements"
+        ],
+        "example_inputs": [
+            "Change beam stop to transmission measurement",
+            "Go to beamstop position for GISAXS"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline configuration",
+        "title": "Get beamstop position without moving there",
+        "function": "bs = Beamstop.get('rod'); bs.show()",
+        "params": [
+            {
+                "name": "beamstop type",
+                "type": "string",
+                "description": "round beamstop or rod beamstop"
+            }
+        ],
+        "usage": [
+            {
+                "input": "What is position for round beam stop",
+                "code": "bs = Beamstop.get('round')"
+            },
+            {
+                "input": "What is position for rod beamstop",
+                "code": "bs = Beamstop.get('rod')"
+            }
+    	],
+        "notes": [
+            "Get `bsx`, `bsy`, and `bphi`. Only display the values but will not move the motors"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline configuration",
+        "title": "Save beamstop position",
+        "function": "bs = Beamstop.get('rod'); bs.save()",
+        "params": [
+            {
+                "name": "beamstop type",
+                "type": "string",
+                "description": "round beamstop or rod beamstop"
+            }
+        ],
+        "usage": [
+            {
+                "input": "Save the beamstop position for rod beamstop",
+                "code": "bs = Beamstop.get('rod'); bs.save()"
+            },
+            {
+                "input": "Save the beamstop position for round beamstop",
+                "code": "bs = Beamstop.get('round'); bs.save()"
+            }
+    	],
+        "notes": [
+            "Save `bsx`, `bsy`, and `bphi`"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline configuration",
+        "title": "Move beamstop",
+        "function": "bs.xr(1.0)",
+        "params": [
+            {
+                "name": "movement",
+                "type": "float",
+                "description": "movement in mm or degree"
+            }
+        ],
+        "usage": [
+            {
+                "input": "Move beamstop x by 0.2",
+                "code": "bs.xr(0.2)"
+            },
+            {
+                "input": "Move beamstop y by 0.3",
+                "code": "bs.yr(0.3)"
+            },
+            {
+                "input": "Rotate beamstop phi by 2",
+                "code": "bs.phir(2)"
+            }
+    	],
+        "notes": [
+            "Move beamstop motor x, y, or phi"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline configuration",
+        "title": "Check SAXS detector position",
+        "function": "wSAXS()",
+        "notes": [
+            "This is a custom python function that displays the SAXS detector positions, including `SAXSx`, `SAXSy`, and `SAXSz`."
+        ],
+        "example_inputs": [
+            "Where is the SAXS detector"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline configuration",
+        "title": "Check WAXS detector position",
+        "function": "wWAXS()",
+        "notes": [
+            "This is a custom python function that displays the WAXS detector positions, including `WAXSx`, `WAXSy`, and `WAXSz`."
+        ],
+        "example_inputs": [
+            "Where is WAXS position"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline configuration",
+        "title": "Check MAXS detector position",
+        "function": "wMAXS()",
+        "notes": [
+            "This is a custom python function that displays the MAXS detector positions, including `MAXSx`, `MAXSy`, and `MAXSz`."
+        ],
+        "example_inputs": [
+            "What is the MAXS position"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline configuration",
+        "title": "Adjust modular table height",
+        "function": "tb1.movr_table_y(-20)",
+        "params": [
+            {
+                "name": "movement",
+                "type": "float",
+                "description": "relative movement in height in mm"
+            }
+        ],
+        "notes": [
+            "This is a function that moves the modular up or down by moving the 3-Z-Jack motor. This moves all three posts together so the table remain even while moving. To remove the table and move outside hutch, lower the table. During measurement, the table height should be around 60 mm."
+        ],
+        "example_inputs": [
+            "We need to move the modular table out"
+        ],
+        "usage": [
+            {
+                "input": "Lower the modular table",
+                "code": "tb1.movr_table_y(-10)"
+            },
+            {
+                "input": "Move up the modular table",
+                "code": "tb1.movr_table_y(20)"
+            }
+    	],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline configuration",
+        "title": "Show the profile collection",
+        "function": "ls /home/xf11bm/.ipython/profile_collection/startup/",
+        "notes": [
+            "This shows all the startup files."
+        ],
+        "example_inputs": [
+            "Where is the profile collection"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline configuration",
+        "title": "Scan a specified motor",
+        "function": "fit_scan(motor, span, num=11)",
+        "params": [
+            {
+                "name": "motor",
+                "type": "motor name",
+                "description": "the motor to move and scan. Note do not use string with quotation, use the motor name as is, e.g. smx, smy." 
+            },
+            {
+                "name": "span",
+                "type": "float",
+                "description": "The total size of the scan range (centered about the current position). If a two-element list is instead specified, this is interpreted as the distances relative to the current position for the start and end." 
+            },
+            {
+                "name": "num",
+                "type": "int",
+                "description": "The number of scan points." 
+            }
+        ],
+        "notes": [
+            "Scans the specified motor, and attempts to fit the data as requested."
+        ],
+        "usage": [
+            {
+                "input": "Quick scan x to find the sample edge",
+                "code": "fit_scan(smx, 5, 26)"
+            },
+            {
+                "input": "Fit scan x from -1 mm to current position",
+                "code": "fit_scan(smx, [-1, 0], 26)"
+            },
+            {
+                "input": "Scan vertically to find the sample surface",
+                "code": "fit_scan(smy, 5, 11)"
+            },
+            {
+                "input": "Do a fit scan over theta 1 degree",
+                "code": "fit_scan(sth, 1, 21)"
+            },
+            {
+                "input": "Scan slit 4 y",
+                "code": "fit_scan(s4.yc, 1, 21)"
+            },
+            {
+                "input": "Scan slit 2 in x",
+                "code": "fit_scan(s2.xc, 1, 21)"
+            }
+    	],
+        "example_inputs": [
+            "Quick scan for smy for 1mm over 21 points",
+            "We need a fit scan"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Sample configuration",
+        "title": "Select sample",
+        "function": "sam = hol.gotoSample(1)",
+        "params": [
+            {
+                "name": "sample number",
+                "type": "int",
+                "description": "sample number on the holder" 
+            }
+        ],
+        "notes": [
+            "This assigns a sample on the holder to be the sample object that we are interested in."
+        ],
+        "usage": [
+            {
+                "input": "Go to the first sample",
+                "code": "sam = hol.gotoSample(1)"
+            },
+            {
+                "input": "We need sample 5 on the holder",
+                "code": "sam = hol.gotoSample(5)"
+            }
+    	],
+        "example_inputs": [
+            "Go to the second sample"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Sample configuration",
+        "title": "Set sample position",
+        "function": "sam.setOrigin(['x', 'y', 'th'])",
+        "params": [
+            {
+                "name": "list of strings with motors",
+                "type": "list",
+                "description": "motors to be set for sample origin" 
+            }
+        ],
+        "notes": [
+            "This sets the motor position as the sample origin. Can do this just for x and/or y and/or theta."
+        ],
+        "usage": [
+            {
+                "input": "Set the current x position as the sample x origin",
+                "code": "sam.setOrigin(['x'])"
+            },
+            {
+                "input": "Set the current y position as the sample y origin",
+                "code": "sam.setOrigin(['y'])"
+            },
+            {
+                "input": "Set the current theta position as the sample theta origin",
+                "code": "sam.setOrigin(['th'])"
+            }
+    	],
+        "example_inputs": [
+            "Set the current sample motor positions as the sample origin"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Holder configuration",
+        "title": "Set holder position",
+        "function": "hol.setOrigin(['x', 'y', 'th'])",
+        "params": [
+            {
+                "name": "list of strings with motors",
+                "type": "list",
+                "description": "motors to be set for holder origin" 
+            }
+        ],
+        "notes": [
+            "This sets the motor position as the holder origin. Can do this just for x and/or y and/or theta."
+        ],
+        "usage": [
+            {
+                "input": "Set the current x position as the sample x origin",
+                "code": "hol.setOrigin(['x'])"
+            },
+            {
+                "input": "Set the current y position as the sample y origin",
+                "code": "hol.setOrigin(['y'])"
+            },
+            {
+                "input": "Set the current theta position as the sample theta origin",
+                "code": "hol.setOrigin(['th'])"
+            }
+    	],
+        "example_inputs": [
+            "Set the current motor positions as the holder origin"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Robotics Sample Exchanger",
+        "title": "list samples in the queue",
+        "function": "que.listSamples()",
+        "notes": [
+            "For using the sample exchanger, a queue of multiple sample bars is set, samlpe bars/holders will be measured according to their order in the queue. It is good to double check the queue sample list before starting measurements."
+        ],
+        "example_inputs": [
+            "What samples are in queue for the robot",
+            "List the samples for the queue",
+            "Which samples are we measuring"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Robotics Sample Exchanger",
+        "title": "list sample holders in the queue",
+        "function": "que.listSamples()",
+        "notes": [
+            "For using the sample exchanger, a queue of multiple sample bars is set, samlpe bars/holders will be measured according to their order in the queue. It is good to double check the queue holder list before starting measurements."
+        ],
+        "example_inputs": [
+            "Which holders are in queue for the robot",
+            "List sample bars for the queue",
+            "Which bars are we measuring"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Robotics Sample Exchanger",
+        "title": "Run holders in the queue",
+        "function": "que.runHolders()",
+        "notes": [
+            "For using the sample exchanger, a queue of multiple sample bars is set, samlpe bars/holders will be measured according to their order in the queue. This command runs the measurement with hol.doSamples(). Check the the doSamples() function is correct, e.g. detector position, saxs or swaxs, exposure time."
+        ],
+        "example_inputs": [
+            "start the robot measurements",
+            "start the robot"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Robotics Sample Exchanger",
+        "title": "Pick up a holder with the robot",
+        "function": "que.pickupHolder(holder, force=False) ",
+        "params": [
+            {
+                "name": "holder",
+                "type": "object",
+                "description": "holder to be picked up from the garage" 
+            }
+        ],
+        "notes": [
+            "This command picks up a bar from the garage. If force==False, take the current holder out of the sample stage and put on the new one."
+        ],
+        "usage": [
+            {
+                "input": "Sample stage is empty, pick up holder 1",
+                "code": "que.pickupHolder(hol1, force=True)"
+            },
+            {
+                "input": "We are done with this bar, now we want to measure hol 5",
+                "code": "que.pickupHolder(hol5, force=False)"
+            }
+    	],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Robotics Sample Exchanger",
+        "title": "Return a holder back to the garage with the robot",
+        "function": "que.returnHolder()",
+        "notes": [
+            "Return the current holder from sample stage back to its slot in garage."
+        ],
+        "example_inputs": [
+            "start the robot measurements",
+            "start the robot"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Robotics Sample Exchanger",
+        "title": "Return a holder back to the garage with the robot",
+        "function": "robot.pickupHolder([1, 2])",
+        "params": [
+            {
+                "name": "holder",
+                "type": "array",
+                "description": "holder position in garage" 
+            }
+        ],
+        "usage": [
+            {
+                "input": "Pick up sample bar from 1, 1",
+                "code": "robot.pickupHolder([1, 1])"
+            },
+            {
+                "input": "Pick up holder at garage 4, 2 and put on stage",
+                "code": "robot.pickupHolder([4, 2])"
+            }
+    	],
+        "notes": [
+            "Pick up holder from the specified garage position and put on sample stage. MAKE SURE robot arm is empty and sample stage is also empty!"
+        ],
+        "example_inputs": [
+            "Put the holder back to the garage position "
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Robotics Sample Exchanger",
+        "title": "Return a holder back to the garage with the robot",
+        "function": "robot.returnHolder([3, 1])",
+        "params": [
+            {
+                "name": "holder",
+                "type": "array",
+                "description": "holder position in garage" 
+            }
+        ],
+        "notes": [
+            "Return the current holder from sample stage back to the specified slot in garage. MAKE SURE robot arm is empty and sample stage is also empty!"
+        ],
+        "example_inputs": [
+            "Put the holder back to the garage position "
+        ],
+        "cog": "Op",
+        "default": true
     }
 ]
+

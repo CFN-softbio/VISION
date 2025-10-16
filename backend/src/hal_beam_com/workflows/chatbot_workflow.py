@@ -9,7 +9,28 @@ from src.hal_beam_com.chatbot_utils import (
 
 )
 
-def run(data, queue, audio_base_model, audio_finetuned, text_base_model, text_finetuned):
+import re
+
+def extract_answer_tags(text):
+    """
+    Extract content between <answer> and </answer> tags.
+    
+    Args:
+        text (str): The input text containing answer tags
+        
+    Returns:
+        str: Content between the tags, or None if not found
+    """
+    pattern = r'<answer>(.*?)</answer>'
+    match = re.search(pattern, text, re.DOTALL)  # re.DOTALL allows matching across newlines
+    
+    if match:
+        return match.group(1).strip()  # .strip() removes leading/trailing whitespace
+    return None
+
+
+# def run(data, queue, audio_base_model, audio_finetuned, text_base_model, text_finetuned):
+def run(data, audio_base_model, audio_finetuned, text_base_model, text_finetuned):
     if data[0]['only_text_input'] == 0:
         data = voice_cog.invoke(data, base_model=audio_base_model, finetuned=audio_finetuned)
 
@@ -21,6 +42,10 @@ def run(data, queue, audio_base_model, audio_finetuned, text_base_model, text_fi
 
     prompt_type = classifier(prompt, history=data[0]['history'])
 
+    prompt_type = extract_answer_tags(prompt_type)
+
+    print(prompt_type)
+
     match prompt_type:
         case "Generalist":
             print("GOING TO GENERALIST")
@@ -28,11 +53,11 @@ def run(data, queue, audio_base_model, audio_finetuned, text_base_model, text_fi
 
         case "Scientist":
             print("GOING TO SCIENTIST")
-            bot_response = scientist(prompt, history=data[0]['history'], paper_directory="/home2/smathur/RAG/CFN_publication_PDFs")
+            bot_response = scientist(prompt, history=data[0]['history'], paper_directory="/home2/common/CFN_publication_PDFs")
 
         case "Beamline":
             print("GOING TO BEAMLINE SCIENTIST")
-            bot_response = beamline_scientist(prompt, history=data[0]['history'], paper_directory="/home2/smathur/RAG/Beamline_manual")
+            bot_response = beamline_scientist(prompt, history=data[0]['history'], paper_directory="/home2/common/Beamline_manual")
 
 
     data[0]['chatbot_response'] = bot_response

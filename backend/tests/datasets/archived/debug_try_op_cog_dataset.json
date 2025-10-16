@@ -1,0 +1,8 @@
+[
+  {
+    "command": "test",
+    "expected_code": [
+      "try:\n    sam\nexcept NameError:\n    sam = Sample('sample')\n\nsam.measureIncidentAngle(0.31, exposure_time=0.1)"
+         ]
+  }
+]

@@ -1,0 +1,174 @@
+[
+    {
+    "command": "Measure the sample for 1s (every 10s), do this for 1 min",
+    "expected_code": [
+      "for ii in np.arange(6):\n    sam.measure(1)\n    time.sleep(9)"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Measure 1s and scan from x 0 to 1mm (with 0.25 step)",
+    "expected_code": [
+      "for xpos in np.arange(0, 1 + 0.25/2, 0.25):\n    sam.xabs(xpos)\n    sam.measure(1)"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Do a map scan, x range from 0 to 0.3mm, y from 0 to 0.6mm, step size is 0.15 horizontally and 0.2 vertically. (Exposure time 1s.)",
+    "expected_code": [
+      "for x in np.arange(0, 0.3 + 0.15/2, 0.15):\n    for y in np.arange(0, 0.6 + 0.2/2, 0.2):\n        sam.xabs(x)\n        sam.yabs(y)\n        sam.measure(1)"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Scan incident angle from 0.5 to 1.5 degree (with 0.5 step), exposure time 0.5s",
+    "expected_code": [
+      "for th in np.arange(0.5, 1.5 + 0.5/2, 0.5):\n    sam.thabs(th)\n    sam.measure(0.5)"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Heat sample to 100 degrees at rate 20 degrees per min, then measure for 1s every 5 seconds until temperature reaches 100 degrees",
+    "expected_code": [
+      "sam.setLinkamRate(20)\nsam.setLinkamTemperature(100)\nsam.setLinkamOn()\n\nwhile sam.linkamTemperature() < 100 - 0.1:\n    t0 = time.time()\n    sam.measure(1)\n    elapsed = time.time() - t0\n    if elapsed < 5:\n        time.sleep(5 - elapsed)"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Measure the sample for 0.5s when heating up from room temperature to 150 degree at a ramp rate of 5 degree per min, measure every 20 degree.",
+    "expected_code": [
+      "sam.setLinkamRate(5)\nsam.setLinkamOn()\nfor temp_goal in range(int(sam.linkamTemperature()), 151, 20):\n    sam.setLinkamTemperature(temp_goal)\n    while sam.linkamTemperature() < temp_goal - 0.1:\n        pass\n    sam.measure(0.5)"
+    ],
+    "is_complex": true,
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:SETPOINT:SET",
+      "XF:11BM-ES:{LINKAM}:STARTHEAT"
+    ]
+  },
+  {
+    "command": "Scan from x=0 to 1mm at a step of 0.5mm, exposure time 0.5s, wait 10s between measurements",
+    "expected_code": [
+      "import time\nimport numpy as np\n\nfor x in np.arange(0, 1.1, 0.5):\n    sam.xabs(x)\n    start_time = time.time()\n    sam.measure(0.5)\n    measurement_time = time.time() - start_time\n    wait_time = max(0, 10 - measurement_time)\n    time.sleep(wait_time)"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Scan in x and y, use the sample origin as the center, scan a 3 by 3 grid, each for 1 second, with step size of 0.2mm in x and 0.1mm in y with a wait time of 10s between measurements.",
+    "expected_code": [
+      "import time\nimport numpy as np\n\nx_range = np.linspace(-0.2, 0.2, 3)\ny_range = np.linspace(-0.1, 0.1, 3)\n\nfor x in x_range:\n    sam.xabs(x)\n    for y in y_range:\n        sam.yabs(y)\n        start_time = time.time()\n        sam.measure(1)\n        measurement_time = time.time() - start_time\n        wait_time = max(0, 10 - measurement_time)\n        time.sleep(wait_time)"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Scan in x and y, use the sample origin as the center, measure the center first with the name 'cen' and then scan a 3 by 3 grid with step size of 0.2mm in x and 0.1mm in y, each for 1 second.",
+    "expected_code": [
+      "import numpy as np\n\n# Measure center first\nsam.xabs(0)\nsam.yabs(0)\nsam.measure(1, name='cen')\n\n# Scan grid\nx_range = np.linspace(-0.2, 0.2, 3)\ny_range = np.linspace(-0.1, 0.1, 3)\n\nfor x in x_range:\n    sam.xabs(x)\n    for y in y_range:\n        # Skip the center point as we already measured it\n        if x == 0 and y == 0:\n            continue\n        sam.yabs(y)\n        sam.measure(1)"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Align the sample at x origin, then move to x=5mm then align again. Save the average of two positions and take average y and theta to be the new origin, then move to this new origin",
+    "expected_code": [
+      "# Align at origin\nsam.xabs(0)\nsam.align()\nx1, y1, th1 = sam.x(), sam.y(), sam.th()\n\n# Align at x=5mm\nsam.xabs(5)\nsam.align()\nx2, y2, th2 = sam.x(), sam.y(), sam.th()\n\n# Calculate average positions\nx_avg = (x1 + x2) / 2\ny_avg = (y1 + y2) / 2\nth_avg = (th1 + th2) / 2\n\n# Set new origin\nsam.setOrigin(['y', 'th'], [y_avg, th_avg])\n\n# Move to the new origin\nsam.yabs(0)\nsam.thabs(0)"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Measure the sample for 1s when heating up from current temperature to 61 degree at a ramp rate of 2 degree per min, measure every 20 degrees starting from the current temperature",
+    "expected_code": [
+      "sam.setLinkamRate(2)\nsam.setLinkamTemperature(61)\nsam.setLinkamOn()\n\ncurrent_temp = sam.linkamTemperature()\ncurrent_goal_temp = current_temp + 20\n\nwhile current_goal_temp < 61:\n    while sam.linkamTemperature() < current_goal_temp - 0.1:\n        pass\n    \n    sam.measure(1)\n    current_goal_temp += 20\n\n# Final measurement at target temperature\nwhile sam.linkamTemperature() < 61 - 0.1:\n    pass\nsam.measure(1)"
+    ],
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:SETPOINT:SET",
+      "XF:11BM-ES:{LINKAM}:STARTHEAT"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Measure the sample for 2s when heating up from current temperature to 75 degree at a ramp rate of 2 degree per min, measure every 25 degrees starting from the current temperature, then hold at 75 degree for 5 seconds before measuring",
+    "expected_code": [
+      "import time\nimport numpy as np\n\n# Set temperature ramp rate\nsam.setLinkamRate(2)\nsam.setLinkamOn()\n\n# Get current temperature and set up measurement points\ncurrent_temp = sam.linkamTemperature()\ntemp_points = list(np.arange(current_temp, 75, 25))\n\n# Set target temperature\nsam.setLinkamTemperature(75)\n\n# Measure at each temperature point\nfor temp in temp_points:\n    while sam.linkamTemperature() < temp:\n        time.sleep(0.1)\n    sam.measure(2)\n\n# Hold at target temperature for 5 seconds before final measurement\nwhile sam.linkamTemperature() < 75:\n    time.sleep(0.1)\ntime.sleep(5)  # 5 seconds\nsam.measure(2)"
+    ],
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:SETPOINT:SET",
+      "XF:11BM-ES:{LINKAM}:STARTHEAT"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Measure the sample for 2s when heating up from current temperature to 70 degrees at a ramp rate of 5 degrees per min, measure every 20 degrees, then cool it down to 60 degrees, wait for 3 seconds, move x by 0.5 mm then measure for 3 s",
+    "expected_code": [
+      "import time\nimport numpy as np\n\n# Set temperature ramp rate\nsam.setLinkamRate(5)\nsam.setLinkamOn()\n\n# Get current temperature and set up measurement points\ncurrent_temp = sam.linkamTemperature()\ntemp_points = list(np.arange(current_temp, 70, 20))\n\n# Set target temperature\nsam.setLinkamTemperature(70)\n\n# Measure at each temperature point\nfor temp in temp_points:\n    while sam.linkamTemperature() < temp:\n        time.sleep(0.1)\n    sam.measure(2)\n\n# Cool down to 60 degrees\nsam.setLinkamTemperature(60)\nwhile sam.linkamTemperature() > 60:\n    time.sleep(0.1)\n\n# Wait for 3 seconds\ntime.sleep(3)\n\n# Move x by 0.5 mm and measure\nsam.xr(0.5)\nsam.measure(3)"
+    ],
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:SETPOINT:SET",
+      "XF:11BM-ES:{LINKAM}:STARTHEAT"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Heat sample from current temperature to 65 degrees at 10 degrees per min, measuring for 2s every 10 degrees, then cool down to 30 degrees while measuring every 2 seconds with 1.5s exposure time",
+    "expected_code": [
+      "import time\nimport numpy as np\n\n# Set temperature ramp rate\nsam.setLinkamRate(10)\nsam.setLinkamOn()\n\n# Get current temperature and set up measurement points\ncurrent_temp = sam.linkamTemperature()\ntemp_points = list(np.arange(current_temp, 65, 10))\n\n# Set target temperature\nsam.setLinkamTemperature(65)\n\n# Measure at each temperature point during heating\nfor temp in temp_points:\n    while sam.linkamTemperature() < temp:\n        time.sleep(0.2)\n    sam.measure(2)\n\n# Make sure we measure at the maximum temperature\nwhile sam.linkamTemperature() < 65:\n    time.sleep(0.2)\nsam.measure(2)\n\n# Cool down to 30 degrees with measurements every 2 seconds\nsam.setLinkamTemperature(30)\nstart_time = time.time()\nwhile sam.linkamTemperature() > 30:\n    current_time = time.time()\n    if current_time - start_time >= 2:\n        sam.measure(1.5)\n        start_time = current_time\n    time.sleep(0.2)"
+    ],
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:SETPOINT:SET",
+      "XF:11BM-ES:{LINKAM}:STARTHEAT"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Measure the sample at 20, 50, and 70 celsius with 10deg/min ramp rate, measure for 1s at incident angle 0.15 at each temperature, then cool down to 20 and measure again for 2s",
+    "expected_code": [
+      "import time\n\n# Set temperature ramp rate\nsam.setLinkamRate(10)\nsam.setLinkamOn()\n\n# Define temperature points\ntemp_points = [20, 50, 70]\n\n# Measure at each temperature point\nfor temp in temp_points:\n    # Set target temperature\n    sam.setLinkamTemperature(temp)\n    \n    # Wait until temperature is reached\n    while abs(sam.linkamTemperature() - temp) > 1:\n        time.sleep(0.2)\n    \n    # Measure for 1s at incident angle 0.15\n    sam.measureIncidentAngle(0.15, exposure_time=1)\n\n# Cool down to 20 degrees\nsam.setLinkamTemperature(20)\nwhile sam.linkamTemperature() > 21:\n    time.sleep(0.2)\n\n# Measure for 2s at incident angle 0.15\nsam.measureIncidentAngle(0.15, exposure_time=2)"
+    ],
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:SETPOINT:SET",
+      "XF:11BM-ES:{LINKAM}:STARTHEAT"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Heat sample from 25 to 100 degrees with expected phase transition between 50-75 degrees. Measure every 25 degrees, but measure every 10 degrees in the transition region. Ramprate should be 10. Measure for 1 second.",
+    "expected_code": [
+      "import time\n\n# Set temperature ramp rate\nsam.setLinkamRate(10)\nsam.setLinkamOn()\n\n# Define measurement temperatures\nmeasurement_temps = [25, 50, 60, 70, 75, 100]\n\n# Set target temperature\nsam.setLinkamTemperature(100)\n\n# Measure at each temperature point\nfor temp in measurement_temps:\n    while sam.linkamTemperature() < temp:\n        time.sleep(0.1)\n    sam.measure(1)"
+    ],
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:SETPOINT:SET",
+      "XF:11BM-ES:{LINKAM}:STARTHEAT"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Heat sample to 80 degrees at 10 deg/min, measuring at two positions (x=0 and x=5mm) every 20 degrees with 1s exposure time, start from 40 degrees",
+    "expected_code": [
+      "import time\n\n# Set temperature ramp rate\nsam.setLinkamRate(10)\nsam.setLinkamOn()\n\n# Define measurement temperatures\ntemperatures = [40, 60, 80]\n\n# Define sample positions\npositions = [0, 5]\n\n# Set target temperature\nsam.setLinkamTemperature(80)\n\n# Measure at each temperature point\nfor temp in temperatures:\n    while sam.linkamTemperature() < temp:\n        time.sleep(0.1)\n    \n    # Measure at each position\n    for pos in positions:\n        sam.xabs(pos)\n        sam.measure(1)"
+    ],
+    "ignore_pvs": [
+      "XF:11BM-ES:{LINKAM}:SETPOINT:SET",
+      "XF:11BM-ES:{LINKAM}:STARTHEAT"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Move sample in x and y simultaneously to create a 45-degree line until both reach 2mm, measuring every 0.5 units with exposure time increasing by 0.25 seconds each measurement (starting at 1s). The first motor you should move is in the x direction.",
+    "expected_code": [
+      "import numpy as np\n\n# Define the points along a 45-degree line\npoints = np.arange(0, 2.1, 0.5)\n\n# Starting exposure time\nexposure_time = 1.0\n\n# Move to starting position\nsam.xabs(0)\nsam.yabs(0)\n\n# Scan along the 45-degree line\nfor i, pos in enumerate(points):\n    sam.xabs(pos)\n    sam.yabs(pos)\n    sam.measure(exposure_time)\n    exposure_time += 0.25"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Move the x-axis to 1 with a 0.2 step-size, every time measure the sample for 1 second while the incident angle will be the current x position *2",
+    "expected_code": [
+      "import numpy as np\n\n# Define x positions from 0 to 1 with 0.2 step size\nx_positions = np.arange(0, 1 + 0.2/2, 0.2)\n\n# Loop through each x position\nfor x in x_positions:\n    # Move to the x position\n    sam.xabs(x)\n    \n    # Measure at incident angle x*2 for 1 second\n    sam.measureIncidentAngle(x * 2, exposure_time=1)"
+    ],
+    "is_complex": true
+  },
+  {
+    "command": "Measure at the origin, then measure the perimeter of a square with step size 1 around the origin (2mm by 2mm square), the square has its corners at (±1,±1), start at the bottom left then going counter-clockwise, measuring the outside of the square. Exposure time 1.",
+    "expected_code": [
+      "# Define function to generate square perimeter points\ndef square_perimeter(size):\n    # Returns points around the perimeter of a square with side length 2*size+1\n    # Starting from bottom-left, going counterclockwise\n    return (\n        # Bottom edge: (-size,-size) to (size,-size)\n        [(x, -size) for x in range(-size, size+1)] +\n        # Right edge: (size,-size+1) to (size,size)\n        [(size, y) for y in range(-size+1, size+1)] +\n        # Top edge: (size-1,size) to (-size,size)\n        [(x, size) for x in range(size-1, -size-1, -1)] +\n        # Left edge: (-size,size-1) to (-size,-size+1)\n        [(-size, y) for y in range(size-1, -size, -1)]\n    )\n\n# First measure at the origin\nsam.xabs(0)\nsam.yabs(0)\nsam.measure(1)\n\n# Measure around the perimeter of a 3x3 square (size=1)\nfor x, y in square_perimeter(1):\n    sam.xabs(x)\n    sam.yabs(y)\n    sam.measure(1)"
+    ],
+    "is_complex": true
+  }
+]

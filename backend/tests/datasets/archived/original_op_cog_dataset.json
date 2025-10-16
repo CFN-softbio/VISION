@@ -1,0 +1,860 @@
+[
+    {
+        "command": "Measure for 2 seconds",
+        "expected_code": [
+            "sam.measure(2)"
+        ]
+    },
+    {
+        "command": "Measure for 2 seconds at 0.15 degree",
+        "expected_code": [
+            "sam.measureIncidentAngle(0.15, exposure_time=2)"
+        ]
+    },
+    {
+        "command": "Measure for 2 seconds at incident angle 0.15",
+        "expected_code": [
+            "sam.measureIncidentAngle(0.15, exposure_time=2)",
+            "sam.measureIncidentAngles([0.15], exposure_time=2)",
+            "sam.thabs(0.15)\nsam.measure(2)"
+        ]
+    },
+    {
+        "command": "Move the sample x by -0.5 and align the sample",
+        "expected_code": [
+            "sam.xr(-0.5)\nsam.align()"
+        ]
+    },
+    {
+        "command": "Set this as sample origin",
+        "expected_code": [
+            "sam.setOrigin(['x', 'y', 'th'])"
+        ]
+    },
+    {
+        "command": "Set incident angle to 0.12",
+        "expected_code": [
+            "sam.thabs(0.12)"
+        ]
+    },
+    {
+        "command": "Increase incident angle by 0.05",
+        "expected_code": [
+            "sam.thr(0.05)"
+        ]
+    },
+    {
+        "command": "Set this as the origin",
+        "expected_code": [
+            "sam.setOrigin(['x', 'y', 'th'])"
+        ]
+    },
+    {
+        "command": "Set this x as the sample origin",
+        "expected_code": [
+            "sam.setOrigin(['x'])"
+        ]
+    },
+    {
+        "command": "What is the sample motor positions",
+        "expected_code": [
+            "wsam()"
+        ]
+    },
+    {
+        "command": "Move the sample up by 1mm",
+        "expected_code": [
+            "sam.yr(1)"
+        ]
+    },
+    {
+        "command": "Lower sample by 2mm",
+        "expected_code": [
+            "sam.yr(-2)"
+        ]
+    },
+    {
+        "command": "Move the sample by 0.2mm",
+        "expected_code": [
+            "sam.xr(0.2)"
+        ]
+    },
+    {
+        "command": "Move the sample x to 0.5mm",
+        "expected_code": [
+            "sam.xabs(0.5)"
+        ]
+    },
+    {
+        "command": "Rotate to 90 degree",
+        "expected_code": [
+            "sam.phiabs(90)"
+        ]
+    },
+    {
+        "command": "Align the sample and note down the position",
+        "expected_code": [
+            "sam.align()\nwsam()"
+        ]
+    },
+    {
+        "command": "Heat up the sample to 200 degree",
+        "expected_code": [
+            "sam.setLinkamRate(30)\nsam.setLinkamTemperature(200)",
+            "sam.setLinkamTemperature(200)"
+        ]
+    },
+    {
+        "command": "Measure the sample for 1s (every 10s), do this for 1 min",
+        "expected_code": [
+            "for ii in np.arange(6):\n    sam.measure(1)\n    time.sleep(9)",
+            "import time\n\nfor _ in range(6):\n    sam.measure(1)\n    time.sleep(9)",
+            "import time\n\nstart_time = time.time()\nwhile time.time() - start_time < 60:\n     sam.measure(1)\n    elapsed = time.time() - start_time\n    if elapsed % 10 < 1:\n        time.sleep(10 - (elapsed % 10))",
+            "import time\n\nstart_time = time.time()\nend_time = start_time + 60\n\nwhile time.time() < end_time:\n     loop_start = time.time()\n     sam.measure(1)\n     elapsed = time.time() - loop_start\n     if elapsed < 10:\n          time.sleep(10 - elapsed)"
+        ],
+        "is_complex": true
+    },
+    {
+        "command": "Measure 1s and scan from x 0 to 1mm (with 0.2 step)",
+        "expected_code": [
+            "for xpos in np.arange(0, 1+0.2, 0.2):\n    sam.xabs(xpos)\n    sam.measure(1)",
+            "for x in np.arange(0, 1.2, 0.2):\n    sam.xabs(x)\n    sam.measure(1)",
+            "import numpy as np\n\nfor xpos in np.arange(0, 1+0.2, 0.2):\n    sam.xabs(xpos)\n    sam.measure(1)",
+            "import numpy as np\n\nfor x in np.arange(0, 1.2, 0.2):\n    sam.xabs(x)\n    sam.measure(1)"
+        ],
+        "is_complex": true
+    },
+    {
+        "command": "Do a map scan, x range from 0 to 2mm, y from 0 to 5mm, step size is 0.2 horizontally and 0.05 vertically. (Exposure time 1s.)",
+        "expected_code": [
+            "for x in np.arange(0, 2+0.2, 0.2):\n    for y in np.arange(0, 5+0.05, 0.05):\n        sam.xabs(x)\n        sam.yabs(y)\n        sam.measure(1)",
+            "import numpy as np\n\nx_range = np.arange(0, 2.2, 0.2)\ny_range = np.arange(0, 5.05, 0.05)\n\nfor x in x_range:\n    sam.xabs(x)\n    for y in y_range:\n        sam.yabs(y)\n        sam.measure(1)"
+        ],
+        "is_complex": true
+    },
+    {
+        "command": "Scan incident angle from 0.05 to 1.5 degree (with 0.02 step), exposure time 0.5s",
+        "expected_code": [
+            "for th in np.arange(0.05, 1.5+0.02, 0.02):\n    sam.thabs(th)\n    sam.measure(0.5)",
+            "for angle in np.arange(0.05, 1.5 + 0.02, 0.02):\n    sam.thabs(angle)\n    sam.measure(exposure_time=0.5)",
+            "for angle in np.arange(0.05, 1.51, 0.02):\n    sam.measureIncidentAngle(angle, exposure_time=0.5)"
+        ],
+        "is_complex": true
+    },
+    {
+        "command": "Measure for 5s every minute until the sample reached 100 degree",
+        "expected_code": [
+            "while sam.linkamTemperature() < 100 - 0.1:\n    t0 = time.time()\n    sam.measure(5)\n    elapsed = time.time() - t0\n    if elapsed < 60:\n        time.sleep(60 - elapsed)",
+            "while sam.linkamTemperature() < 100:\n    t0 = time.time()\n    sam.measure(5)\n    elapsed = time.time() - t0\n    if elapsed < 60:\n        time.sleep(60 - elapsed)",
+            "import time\n\nwhile sam.linkamTemperature() < 100 - 0.1:\n    t0 = time.time()\n    sam.measure(5)\n    elapsed = time.time() - t0\n    if elapsed < 60:\n        time.sleep(60 - elapsed)",
+            "import time\n\nwhile sam.linkamTemperature() < 100:\n    t0 = time.time()\n    sam.measure(5)\n    elapsed = time.time() - t0\n    if elapsed < 60:\n        time.sleep(60 - elapsed)"
+        ],
+        "is_complex": true
+    },
+    {
+        "command": "Measure the sample for 1s when heating up from room temperature to 250 degree at a ramp rate of 2 degree per min, measure every 10 degree.",
+        "expected_code": [
+            "sam.setLinkamRate(2)\nfor temp_goal in range(sam.linkamTemperature(), 251, 10):\n    sam.setLinkamTemperature(temp_goal)\n    while np.abs(sam.linkamTemperature() - temp_goal) > 0.1:\n        pass\n    sam.measure(1)",
+            "sam.setLinkamRate(2)\nsam.setLinkamTemperature(250)\ntemp_goals = np.arange(sam.linkamTemperature(), 251, 10)\nfor temp_goal in temp_goals:\n    while np.abs(sam.linkamTemperature() - temp_goal) > 0.1:\n        pass\n    sam.measure(1)",
+            "import time\nsam.setLinkamRate(2)\nfor temp_goal in range(sam.linkamTemperature(), 251, 10):\n    sam.setLinkamTemperature(temp_goal)\n    while np.abs(sam.linkamTemperature() - temp_goal) > 0.1:\n        pass\n    time.sleep(300)\n    sam.measure(1)",
+            "sam.setLinkamRate(2)\nsam.setLinkamTemperature(250)\ntemp_goals = np.arange(sam.linkamTemperature(), 251, 10)\nfor temp_goal in temp_goals:\n    while np.abs(sam.linkamTemperature() - temp_goal) > 0.1:\n        pass\n    sam.measure(1)",
+            "sam.setLinkamRate(2)\nsam.setLinkamTemperature(250)\ncurrent_goal = sam.linkamTemperature()\nwhile current_goal <= 250:\n    if sam.linkamTemperature() >= current_goal:\n        sam.measure(1)\n        current_goal += 10"
+        ],
+        "is_complex": true
+    },
+    {
+        "command": "Move the polymer sample x by 9.7 and align the polymer sample",
+        "expected_code": [
+            "sam.xr(9.7); sam.align()",
+            "sam.xr(9.7)\nsam.align()",
+            "sam = Sample('polymer')\nsam.xr(9.7); sam.align()",
+            "sam = Sample('polymer')\nsam.xr(9.7)\nsam.align()"
+        ]
+    },
+    {
+        "command": "Move it x by 2.6 and align it",
+        "expected_code": [
+            "sam.xr(2.6); sam.align()",
+            "sam.xr(2.6)\nsam.align()"
+        ]
+    },
+    {
+        "command": "Move the thin film x by 2.7 and align the thin film",
+        "expected_code": [
+            "sam.xr(2.7); sam.align()",
+            "sam.xr(2.7)\nsam.align()",
+            "sam = Sample('thin film')\nsam.xr(2.7); sam.align()",
+            "sam = Sample('thin film')\nsam.xr(2.7)\nsam.align()"
+        ]
+    },
+    {
+        "command": "Move the thin film x by 8.3 and align the thin film",
+        "expected_code": [
+            "sam.xr(8.3); sam.align()",
+            "sam.xr(8.3)\nsam.align()",
+            "sam = Sample('thin film')\nsam.xr(8.3); sam.align()",
+            "sam = Sample('thin film')\nsam.xr(8.3)\nsam.align()"
+        ]
+    },
+    {
+        "command": "Move the organic thin film x by 5.8 and align the organic thin film",
+        "expected_code": [
+            "sam.xr(5.8); sam.align()",
+            "sam.xr(5.8)\nsam.align()",
+            "sam = Sample('organic thin film')\nsam.xr(5.8); sam.align()",
+            "sam = Sample('organic thin film')\nsam.xr(5.8)\nsam.align()"
+        ]
+    },
+    {
+        "command": "Move it x position by 0.1 mm, align it",
+        "expected_code": [
+            "sam.xr(0.1); sam.align()",
+            "sam.xr(0.1)\nsam.align()"
+        ]
+    },
+    {
+        "command": "Move the polymer sample x position by 5.0 mm, align the polymer sample",
+        "expected_code": [
+            "sam = Sample('polymer')\nsam.xr(5.0); sam.align()",
+            "sam = Sample('polymer')\nsam.xr(5.0)\nsam.align()",
+            "sam.xr(5.0); sam.align()",
+            "sam.xr(5.0)\nsam.align()"
+        ]
+    },
+    {
+        "command": "Move the polymer sample x position by 8.2 mm, align the polymer sample",
+        "expected_code": [
+            "sam.xr(8.2); sam.align()",
+            "sam.xr(8.2)\nsam.align()",
+            "sam = Sample('polymer')\nsam.xr(8.2); sam.align()",
+            "sam = Sample('polymer')\nsam.xr(8.2)\nsam.align()"
+        ]
+    },
+    {
+        "command": "Move the thin film x position by 9.5 mm, align the thin film",
+        "expected_code": [
+            "sam.xr(9.5); sam.align()",
+            "sam.xr(9.5)\nsam.align()",
+            "sam = Sample('thin film')\nsam.xr(9.5); sam.align()",
+            "sam = Sample('thin film')\nsam.xr(9.5)\nsam.align()"
+        ]
+    },
+    {
+        "command": "Move sample x position by 4.8 mm, align sample",
+        "expected_code": [
+            "sam.xr(4.8); sam.align()",
+            "sam.xr(4.8)\nsam.align()"
+        ]
+    },
+    {
+        "command": "Measure for 43.0 seconds at incident angle 0.11",
+        "expected_code": [
+            "sam.measureIncidentAngle(0.11, exposure_time=43.0)"
+        ]
+    },
+    {
+        "command": "Measure for 22.5 seconds at incident angle 0.02",
+        "expected_code": [
+            "sam.measureIncidentAngle(0.02, exposure_time=22.5)"
+        ]
+    },
+    {
+        "command": "Measure for 14.0 seconds at incident angle 0.31",
+        "expected_code": [
+            "sam.measureIncidentAngle(0.31, exposure_time=14.0)"
+        ]
+    },
+    {
+        "command": "Measure for 8.0 seconds at incident angle 0.36",
+        "expected_code": [
+            "sam.measureIncidentAngle(0.36, exposure_time=8.0)"
+        ]
+    },
+    {
+        "command": "Measure for 42.0 seconds at incident angle 0.2",
+        "expected_code": [
+            "sam.measureIncidentAngle(0.2, exposure_time=42.0)"
+        ]
+    },
+    {
+        "command": "Measure the thin film at incident angle 0.49 for 25.5 seconds",
+        "expected_code": [
+            "sam.measureIncidentAngle(0.49, exposure_time=25.5)",
+            "sam = Sample('thin film')\nsam.measureIncidentAngle(0.49, exposure_time=25.5)"
+        ]
+    },
+    {
+        "command": "Measure the perovskite sample at incident angle 0.05 for 7.5 seconds",
+        "expected_code": [
+            "sam.measureIncidentAngle(0.05, exposure_time=7.5)",
+            "sam = Sample('perovskite')\nsam.measureIncidentAngle(0.05, exposure_time=7.5)"
+        ]
+    },
+    {
+        "command": "Measure sample at incident angle 0.32 for 12.5 seconds",
+        "expected_code": [
+            "sam.measureIncidentAngle(0.32, exposure_time=12.5)"
+        ]
+    },
+    {
+        "command": "Measure the sample at incident angle 0.24 for 46.0 seconds",
+        "expected_code": [
+            "sam.measureIncidentAngle(0.24, exposure_time=46.0)"
+        ]
+    },
+    {
+        "command": "Measure the thin film sample at incident angle 0.39 for 16.5 seconds",
+        "expected_code": [
+            "sam = Sample('thin film')\nsam.measureIncidentAngle(0.39, exposure_time=16.5)",
+            "sam.measureIncidentAngle(0.39, exposure_time=16.5)"
+        ]
+    },
+    {
+        "command": "Measure the sample for 53.0 seconds",
+        "expected_code": [
+            "sam.measure(53.0)",
+            "sam.measure(exposure_time=53.0)"
+        ]
+    },
+    {
+        "command": "Measure the thin film for 28.5 seconds",
+        "expected_code": [
+            "sam.measure(28.5)",
+            "sam.measure(exposure_time=28.5)",
+            "sam = Sample('thin film')\nsam.measure(28.5)",
+            "sam = Sample('thin film')\nsam.measure(exposure_time=28.5)"
+        ]
+    },
+    {
+        "command": "Measure the thin film sample for 32.0 seconds",
+        "expected_code": [
+            "sam.measure(32.0)",
+            "sam.measure(exposure_time=32.0)",
+            "sam = Sample('thin film')\nsam.measure(32.0)",
+            "sam = Sample('thin film')\nsam.measure(exposure_time=32.0)"
+        ]
+    },
+    {
+        "command": "Measure the polymer sample for 39.0 seconds",
+        "expected_code": [
+            "sam.measure(39.0)",
+            "sam.measure(exposure_time=39.0)",
+            "sam = Sample('polymer')\nsam.measure(39.0)",
+            "sam = Sample('polymer')\nsam.measure(exposure_time=39.0)"
+        ]
+    },
+    {
+        "command": "Measure the thin film for 35.0 seconds",
+        "expected_code": [
+            "sam.measure(35.0)",
+            "sam.measure(exposure_time=35.0)",
+            "sam = Sample('thin film')\nsam.measure(35.0)",
+            "sam = Sample('thin film')\nsam.measure(exposure_time=35.0)"
+        ]
+    },
+    {
+        "command": "Set the incident angle to 0.45",
+        "expected_code": [
+            "sam.thabs(0.45)"
+        ]
+    },
+    {
+        "command": "Set the incident angle to 0.37",
+        "expected_code": [
+            "sam.thabs(0.37)"
+        ]
+    },
+    {
+        "command": "Set the incident angle to 0.41",
+        "expected_code": [
+            "sam.thabs(0.41)"
+        ]
+    },
+    {
+        "command": "Set the incident angle to 0.21",
+        "expected_code": [
+            "sam.thabs(0.21)"
+        ]
+    },
+    {
+        "command": "Set the incident angle to 0.47",
+        "expected_code": [
+            "sam.thabs(0.47)"
+        ]
+    },
+    {
+        "command": "Use incident angle 0.08 degree",
+        "expected_code": [
+            "sam.thabs(0.08)"
+        ]
+    },
+    {
+        "command": "Use incident angle 0.07 degree",
+        "expected_code": [
+            "sam.thabs(0.07)"
+        ]
+    },
+    {
+        "command": "Use incident angle 0.01 degree",
+        "expected_code": [
+            "sam.thabs(0.01)"
+        ]
+    },
+    {
+        "command": "Use incident angle 0.29 degree",
+        "expected_code": [
+            "sam.thabs(0.29)"
+        ]
+    },
+    {
+        "command": "Use incident angle 0.49 degree",
+        "expected_code": [
+            "sam.thabs(0.49)"
+        ]
+    },
+    {
+        "command": "Set theta to 0.04",
+        "expected_code": [
+            "sam.thabs(0.04)"
+        ]
+    },
+    {
+        "command": "Set theta to 0.04",
+        "expected_code": [
+            "sam.thabs(0.04)"
+        ]
+    },
+    {
+        "command": "Set theta to 0.14",
+        "expected_code": [
+            "sam.thabs(0.14)"
+        ]
+    },
+    {
+        "command": "Set theta to 0.08",
+        "expected_code": [
+            "sam.thabs(0.08)"
+        ]
+    },
+    {
+        "command": "Set theta to 0.27",
+        "expected_code": [
+            "sam.thabs(0.27)"
+        ]
+    },
+    {
+        "command": "Move the perovskite sample up by 1.6 mm",
+        "expected_code": [
+            "sam.yr(1.6)",
+            "sam = Sample('perovskite')\nsam.yr(1.6)"
+        ]
+    },
+    {
+        "command": "Move the organic thin film up by 9.6 mm",
+        "expected_code": [
+            "sam.yr(9.6)",
+            "sam = Sample('organic thin film')\nsam.yr(9.6)"
+        ]
+    },
+    {
+        "command": "Move it up by 5.0 mm",
+        "expected_code": [
+            "sam.yr(5.0)"
+        ]
+    },
+    {
+        "command": "Move sample up by 5.1 mm",
+        "expected_code": [
+            "sam.yr(5.1)"
+        ]
+    },
+    {
+        "command": "Move the perovskite sample up by 6.7 mm",
+        "expected_code": [
+            "sam.yr(6.7)",
+            "sam = Sample('perovskite')\nsam.yr(6.7)"
+        ]
+    },
+    {
+        "command": "Move sample x by 2.6 mm",
+        "expected_code": [
+            "sam.xr(2.6)"
+        ]
+    },
+    {
+        "command": "Move the thin film sample x by 4.1 mm",
+        "expected_code": [
+            "sam.xr(4.1)",
+            "sam = Sample('thin film')\nsam.xr(4.1)"
+        ]
+    },
+    {
+        "command": "Move the thin film sample x by 6.4 mm",
+        "expected_code": [
+            "sam.xr(6.4)",
+            "sam = Sample('thin film')\nsam.xr(6.4)"
+        ]
+    },
+    {
+        "command": "Move the perovskite sample x by 5.2 mm",
+        "expected_code": [
+            "sam.xr(5.2)",
+            "sam = Sample('perovskite')\nsam.xr(5.2)"
+        ]
+    },
+    {
+        "command": "Move the polymer sample x by 3.1 mm",
+        "expected_code": [
+            "sam.xr(3.1)",
+            "sam = Sample('polymer')\nsam.xr(3.1)"
+        ]
+    },
+    {
+        "command": "Move the polymer sample x to 1.0 mm",
+        "expected_code": [
+            "sam.xabs(1.0)",
+            "sam = Sample('polymer')\nsam.xabs(1.0)"
+        ]
+    },
+    {
+        "command": "Move the thin film sample x to 8.3 mm",
+        "expected_code": [
+            "sam.xabs(8.3)",
+            "sam = Sample('thin film')\nsam.xabs(8.3)"
+        ]
+    },
+    {
+        "command": "Move the organic thin film x to 4.0 mm",
+        "expected_code": [
+            "sam.xabs(4.0)",
+            "sam = Sample('organic thin film')\nsam.xabs(4.0)"
+        ]
+    },
+    {
+        "command": "Move sample x to 5.0 mm",
+        "expected_code": [
+            "sam.xabs(5.0)"
+        ]
+    },
+    {
+        "command": "Move the organic thin film x to 4.9 mm",
+        "expected_code": [
+            "sam.xabs(4.9)",
+            "sam = Sample('organic thin film')\nsam.xabs(4.9)"
+        ]
+    },
+    {
+        "command": "Lower the thin film sample by 2.0 mm",
+        "expected_code": [
+            "sam.yr(-2.0)",
+            "sam = Sample('thin film')\nsam.yr(-2.0)"
+        ]
+    },
+    {
+        "command": "Lower the perovskite sample by 2.4 mm",
+        "expected_code": [
+            "sam.yr(-2.4)",
+            "sam = Sample('perovskite')\nsam.yr(-2.4)"
+        ]
+    },
+    {
+        "command": "Lower the sample by 3.5 mm",
+        "expected_code": [
+            "sam.yr(-3.5)"
+        ]
+    },
+    {
+        "command": "Lower the polymer sample by 2.5 mm",
+        "expected_code": [
+            "sam.yr(-2.5)",
+            "sam = Sample('polymer')\nsam.yr(-2.5)"
+        ]
+    },
+    {
+        "command": "Lower the organic thin film by 7.1 mm",
+        "expected_code": [
+            "sam.yr(-7.1)",
+            "sam = Sample('organic thin film')\nsam.yr(-7.1)"
+        ]
+    },
+    {
+        "command": "Increase the incident angle by 0.22 degree",
+        "expected_code": [
+            "sam.thr(0.22)"
+        ]
+    },
+    {
+        "command": "Increase the incident angle by 0.05 degree",
+        "expected_code": [
+            "sam.thr(0.05)"
+        ]
+    },
+    {
+        "command": "Increase the incident angle by 0.07 degree",
+        "expected_code": [
+            "sam.thr(0.07)"
+        ]
+    },
+    {
+        "command": "Increase the incident angle by 0.45 degree",
+        "expected_code": [
+            "sam.thr(0.45)"
+        ]
+    },
+    {
+        "command": "Increase the incident angle by 0.39 degree",
+        "expected_code": [
+            "sam.thr(0.39)"
+        ]
+    },
+    {
+        "command": "Rotate it by 331.0",
+        "expected_code": [
+            "sam.phir(331.0)"
+        ]
+    },
+    {
+        "command": "Rotate sample by 54.6",
+        "expected_code": [
+            "sam.phir(54.6)"
+        ]
+    },
+    {
+        "command": "Rotate the polymer sample by 54.3",
+        "expected_code": [
+            "sam.phir(54.3)",
+            "sam = Sample('polymer')\nsam.phir(54.3)"
+        ]
+    },
+    {
+        "command": "Rotate it by 351.5",
+        "expected_code": [
+            "sam.phir(351.5)"
+        ]
+    },
+    {
+        "command": "Rotate the organic thin film by 74.6",
+        "expected_code": [
+            "sam.phir(74.6)",
+            "sam = Sample('organic thin film')\nsam.phir(74.6)"
+        ]
+    },
+    {
+        "command": "Rotate sample to 217.3 degree",
+        "expected_code": [
+            "sam.phiabs(217.3)"
+        ]
+    },
+    {
+        "command": "Rotate the thin film to 236.8 degree",
+        "expected_code": [
+            "sam.phiabs(236.8)",
+            "sam = Sample('thin film')\nsam.phiabs(236.8)"
+        ]
+    },
+    {
+        "command": "Rotate the thin film sample to 223.0 degree",
+        "expected_code": [
+            "sam.phiabs(223.0)",
+            "sam = Sample('thin film')\nsam.phiabs(223.0)"
+        ]
+    },
+    {
+        "command": "Rotate the thin film sample to 217.9 degree",
+        "expected_code": [
+            "sam.phiabs(217.9)",
+            "sam = Sample('thin film')\nsam.phiabs(217.9)"
+        ]
+    },
+    {
+        "command": "Rotate the sample to 136.6 degree",
+        "expected_code": [
+            "sam.phiabs(136.6)"
+        ]
+    },
+    {
+        "command": "Align the the organic thin film and read the sample position",
+        "expected_code": [
+            "sam.align(); wsam()",
+            "sam.align()\nwsam()",
+            "sam = Sample('organic thin film')\nsam.align(); wsam()",
+            "sam = Sample('organic thin film')\nsam.align()\nwsam()"
+        ]
+    },
+    {
+        "command": "Align the the sample and read the sample position",
+        "expected_code": [
+            "sam.align(); wsam()",
+            "sam.align()\nwsam()"
+        ]
+    },
+    {
+        "command": "Align the the thin film and read the sample position",
+        "expected_code": [
+            "sam.align(); wsam()",
+            "sam.align()\nwsam()",
+            "sam = Sample('thin film')\nsam.align(); wsam()",
+            "sam = Sample('thin film')\nsam.align()\nwsam()"
+        ]
+    },
+    {
+        "command": "Align the it and read the sample position",
+        "expected_code": [
+            "sam.align(); wsam()",
+            "sam.align()\nwsam()"
+        ]
+    },
+    {
+        "command": "Align the sample and read the sample position",
+        "expected_code": [
+            "sam.align(); wsam()",
+            "sam.align()\nwsam()"
+        ]
+    },
+    {
+        "command": "Heat up the thin film sample to 70.6",
+        "expected_code": [
+            "sam.setLinkamTemperature(70.6)",
+            "sam = Sample('thin film')\nsam.setLinkamTemperature(70.6)"
+        ]
+    },
+    {
+        "command": "Heat up the thin film sample to 301.9",
+        "expected_code": [
+            "sam.setLinkamTemperature(301.9)",
+            "sam = Sample('thin film')\nsam.setLinkamTemperature(301.9)"
+        ]
+    },
+    {
+        "command": "Heat up the thin film sample to 313.2",
+        "expected_code": [
+            "sam.setLinkamTemperature(313.2)",
+            "sam = Sample('thin film')\nsam.setLinkamTemperature(313.2)"
+        ]
+    },
+    {
+        "command": "Heat up the perovskite sample to 313.5",
+        "expected_code": [
+            "sam.setLinkamTemperature(313.5)",
+            "sam = Sample('perovskite')\nsam.setLinkamTemperature(313.5)"
+        ]
+    },
+    {
+        "command": "Heat up the thin film sample to 102.7",
+        "expected_code": [
+            "sam.setLinkamTemperature(102.7)",
+            "sam = Sample('thin film')\nsam.setLinkamTemperature(102.7)"
+        ]
+    },
+    {
+        "command": "Increase the temperature to 247.0",
+        "expected_code": [
+            "sam.setLinkamTemperature(247.0)"
+        ]
+    },
+    {
+        "command": "Increase the temperature to 321.7",
+        "expected_code": [
+            "sam.setLinkamTemperature(321.7)"
+        ]
+    },
+    {
+        "command": "Increase the temperature to 266.7",
+        "expected_code": [
+            "sam.setLinkamTemperature(266.7)"
+        ]
+    },
+    {
+        "command": "Increase the temperature to 159.7",
+        "expected_code": [
+            "sam.setLinkamTemperature(159.7)"
+        ]
+    },
+    {
+        "command": "Increase the temperature to 299.6",
+        "expected_code": [
+            "sam.setLinkamTemperature(299.6)"
+        ]
+    },
+    {
+        "command": "Cool the perovskite sample to 80.4",
+        "expected_code": [
+            "sam.setLinkamTemperature(80.4)",
+            "sam = Sample('perovskite')\nsam.setLinkamTemperature(80.4)"
+        ]
+    },
+    {
+        "command": "Cool the sample to 307.3",
+        "expected_code": [
+            "sam.setLinkamTemperature(307.3)"
+        ]
+    },
+    {
+        "command": "Cool sample to -131.1",
+        "expected_code": [
+            "sam.setLinkamTemperature(-131.1)"
+        ]
+    },
+    {
+        "command": "Cool the perovskite sample to -13.6",
+        "expected_code": [
+            "sam.setLinkamTemperature(-13.6)",
+            "sam = Sample('perovskite')\nsam.setLinkamTemperature(-13.6)"
+        ]
+    },
+    {
+        "command": "Cool the perovskite sample to 200.7",
+        "expected_code": [
+            "sam.setLinkamTemperature(200.7)",
+            "sam = Sample('perovskite')\nsam.setLinkamTemperature(200.7)"
+        ]
+    },
+    {
+        "command": "Set this as the sample origin",
+        "expected_code": [
+            "sam.setOrigin(['x', 'y', 'th'])"
+        ]
+    },
+    {
+        "command": "Set this x as origin",
+        "expected_code": [
+            "sam.setOrigin(['x'])"
+        ]
+    },
+    {
+        "command": "What are the sample motor positions",
+        "expected_code": [
+            "wsam()"
+        ]
+    },
+    {
+        "command": "Where is the organic thin film",
+        "expected_code": [
+            "wsam()"
+        ]
+    },
+    {
+        "command": "Where is the thin film sample",
+        "expected_code": [
+            "wsam()"
+        ]
+    },
+    {
+        "command": "Where is the sample",
+        "expected_code": [
+            "wsam()"
+        ]
+    },
+    {
+        "command": "Where is the thin film sample",
+        "expected_code": [
+            "wsam()"
+        ]
+    },
+    {
+        "command": "Where is the sample",
+        "expected_code": [
+            "wsam()"
+        ]
+    }
+]

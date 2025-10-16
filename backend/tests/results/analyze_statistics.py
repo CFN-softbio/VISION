@@ -19,7 +19,7 @@ def calculate_stats(values: list) -> Dict[str, float]:
         
     return {
         'mean': np.mean(numeric_values),
-        'std': np.std(numeric_values, ddof=1)  # ddof=1 for sample std
+        'std': np.std(numeric_values, ddof=1) if len(numeric_values) > 1 else 0  # ddof=1 for sample std
     }
 
 def process_nested_dict(d: Dict[str, Any]) -> Dict[str, Any]:

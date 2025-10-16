@@ -11,7 +11,7 @@ from datetime import datetime
 from src.hal_beam_com.utils import CogType
 
 
-class ClassifierAgentTestFramework(BaseTestFramework):
+class ClassifierCogTestFramework(BaseTestFramework):
     def __init__(self, dataset_path, results_path, system_prompt_type, system_prompt_path, base_model, num_runs=1):
         super().__init__(dataset_path, results_path, system_prompt_path, base_model, num_runs=num_runs)
         self.fieldnames = ['input', 'expected_output', 'generated_output', 'match', 'execution_time']
@@ -109,11 +109,11 @@ if __name__ == '__main__':
     args.system_prompt_type = SystemPromptType(args.system_prompt_type) if args.system_prompt_type else SystemPromptType.ONE_WORD_OUTPUT
 
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    dataset_file_path = os.path.join(base_dir, 'datasets', f'{cog.value}_agent_dataset.json')
+    dataset_file_path = os.path.join(base_dir, 'datasets', f'{cog.value}_cog_dataset.json')
     
     # Create a parent timestamp directory for all runs
     parent_timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    base_results_dir = os.path.join(base_dir, 'results', f'{cog.value}_agent', args.system_prompt_type.value, args.base_model, parent_timestamp)
+    base_results_dir = os.path.join(base_dir, 'results', f'{cog.value}_cog', args.system_prompt_type.value, args.base_model, parent_timestamp)
     os.makedirs(base_results_dir, exist_ok=True)
 
     # Run multiple experiments
@@ -122,7 +122,7 @@ if __name__ == '__main__':
         results_file_path = os.path.join(run_dir, f'results_{cog.value}_cog_{args.system_prompt_type.value}.csv')
         os.makedirs(os.path.dirname(results_file_path), exist_ok=True)
 
-        tester = ClassifierAgentTestFramework(
+        tester = ClassifierCogTestFramework(
             dataset_file_path,
             results_file_path,
             args.system_prompt_type,

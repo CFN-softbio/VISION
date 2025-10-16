@@ -1,0 +1,187 @@
+{
+  "o3-high": {
+    "display": "o3 (high)",
+    "vendor": "OpenAI / Microsoft",
+    "group": "Closed Source Models",
+    "thinking": true
+  },
+  "llama3.3": {
+    "display": "Llama3.3 (70.6B)",
+    "vendor": "",
+    "group": "Open Source Models"
+  },
+  "athene-v2": {
+    "display": "Athene-v2 (72.7B)",
+    "vendor": "",
+    "group": "Open Source Models"
+  },
+  "qwen3-coder": {
+    "display": "Qwen3-Coder (30.5B)",
+    "vendor": "",
+    "group": "Open Source Models"
+  },
+  "qwen3-coder-480b-or": {
+    "display": "Qwen3-Coder (480B)",
+    "vendor": "",
+    "group": "Open Source Models"
+  },
+  "phi3.5": {
+    "display": "Phi-3.5 (3.8B)",
+    "vendor": "",
+    "group": "Open Source Models"
+  },
+  "qwen2": {
+    "display": "Qwen2 (7.62B)",
+    "vendor": "",
+    "group": "Open Source Models"
+  },
+  "claude-3.5-sonnet": {
+    "display": "Claude 3.5 Sonnet",
+    "vendor": "Anthropic",
+    "group": "Closed Source Models"
+  },
+  "claude-sonnet-4-bedrock": {
+    "display": "Claude Sonnet 4 (Bedrock)",
+    "vendor": "Anthropic",
+    "group": "Closed Source Models"
+  },
+  "debug": {
+    "display": "Debug (First GT)",
+    "vendor": "",
+    "group": "Debug"
+  },
+  "qwen3": {
+    "display": "Qwen3 (32B)",
+    "vendor": "",
+    "group": "Open Source Models"
+  },
+  "claude-v4-sonnet-abacus": {
+    "display": "Claude Sonnet 4 (Abacus)",
+    "vendor": "Anthropic",
+    "group": "Closed Source Models"
+  },
+  "claude-sonnet-4-5-20250929-thinking": {
+    "display": "Claude Sonnet 4.5 (Thinking)",
+    "vendor": "Anthropic",
+    "group": "Closed Source Models",
+    "thinking": true
+  },
+  "gpt-5-high": {
+    "display": "GPT-5 (high)",
+    "vendor": "OpenAI / Microsoft",
+    "group": "Closed Source Models",
+    "thinking": true
+  },
+  "qwen2.5": {
+    "display": "Qwen2.5 (7.62B)",
+    "vendor": "",
+    "group": "Open Source Models"
+  },
+  "grok-4-or": {
+    "display": "Grok-4",
+    "vendor": "xAI",
+    "group": "Closed Source Models",
+    "thinking": true
+  },
+  "grok-4-fast-or": {
+    "display": "Grok-4 Fast",
+    "vendor": "xAI",
+    "group": "Closed Source Models"
+  },
+  "grok-code-fast-1-or": {
+    "display": "Grok Code Fast 1",
+    "vendor": "xAI",
+    "group": "Closed Source Models"
+  },
+  "athene-v2-agent": {
+    "display": "Athene-v2-Agent (72.7B)",
+    "vendor": "",
+    "group": "Open Source Models"
+  },
+  "claude-v4-opus-abacus": {
+    "display": "Claude Opus 4 (Abacus)",
+    "vendor": "Anthropic",
+    "group": "Closed Source Models"
+  },
+  "mistral-nemo": {
+    "display": "Mistral-NeMo (12.2B)",
+    "vendor": "",
+    "group": "Open Source Models"
+  },
+  "claude-opus-4-20250514-thinking": {
+    "display": "Claude Opus 4 (Thinking)",
+    "vendor": "Anthropic",
+    "group": "Closed Source Models",
+    "thinking": true
+  },
+  "claude-sonnet-4-20250514-thinking": {
+    "display": "Claude Sonnet 4 (Thinking)",
+    "vendor": "Anthropic",
+    "group": "Closed Source Models",
+    "thinking": true
+  },
+  "gpt-4o-abacus": {
+    "display": "GPT-4o (Abacus)",
+    "vendor": "OpenAI / Microsoft",
+    "group": "Closed Source Models"
+  },
+  "gpt-4o": {
+    "display": "GPT-4o",
+    "vendor": "OpenAI / Microsoft",
+    "group": "Closed Source Models"
+  },
+  "qwen2.5-coder": {
+    "display": "Qwen2.5-Coder (32.8B)",
+    "vendor": "",
+    "group": "Open Source Models"
+  },
+  "qwen3-thinking": {
+    "display": "Qwen3 (32B, thinking)",
+    "vendor": "",
+    "group": "Open Source Models",
+    "thinking": true
+  },
+  "gpt-5-minimal": {
+    "display": "GPT-5 (minimal)",
+    "vendor": "OpenAI / Microsoft",
+    "group": "Closed Source Models",
+    "thinking": true
+  },
+  "gpt-oss:120b": {
+    "display": "GPT-oss (117B)",
+    "vendor": "",
+    "group": "Open Source Models"
+  },
+  "mistral": {
+    "display": "Mistral (7.3B)",
+    "vendor": "",
+    "group": "Open Source Models"
+  },
+  "devstral-med-or": {
+    "display": "Devstral Medium",
+    "vendor": "Mistral",
+    "group": "Closed Source Models",
+    "thinking": true
+  },
+  "phi3.5-fp16": {
+    "display": "Phi-3.5 (3.8B, fp16)",
+    "vendor": "",
+    "group": "Open Source Models"
+  },
+  "gemini-2.5-pro-native": {
+    "display": "Gemini 2.5 Pro",
+    "vendor": "Google",
+    "group": "Closed Source Models",
+    "thinking": true
+  },
+  "bs_1": {
+    "display": "Beamline Scientist 1",
+    "vendor": "Human",
+    "group": "Humans"
+  },
+  "bs_2": {
+    "display": "Beamline Scientist 2",
+    "vendor": "Human",
+    "group": "Humans"
+  }
+}

@@ -101,9 +101,10 @@ def invoke(data, base_model, model_number = None, word = None, finetuned=True, a
     else:
 
         audio_path = save_audio(data)
-        result = pipe(audio_path)
+        result = pipe(audio_path, generate_kwargs={"task": "translate"})
 
         transcription = result['text']
+        print(transcription)
 
         end_time = time.time()
 

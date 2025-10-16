@@ -1,0 +1,74 @@
+##### Jargon
+- **Rotate**: Usually refers to phi rotation unless otherwise specified.
+- **Tilt**: Usually refers to incident angle (theta) unless otherwise specified.
+- **Move**: Usually refers to moving along the x-axis unless otherwise specified.
+- **map scan**: Is not a function, but refers to nested for loops of the desired axes to measure over.
+
+##### Sample Initialization
+###### First-Time Initialization
+`sam = Sample('sample_name')`
+
+- Use when the sample is not initialized yet.
+- Must be done before measurements or motor movements.
+- For example: sample is pmma, then use sam = Sample('pmma')
+- For example: new sample is perovskite, then use sam = Sample('perovskite')
+
+###### Set or Update Sample Name
+`sam.name = 'sample_name'`
+    
+###### GI thin film
+- For GI measurements, each sample must be aligned, sam.aligned(), first before doing anything measurement.
+
+##### Holder Class
+```python
+def doSamples(self, range=None, verbosity=3):
+    saxs_on()  ## move saxs detector into position, and select the saxs detector
+    for sample in self.getSamples(range=range):  ## goes through the samples on the holder and measure
+        if verbosity >= 3:
+            print("Doing sample {{}}...".format(sample.name))
+        if "SAXS" in sample.detector or sample.detector == "BOTH":
+            sample.do_SAXS()  ## this command
+
+    for sample in self.getSamples(range=range):
+        if verbosity >= 3:
+            print("Doing sample {{}}...".format(sample.name))
+        if "SAXS" in sample.detector and "WAXS" in sample.detector:
+            sample.do_WAXS_only()
+        elif sample.detector == "BOTH":
+            sample.do_WAXS_only()
+
+    for sample in self.getSamples(range=range):
+        if verbosity >= 3:
+            print("Doing sample {{}}...".format(sample.name))
+        if sample.detector == "WAXS":
+            sample.do_WAXS()
+```
+
+##### Beamline Robotic Sample Exchanger
+- **que**: a list of holder and their corresponding positions in the garage, and the order to measure the holders
+- **holder**: the sample bar or sample holder to be measured, it can be transmission or grazing incidence (GI) bars. 
+- **robot**: the robotics sample exchanger, user are recommended to use que to control the robot. This robot class should only be used by staff for robot debugging or robot calibration purposes.
+    ```
+    # Pick up from garage and put on sample stage
+    `robot.pickupHolder([1,1])` # ***WARNING: Check that the sample stage and robot are BOTH empty!
+    # Pick up from sample stage, and put back to garage
+    `robot.returnHolder([1,1])` # ***WARNING: Check that this garage spot is empty!
+    ```
+- **Configuration**:  To calibrate the robot, pick up a holder from garage to see if successful or any collision, move the robot by small steps and at the same time look at how it grabs the holder. Repeat this process for picking up a bar from the sample stage and put back to the garage. The parameters (including: `_delta_garage_x, _delta_garage_y, _delta_y_hover, _delta_y_slot, _position_garage, _position_sample_gripped`) should be updated as needed. Do config_update() and then config_load() when done, this is important, otherwise the configuration is not saved!
+
+###### Example positions
+```
+robot._position_garage = [x, y, z, phi] e.g. [-94.99996875, -196.0, -123.5, -1.0] (hugged position, +/- delta_y_hover (5mm)
+robot._position_sample_gripped = [x, y, z, phi] e.g. [-96.00009374999999, -101.299690625, -93.90020625, 89.0]
+```
+
+##### Beam
+###### Beam Energy
+- Users are **not** allowed to change the beam energy, please inquire staff on this setup change request.
+- For stafss, before changing energy, insert FS4, mark the beam center, then open the beam size to (1,1) and open the shutter with beam.on(), then change the energy while keeping an eye on the beam to see which direction it moves, then adjust monochromator to move the beam back.
+
+
+###### Beam Size
+- Beam size for transmission measurement is usually 200 micron by 200 micron. For GI measurements, set it to horizontal 200 um and vertically 50um.
+
+

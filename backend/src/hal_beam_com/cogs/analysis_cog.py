@@ -1,8 +1,6 @@
 #!/usr/bin/python3
 import os
-import re
 
-from langchain_openai import AzureChatOpenAI
 from src.hal_beam_com.Base import *
 from src.hal_beam_com.model_manager import ModelManager
 from src.hal_beam_com.utils import (
@@ -30,7 +28,7 @@ def invoke(data, base_model, finetuned=False, system_prompt_path=None, add_full_
 
     prompt_template = load_system_prompt(beamline, cog, data, system_prompt_path)
 
-    print('### In process_Role {}'.format(Base().now()))
+    print('### In {} {}'.format(cog, Base().now()))
 
     if data[0]['only_text_input'] == 1:
         user_prompt = data[0]['text_input']
@@ -48,8 +46,14 @@ def invoke(data, base_model, finetuned=False, system_prompt_path=None, add_full_
     print(user_prompt)
     llm_output = execute_llm_call(llm, prompt_template, user_prompt, strip_markdown=True)
 
-    if add_full_python_command:
-        llm_output = "python runXs_auto.py " + llm_output
+    # if add_full_python_command:
+    #     llm_output = "python runXs_auto.py " + llm_output
+    
+    # #### Test only
+    # current_file_path = os.path.abspath(__file__)
+    # beamline_prompts_path = os.path.join(base_dir, "../beamline_prompts/11BM/")  # Adjust as needed
+    # insert_protocols(beamline_prompts_path+'runXS.py', [llm_output])
+        
 
     end_time = time.time()
     execution_time = end_time - start_time
@@ -81,3 +85,43 @@ def invoke(data, base_model, finetuned=False, system_prompt_path=None, add_full_
     data = set_data_fields(rdb_data, cog, data, debug_printing=False)
 
     return data
+
+
+# import re
+
+# def insert_protocols(input_filename, new_protocols, output_filename=None):
+#     with open(input_filename, 'r') as f:
+#         content = f.read()
+
+#     # Pattern to locate the protocols block
+#     pattern = r'protocols\s*=\s*\[(.*?)\](?=\s*#|\s*\n|$)'  # Non-greedy match of content inside brackets
+
+#     # Function to append new protocols
+#     def replacer(match):
+#         existing = match.group(1).strip()
+#         if existing:
+#             # Add comma if necessary
+#             updated = existing + '\n' + ',\n    '.join(new_protocols) + ',\n    '
+#         else:
+#             updated = '\n   ' + '\n    '.join(new_protocols) + ',\n    '
+#         return f'protocols = [\n    {updated}\n    ]'
+
+#     # Replace protocols block
+#     new_content = re.sub(pattern, replacer, content, flags=re.DOTALL)
+
+#     # Determine the output filename
+#     if output_filename is None:
+#         base_name, ext = os.path.splitext(input_filename)  # Split into base name and extension
+#         output_filename = f"{base_name}_llm{ext}"  # Append '_llm' before the extension
+
+#     # Write updated content to the new file
+#     with open(output_filename, 'w') as f:
+#         f.write(new_content)
+
+#     print(f"Inserted {len(new_protocols)} protocol(s) into {output_filename}.")
+
+#     # # Example usage
+#     # insert_protocols('runXS.py', [
+#     #     "Protocols.circular_average(ylog=True, plot_range=[0, 0.12, None, None], label_filename=True)",
+#     #     "Protocols.linecut_angle(q0=0.01687, dq=0.00455*1.5, show_region=False)"
+#     # ])

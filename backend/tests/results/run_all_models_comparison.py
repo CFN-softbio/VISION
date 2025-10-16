@@ -10,7 +10,12 @@ sys.path.append(parent_dir)
 
 from src.hal_beam_com.utils import SystemPromptType, base_models_path
 
-def run_tests_for_all_models(agent_type, num_runs = '5', system_prompt_type = None):
+def run_tests_for_all_models(agent_type, num_runs='5',
+                            system_prompt_type=None,
+                            dataset_path=None,
+                            system_prompt_path=None,
+                            use_cache=False,
+                             clear_cache=False, complex_only=False):
     # Store paths to all aggregated statistics files
     model_results = {}
 
@@ -24,15 +29,25 @@ def run_tests_for_all_models(agent_type, num_runs = '5', system_prompt_type = No
         # Get the path relative to this script (going up one level from results/ to tests/)
         current_dir = os.path.dirname(os.path.abspath(__file__))
         test_script = os.path.join(os.path.dirname(current_dir),
-                                 f"test_{agent_type}_cog.py")
-        
+                                   f"test_{agent_type}_cog.py")
         cmd = [
             "python3",
             test_script,
             "--base_model", model_name,
             "--num_runs", num_runs,
-             # You can adjust the number of runs
-        ] 
+        ]
+
+        if agent_type == "op":
+            if dataset_path:
+                cmd += ["--dataset_path", dataset_path]
+            if system_prompt_path:
+                cmd += ["--system_prompt_path", system_prompt_path]
+            if not use_cache:
+                cmd += ["--no-cache", "--no-gt-cache"]
+            if complex_only:
+                cmd.append("--complex_only")
+            if clear_cache:
+                cmd.append("--clear-cache")
 
         if system_prompt_type is not None:
             cmd += ["--system_prompt_type", system_prompt_type.value]
@@ -73,7 +88,7 @@ def create_combined_summary(model_results, agent_type, system_prompt_type = None
         summary_file = Path(current_dir) / f"{agent_type}_cog" / "model_comparison_summary.txt"
     
     with open(summary_file, "w") as f:
-        f.write(f"{agent_type.upper()} Agent Model Comparison Summary - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        f.write(f"{agent_type.upper()} Cog Model Comparison Summary - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
         f.write("="*80 + "\n\n")
         
         for model_name, stats_file in model_results.items():
@@ -117,9 +132,23 @@ def main():
                     choices=[prompt_type.value for prompt_type in SystemPromptType],
                     help='Type of system prompt to test')
     
-    parser.add_argument('--num_runs', type=str, default = '5',
+    parser.add_argument('--num_runs', type=str, default = '3',
                   help='Number of runs for the models')
+
+    parser.add_argument('--clear-cache', action='store_true',
+                        help='Clears cache.')
     
+    parser.add_argument('--use_cache', action='store_true',
+                  help='Enable execution caching for both ground truth and predictions')
+
+    parser.add_argument('--complex_only', action='store_true',
+                        help='Only run complex control flow dataset items.')
+
+    parser.add_argument('--dataset_path', type=str,
+                        help='Custom dataset path (applies to op-cog only)')
+    parser.add_argument('--system_prompt_path', type=str,
+                        help='Path to system prompt file (op-cog only)')
+
     args = parser.parse_args()
 
     # Convert string to enum if system_prompt_type is provided
@@ -131,9 +160,14 @@ def main():
 
     print(f"Starting model comparison tests for {args.agent_type} agent{prompt_info}...")
     model_results = run_tests_for_all_models(
-        args.agent_type, 
-        args.num_runs, 
-        system_prompt_type=getattr(args, 'system_prompt_type', None)
+        args.agent_type,
+        args.num_runs,
+        system_prompt_type=args.system_prompt_type,
+        dataset_path=args.dataset_path,
+        system_prompt_path=args.system_prompt_path,
+        use_cache=args.use_cache,
+        clear_cache=args.clear_cache,
+        complex_only=args.complex_only
     )
 
     if model_results:
@@ -141,7 +175,7 @@ def main():
         create_combined_summary(
             model_results, 
             args.agent_type, 
-            system_prompt_type=getattr(args, 'system_prompt_type', None)
+            system_prompt_type=args.system_prompt_type
         )   
     else:
         print("No results to analyze!")

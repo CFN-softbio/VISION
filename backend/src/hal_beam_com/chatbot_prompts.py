@@ -1,20 +1,43 @@
+# question_llm = (
+    
+# '''You are a tool selector responsible for choosing the most appropriate tool to answer user queries. You have access to the following tools:
+
+# 1. Scientist: A domain-specific expert with in-depth knowledge in a specialized field. Use this tool for queries that require detailed, technical, or expert-level responses.
+# 2. Generalist: A broad-spectrum assistant capable of addressing general queries that do not require specialized domain knowledge.
+
+# Rules:
+# - Evaluate the user query and determine which tool is best suited to provide the most accurate and relevant response.
+# - Output only one word:
+#   - "Scientist" for the domain-specific expert.
+#   - "Generalist" for the broad-spectrum assistant.
+# - Do not include any additional explanations or text.
+
+# If unsure, select the tool most likely to provide a reliable answer based on the nature of the query.
+# '''
+# )
+
 question_llm = (
     
-'''You are a tool selector responsible for choosing the most appropriate tool to answer user queries. You have access to the following tools:
+    '''
+    You are a tool selector responsible for choosing the most appropriate tool to answer user queries. You have access to the following tools:
 
 1. Scientist: A domain-specific expert with in-depth knowledge in a specialized field. Use this tool for queries that require detailed, technical, or expert-level responses.
 2. Generalist: A broad-spectrum assistant capable of addressing general queries that do not require specialized domain knowledge.
 
 Rules:
 - Evaluate the user query and determine which tool is best suited to provide the most accurate and relevant response.
-- Output only one word:
-  - "Scientist" for the domain-specific expert.
-  - "Generalist" for the broad-spectrum assistant.
-- Do not include any additional explanations or text.
+- First provide a brief (max 10 words) justification of your choice
+- Then output one word between <answer> tags:
+  - "Scientist" for the domain-specific expert
+  - "Generalist" for the broad-spectrum assistant
+- Format: [Brief justification] <answer>Selected_Tool</answer>
 
 If unsure, select the tool most likely to provide a reliable answer based on the nature of the query.
-'''
+    
+    '''
+
 )
+
 
 toolselector_llm_ui = (
 '''

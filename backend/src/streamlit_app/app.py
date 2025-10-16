@@ -16,6 +16,25 @@ from src.hal_beam_com.chatbot_utils import (
 
 )
 
+import re
+
+def extract_answer_tags(text):
+    """
+    Extract content between <answer> and </answer> tags.
+    
+    Args:
+        text (str): The input text containing answer tags
+        
+    Returns:
+        str: Content between the tags, or None if not found
+    """
+    pattern = r'<answer>(.*?)</answer>'
+    match = re.search(pattern, text, re.DOTALL)  # re.DOTALL allows matching across newlines
+    
+    if match:
+        return match.group(1).strip()  # .strip() removes leading/trailing whitespace
+    return None
+
 def format_chat_history(chat_history):
     has_assistant = any(message["role"] == "assistant" for message in chat_history)
     
@@ -42,7 +61,7 @@ def ask_llm_page():
 about = st.Page(about_page, title="About", icon=":material/info:")
 ask_llm = st.Page(ask_llm_page, title="Ask LLM", icon=":material/chat:")
 
-pg = st.navigation({"Home": [ask_llm], "About": [about]})
+# pg = st.navigation({"Home": [ask_llm], "About": [about]})
 
 # Display chat messages from history on app rerun
 for message in st.session_state.messages:
@@ -56,7 +75,8 @@ if prompt := st.chat_input("Ask LLM"):
 
     with st.spinner("Thinking ..."):
         prompt_type = classifier(prompt, history = format_chat_history(st.session_state.messages))
-
+        prompt_type = extract_answer_tags(prompt_type)
+        print(prompt_type)
         match prompt_type:
             case "Generalist":
                 print("GOING TO GENERALIST")

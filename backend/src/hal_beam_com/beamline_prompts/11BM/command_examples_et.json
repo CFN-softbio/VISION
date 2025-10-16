@@ -1,0 +1,1154 @@
+[
+    {
+        "example_inputs": [
+            "Measure the sample for 5 seconds and increase the temperature by 10 degrees."
+        ],
+        "output": "",
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Analyze the diffraction patterns and perform peak fitting."
+        ],
+        "output": "",
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Set the humidity to 60% and start the beamline measurement."
+        ],
+        "output": "",
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Convert the detector images to reciprocal space q images and perform data reduction."
+        ],
+        "output": "",
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Record that we observed unexpected peaks at high temperatures."
+        ],
+        "output": "",
+        "cog": "Notebook",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Note: The sample alignment was off by 2 degrees."
+        ],
+        "output": "",
+        "cog": "Notebook",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Write that the temperature reached 25\u00b0C during the experiment."
+        ],
+        "output": "",
+        "cog": "Notebook",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "We need gpcam"
+        ],
+        "output": "",
+        "cog": "gpcam",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Start gp cam for autonomous experiment"
+        ],
+        "output": "",
+        "cog": "gpcam",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Can we start Tsuchinoko"
+        ],
+        "output": "",
+        "cog": "gpcam",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Start xicam"
+        ],
+        "output": "",
+        "cog": "xicam",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "We need xiCAM"
+        ],
+        "output": "",
+        "cog": "xicam",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Check data with xi-cam"
+        ],
+        "output": "",
+        "cog": "xicam",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Measure sample for 5 seconds."
+        ],
+        "output": "sam.measure(5)",
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Sample is perovskite."
+        ],
+        "output": "sam = Sample('perovskite')",
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Move sample x to 1.5."
+        ],
+        "output": "sam.xabs(1.5)",
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Align the sample."
+        ],
+        "output": "sam.align()",
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Increase the temperature to 250 degrees at a ramp rate of 2 degrees per minute."
+        ],
+        "output": "sam.setLinkamRate(2) \nsam.setLinkamTemperature(250)",
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Measure for 1 second at theta 0.12."
+        ],
+        "output": "sam.measureIncidentAngle(0.12, exposure_time=1)",
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Move sample up by 1.5."
+        ],
+        "output": "sam.yr(1.5)",
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "What is the sample temperature?"
+        ],
+        "output": "sam.linkamTemperature()",
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Measure sample for 10 seconds but don't save the data."
+        ],
+        "output": "sam.snap(10)",
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Set incident angle to 0.2 degrees."
+        ],
+        "output": "sam.thabs(0.2)",
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "check the sample motors"
+        ],
+        "output": "wsam()",
+        "cog": "Op",
+        "default": false
+    },
+    {
+        "example_inputs": [
+            "I want to look at the data, how does the measurement look?"
+        ],
+        "output": "thumbnails",
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "We should check the 1d curve"
+        ],
+        "output": "circular_average",
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "We should check the integration along the rings"
+        ],
+        "output": "circular_average",
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "What is the qr_image"
+        ],
+        "output": "qr_image",
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Show me the q image."
+        ],
+        "output": "q_image",
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "I want to see the circular average, where is the peak?"
+        ],
+        "output": "circular_average",
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Show me linecut qr at qz=0.1, thickness=0.05"
+        ],
+        "output": "linecut_qr 0.1",
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Show me linecut qz at qr=1.5, thickness=0.05"
+        ],
+        "output": "linecut_qz 1.5",
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "I want to see the linecut angle at q=0.1."
+        ],
+        "output": "linecut_angle 0.1",
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "For a fixed q, we want to know the angular intensity variation"
+        ],
+        "output": "linecut_angle",
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "example_inputs": [
+            "Show the sector average"
+        ],
+        "output": "sector_average",
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "class": "Data Reduction and Analysis Protocols",
+        "title": "Integrate data over a section or pie area",
+        "function": "Protocols.sector_average(angle=70, dangle=10, show_region=True)",
+        "params": [
+            {
+                "name": "angle",
+                "type": "float",
+                "description": "the center of the angle"
+            },
+            {
+                "name": "dangle",
+                "type": "float",
+                "description": "full range of the pie-shape or sector"
+            }
+        ],
+        "notes": [ This data reduction protocol takes average over a certain sector and output intenstiy over q. The integrates area is pie-shaped.
+        ],
+        "usage": [
+            {
+                "input": "We want to see the sector average, in the direction of 70 degree over a 10 degree range",
+                "code": "Protocols.sector_average(angle=70, dangle=10, show_region=True)"
+            }
+        ],
+        "example_inputs": [
+            "We need the integration but just around angle 45",
+            "I am interested in the sector average"
+        ],
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "class": "Data Reduction and Analysis Protocols",
+        "title": "Fit peak on circular average",
+        "function": "Protocols.circular_average_q2I_fit(plot_range=[0.8, 1.3, 0, None], qn_power=0.0, trim_range=[0.1, 3.5], fit_range=[0.95, 1.4], num_curves=2, q0=[1.00, 1.2], sigma=0.02, show_curves=1, label_filename=True)",
+        "params": [
+            {
+                "name": "qn_power",
+                "type": "float",
+                "description": "scale q"
+            },
+            {
+                "name": "fit_range",
+                "type": "list of float",
+                "description": "the range to apply fitting to"
+            },
+            {
+                "name": "num_curves",
+                "type": "int",
+                "description": "number of curves to fit. This should match the number of elements in q0"
+            },
+            {
+                "name": "q0",
+                "type": "list of float",
+                "description": "Rough guess of the peak center(s)."
+            }
+        ],
+        "notes": [ This data reduction protocol takes the circular average and output intenstiy over q, and then apply fitting to find the peak position, peak width, peak intensity.    
+        ],
+        "usage": [
+            {
+                "input": "Base on circular average, fit the peak around 0.08",
+                "code": "Protocols.circular_average_q2I_fit(plot_range=[0, 0.08+0.1, 0, None], qn_power=0.0, trim_range=[0, 0.08+0.1], fit_range=[0.08-0.05, 0.08+0.05], num_curves=1, q0=[0.08], sigma=0.02, show_curves=1, label_filename=True)"
+            },
+            {
+                "input": "We think there are two peaks around 0.2 and 0.25",
+                "code": "Protocols.circular_average_q2I_fit(plot_range=[0, 0.25+0.1, 0, None], qn_power=0.0, trim_range=[0, 0.25+0.1], fit_range=[0.2-0.05, 0.25+0.05], num_curves=2, q0=[0.2, 0.25], sigma=0.02, show_curves=1, label_filename=True)"
+            }
+        ],
+        "example_inputs": [
+            "We want to fit the peak",
+        ],
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "class": "Data Reduction and Analysis Protocols",
+        "title": "Circular average over q",
+        "function": "Protocols.circular_average(name='circular_average_folder', ylog=True, twotheta=False)",
+        "params": [
+            {
+                "name": "name",
+                "type": "string",
+                "description": "millimeters"
+            },
+            {
+                "name": "ylog",
+                "type": "binary",
+                "description": "if the intensity is in log10 or not"
+            },
+            {
+                "name": "twotheta",
+                "type": "binary",
+                "description": "show results in intensity versus two-theta"
+            }
+        ],
+        "notes": [ This data reduction protocol takes the circular average and output intenstiy over q. If the same analysis protocol is peformed twice, can use the 'name' in the function parameter to specify the output result folder. Use can use the 'ylog' flag to enable log10 scale on the intensity. User can use twotheta=True in the function parameter to show internsity over two-theta, else the defaul is internsity over q.        
+        ],
+        "usage": [
+            {
+                "input": "Show the circular average, plot log intensity",
+                "code": "Protocols.circular_average(name='circular_average_folder', ylog=True, twotheta=False)"
+            },
+            {
+                "input": "Show the data integration, plot over two theta",
+                "code": "Protocols.circular_average(name='circular_average_folder', ylog=False, twotheta=True)"
+            }
+        ],
+        "example_inputs": [
+            "We are interested in the 1d curve",
+            "Let us see the circular average",
+            "What is the radial integration"
+        ],
+        "cog": "Ana",
+        "default": true
+    },
+    {
+        "class": "Sample Measurement Commands",
+        "title": "Measure Sample",
+        "function": "sam.measure(exposure_time)",
+        "params": [
+            {
+                "name": "exposure_time",
+                "type": "float",
+                "description": "seconds"
+            }
+        ],
+        "notes": [
+            "This command might take longer than the exposure time to complete.\nTherefore use time.time() to check how long it actually took if there's a need to measure in a specific interval.\n\nExample: \"Measure 5 seconds every minute, for 10 minutes.\"\nIn this case, you would measure for 5 seconds, then check the time it took to complete the measurement. If it took less than 60 seconds, you would wait for the remaining time."
+        ],
+        "usage": [
+            {
+                "input": "Measure sample for 5 seconds",
+                "code": "sam.measure(5)"
+            }
+        ],
+        "example_inputs": [
+            "Measure 5 seconds"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Sample Measurement Commands",
+        "title": "Snap (Measure Sample without Saving)",
+        "function": "sam.snap(exposure_time)",
+        "params": [
+            {
+                "name": "exposure_time",
+                "type": "int",
+                "description": "seconds"
+            }
+        ],
+        "notes": [
+            "This command measures the sample but does not save the data."
+        ],
+        "usage": [
+            {
+                "input": "Measure sample for 5 seconds but don't save the data.",
+                "code": "sam.snap(5)"
+            }
+        ],
+        "example_inputs": [
+            "Measure sample 2 seconds, no save."
+        ],
+        "default": true,
+        "cog": "Op"
+    },
+    {
+        "class": "Sample Measurement Commands",
+        "title": "Measure Time Series",
+        "function": "sam.measureTimeSeries(exposure_time, num_frames, wait_time)",
+        "params": [
+            {
+                "name": "exposure_time",
+                "type": "float",
+                "description": "seconds"
+            },
+            {
+                "name": "num_frames",
+                "type": "int",
+                "description": "usually set to 9999 or an arbitrarily large number so the user can quit when desired"
+            },
+            {
+                "name": "wait_time",
+                "type": "float",
+                "description": "seconds"
+            }
+        ],
+        "notes": [
+            "This function is sometimes sufficient, rather than using a loop.\nHowever, if the user wants to perform additional actions between measurements, a loop is necessary.\nAn example of this would be if the user wants to move the sample between measurements to avoid radiation damage to the sample.\nThey could then for example do sam.xr(0.2) for every measurement, or for e.g. every five measurements."
+        ],
+        "usage": [
+            {
+                "input": "Measure sample for 5 seconds every 10 seconds but wait 10 minutes, keep doing this forever",
+                "code": "sam.measureTimeSeries(5, 9999, 10)"
+            }
+        ],
+        "default": true,
+        "cog": "Op"
+    },
+    {
+        "class": "Combined Temperature Commands",
+        "title": "Increase Temperature with Ramp Rate",
+        "function": [
+            "sam.setLinkamRate(2)",
+            "sam.setLinkamTemperature(250)"
+        ],
+        "notes": [
+            "This command increases the temperature to the specified value at the specified ramp rate."
+        ],
+        "example_inputs": [
+            "Increase the temperature to 250 degrees at a ramp rate of 2 degrees per minute."
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Sample Measurement Commands",
+        "title": "Fast Measure without Overhead",
+        "function": "sam.series_measure(num_frames, exposure_time, exposure_period, wait_time)",
+        "params": [
+            {
+                "name": "num_frames",
+                "type": "int",
+                "description": "number of frames, usually set to 9999 or an arbitrarily large number so the user can quit when desired"
+            },
+            {
+                "name": "exposure_time",
+                "type": "float",
+                "description": "seconds, the exposure time for single point"
+            },
+            {
+                "name": "exposure_period",
+                "type": "float",
+                "description": "seconds, the exposure period for single point. should be at least 0.05s longer than exposure_time"
+            },
+            {
+                "name": "wait_time",
+                "type": "float",
+                "description": "seconds, can be None"
+            }
+        ],
+        "notes": [
+            "Different from `measureTimeSeries`, this function triggers measurement in a 'burst' mode to avoid overhead, we use this when we need high temporal resolution."
+        ],
+        "usage": [
+            {
+                "input": "We want to do very fast measurements with little overhead. Measure every half a second.",
+                "code": "sam.series_measure(num_frames = 9999, exposure_time=0.5, exposure_period=0.55, wait_time=None)"
+            }
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Sample Measurement Commands",
+        "title": "Measure Multiple Points with Moving Motors",
+        "function": "sam.measureSpots(num_spots, translation_amount, axis, exposure_time)",
+        "params": [
+            {
+                "name": "num_spots",
+                "type": "int",
+                "description": "number of spots to measure"
+            },
+            {
+                "name": "translation_amount",
+                "type": "float",
+                "description": "millimeters"
+            },
+            {
+                "name": "axis",
+                "type": "string",
+                "description": "axis to move along, 'x', 'y', 'th' (tilt)"
+            },
+            {
+                "name": "exposure_time",
+                "type": "float",
+                "description": "seconds"
+            }
+        ],
+        "usage": [
+            {
+                "input": "Scan along y direction 0.1mm each time for 10 measurements with an exposure time of 2.",
+                "code": "sam.measureSpots(num_spots=10, translation_amount=0.1, axis='y', exposure_time=2)"
+            }
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Alignment Command",
+        "title": "Align Sample",
+        "function": "sam.align()",
+        "example_inputs": [
+            "Align the sample",
+            "Sample alignment"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Incident Angle Measurement",
+        "title": "Measure at Single Incident Angle",
+        "function": "sam.measureIncidentAngle(angle, exposure_time=exposure_time)",
+        "params": [
+            {
+                "name": "angle",
+                "type": "float",
+                "description": "degrees"
+            },
+            {
+                "name": "exposure_time",
+                "type": "float",
+                "description": "seconds"
+            }
+        ],
+        "example_inputs": [
+            "Measure for 1 second at theta 0.12"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Incident Angle Measurement",
+        "title": "Measure at Multiple Incident Angles",
+        "function": "sam.measureIncidentAngles(angles=None, exposure_time=None)",
+        "params": [
+            {
+                "name": "angles",
+                "type": "list of floats",
+                "description": "degrees"
+            },
+            {
+                "name": "exposure_time",
+                "type": "float",
+                "description": "seconds"
+            }
+        ],
+        "example_inputs": [
+            "Measure at 0.1, 0.2, and 0.3 degrees for 2 seconds each"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Motor Movements",
+        "title": "Print Sample Position",
+        "function": "wsam()",
+        "notes": [
+            "Prints motor positions of the sample for x, y, and incident angle (theta).\n\nOutput:\nsmx = <SMX POSITION>\nsmy = <SMY POSITION>\nsth = <STH POSITION>"
+        ],
+        "example_inputs": [
+            "Where is the sample",
+            "What is the sample position",
+            "What is the sample motor x",
+            "What is the sample y",
+            "write down position",
+            "output sample motor positions"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Motor Movements",
+        "title": "Set Origin of Motors",
+        "function": "sam.setOrigin(axes, positions=None)",
+        "params": [
+            {
+                "name": "axes",
+                "type": "required, list of strings",
+                "description": "for example: ['x', 'y', 'th']"
+            },
+            {
+                "name": "positions",
+                "type": "optional, list of floats",
+                "description": "millimeters"
+            }
+        ],
+        "notes": [
+            "Define the current position as the zero-point (origin) for this stage/sample. The axes to be considered in this redefinition must be supplied as a list.\n\nIf the optional positions parameter is passed, then those positions are used to define the origins for the axes.\n\nWhenever the user doesn't specify the direction, you need to pass all axes ['x', 'y', 'th']. If you leave it empty, it will crash.\n\n'x' for x-axis, 'y' for y-axis, 'th' for incident angle."
+        ],
+        "usage": [
+            {
+                "input": "Assign origin sample",
+                "code": "sam.setOrigin(['x', 'y', 'th'])"
+            },
+            {
+                "input": "Note down current sample position as origin",
+                "code": "sam.setOrigin(['x', 'y', 'th'])"
+            },
+            {
+                "input": "Set current x position as x-axis origin",
+                "code": "sam.setOrigin(['x'])"
+            },
+            {
+                "input": "Set the y-axis origin to 0.5mm",
+                "code": "sam.setOrigin(['y'], [0.5])"
+            }
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Motor Movements",
+        "title": "Move to Absolute X Position",
+        "function": "sam.xabs(position)",
+        "params": [
+            {
+                "name": "position",
+                "type": "float",
+                "description": "millimeters"
+            }
+        ],
+        "example_inputs": [
+            "Move sample x to 1.5"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Motor Movements",
+        "title": "Move to Absolute Y Position",
+        "function": "sam.yabs(position)",
+        "params": [
+            {
+                "name": "position",
+                "type": "float",
+                "description": "millimeters"
+            }
+        ],
+        "example_inputs": [
+            "Move sample y to 0.4"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Motor Movements",
+        "title": "Set Absolute Incident Angle",
+        "function": "sam.thabs(angle)",
+        "params": [
+            {
+                "name": "angle",
+                "type": "float",
+                "description": "degrees"
+            }
+        ],
+        "notes": [
+            "Also called incident angle or tilt."
+        ],
+        "example_inputs": [
+            "Set incident angle to 0.2 degrees",
+            "tilt sample by 10 degrees"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Motor Movements",
+        "title": "Set Absolute Phi Angle",
+        "function": "sam.phiabs(angle)",
+        "params": [
+            {
+                "name": "angle",
+                "type": "float",
+                "description": "degrees"
+            }
+        ],
+        "notes": [
+            "When user mentions rotation, it is usually phi rotation, unless otherwise specified.\nAlso called in-plane rotation."
+        ],
+        "example_inputs": [
+            "Rotate sample to 10 degrees",
+            "Set phi to 20 degrees"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Motor Movements",
+        "title": "Move Relative X",
+        "function": "sam.xr(offset)",
+        "params": [
+            {
+                "name": "offset",
+                "type": "float",
+                "description": "millimeters"
+            }
+        ],
+        "notes": [
+            "When user talks mentions moving the sample, it's along the x-axis, unless otherwise specified. Note the 'r' in 'xr' means this is a relative movement."
+        ],
+        "example_inputs": [
+            "Move sample x by 1.5",
+            "Shift sample by 0.6"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Motor Movements",
+        "title": "Move Relative Y",
+        "function": "sam.yr(offset)",
+        "params": [
+            {
+                "name": "offset",
+                "type": "float",
+                "description": "millimeters"
+            }
+        ],
+        "example_inputs": [
+            "Move sample up by 1.2"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Motor Movements",
+        "title": "Move Relative Theta",
+        "function": "sam.thr(offset)",
+        "params": [
+            {
+                "name": "offset",
+                "type": "float",
+                "description": "millimeters"
+            }
+        ],
+        "example_inputs": [
+            "Increase incident angle by 0.1 degrees"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Temperature Control",
+        "title": "Set Heating Ramp Rate",
+        "function": "sam.setLinkamRate(rate)",
+        "params": [
+            {
+                "name": "rate",
+                "type": "float",
+                "description": "degrees per minute"
+            }
+        ],
+        "example_inputs": [
+            "Set heating ramp to 2 degrees per minute"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Temperature Control",
+        "title": "Set Temperature",
+        "function": "sam.setLinkamTemperature(temperature)",
+        "params": [
+            {
+                "name": "temperature",
+                "type": "float",
+                "description": "degrees"
+            }
+        ],
+        "notes": [
+            "Always use this command if the user asks you to change temperature, you cannot leave it out.",
+            "This is **not** a blocking command. The temperature may take some time to reach the set value.\nUse the `sam.linkamTemperature()` command to check the current temperature if you require to measure at a certain temperature.\nThen keep checking with a while loop if the `desired_temperature` has been reached by using `while sam.linkamTemperature() < desired_temperature - (some epsilon)`.",
+            "You should set a ramp rate before calling this function using `sam.setLinkamRate(rate)`, otherwise it will use the previous ramp rate. If the user leaves it undefined in their utterance- you can put the ramp rate to 30 (maximum)."
+        ],
+        "example_inputs": [
+            "Set temperature to 50 degrees Celsius"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Temperature Control",
+        "title": "Check Temperature",
+        "function": "sam.linkamTemperature()",
+        "example_inputs": [
+            "What is the sample temperature"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Combined Temperature Commands",
+        "title": "Go to Temperature as Quickly as Possible",
+        "function": [
+            "sam.setLinkamRate(30)",
+            "sam.setLinkamTemperature(250)"
+        ],
+        "notes": [
+            "These commands set the temperature with the maximum possible ramp rate."
+        ],
+        "example_inputs": [
+            "Go to 300 degrees directly",
+            "Go to 200 degrees as fast as possible",
+            "Set temperature to 250 degrees ASAP"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+    	"class": "Beamline configuration",
+        "title": "Stop a Beamline Measurement",
+        "function": [
+            "RE.abort()",
+            "beam.off()"
+        ],
+        "notes": [
+            "This is a custom python functions at the beamline. Tell the user to press ctrl+c on the iPython interactive session.\nIn this case you don't have to strictly write only code as you are allowed to tell them to press ctrl+c and then recommend the commands listed above."
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Detector Selection",
+        "title": "Select WAXS Detector",
+        "function": "detselect(pilatus800)",
+        "notes": [
+            "This is a custom python function that selects the WAXS detector to perform measurements."
+        ],
+        "example_inputs": [
+            "Select the WAXS detector.",
+            "We want to collect waxs data",
+            "this selects the waxs detector for measurement"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Detector Selection",
+        "title": "Select MAXS Detector",
+        "function": "detselect(pilatus8002)",
+        "notes": [
+            "This is a custom python function that selects the MAXS detector in the open sample area or the modular table."
+        ],
+        "example_inputs": [
+            "I need maxs",
+            "Select the MAXS detector"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Detector Selection",
+        "title": "Select SAXS Detector",
+        "function": "detselect(pilatus2M)",
+        "notes": [
+            "This is a custom python function that selects the SAXS detector to perform measurements."
+        ],
+        "example_inputs": [
+            "We want to do saxs measurements",
+            "Select the SAXS detector"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Detector Selection",
+        "title": "Select SWAXS Detectors (SAXS + WAXS)",
+        "function": "detselect([pilatus2M, pilatus800])",
+        "notes": [
+            "This is a custom python function that selects both saxs and waxs detector to do SWAXS measurements."
+        ],
+        "example_inputs": [
+            "We want to do saxs and waxs measurements",
+            "I want both detectors",
+            "Do swaxs"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline configuration",
+        "title": "Check beamstop",
+        "function": "wbs()",
+        "notes": [
+            "Checks the beam stop positions, including bsx, bsy, and bphi."
+        ],
+        "example_inputs": [
+            "Where is the beamstop",
+            "What is the beam stop position"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline configuration",
+        "title": "Check SAXS detector position",
+        "function": "wSAXS()",
+        "notes": [
+            "This is a custom python function that displays the SAXS detector positions, including SAXSx, SAXSy, and SAXSz."
+        ],
+        "example_inputs": [
+            "Where is the SAXS detector"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline configuration",
+        "title": "Check WAXS detector position",
+        "function": "wWAXS()",
+        "notes": [
+            "This is a custom python function that displays the WAXS detector positions, including WAXSx, WAXSy, and WAXSz."
+        ],
+        "example_inputs": [
+            "Where is WAXS position"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline configuration",
+        "title": "Check MAXS detector position",
+        "function": "wMAXS()",
+        "notes": [
+            "This is a custom python function that displays the MAXS detector positions, including MAXSx, MAXSy, and MAXSz."
+        ],
+        "example_inputs": [
+            "What is the MAXS position"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Beamline configuration",
+        "title": "Scan a specified motor",
+        "function": "fit_scan(motor, span, num=11)",
+        "params": [
+            {
+                "name": "motor",
+                "type": "motor name",
+                "description": "the motor to move and scan. Note do not use string with quotation, use the motor name as is, e.g. smx, smy." 
+            },
+            {
+                "name": "span",
+                "type": "float",
+                "description": "The total size of the scan range (centered about the current position). If a two-element list is instead specified, this is interpreted as the distances relative to the current position for the start and end." 
+            },
+            {
+                "name": "num",
+                "type": "int",
+                "description": "The number of scan points." 
+            }
+        ],
+        "notes": [
+            "Scans the specified motor, and attempts to fit the data as requested."
+        ],
+        "usage": [
+            {
+                "input": "Quick scan x to find the sample edge",
+                "code": "fit_scan(smx, 5, 26)"
+            },
+            {
+                "input": "Fit scan y from -1 mm to current position",
+                "code": "fit_scan(smx, [-1, 0], 26)"
+            },
+            {
+                "input": "Scan y to find the sample surface",
+                "code": "fit_scan(smy, 5, 11)"
+            },
+            {
+                "input": "Do a fit scan over theta 1 degree",
+                "code": "fit_scan(sth, 1, 21)"
+            }
+    	],
+        "example_inputs": [
+            "Quick scan for smy for 1mm over 21 points",
+            "We need a fit scan"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Sample configuration",
+        "title": "Select sample",
+        "function": "sam = hol.gotoSample(1)",
+        "params": [
+            {
+                "name": "sample number",
+                "type": "int",
+                "description": "sample number on the holder" 
+            }
+        ],
+        "notes": [
+            "This assigns a sample on the holder to be the sample object that we are interested in."
+        ],
+        "usage": [
+            {
+                "input": "We need sample 5 on the holder",
+                "code": "sam = hol.gotoSample(5)"
+            },
+            {
+                "input": "Go to sample 10",
+                "code": "sam = hol.gotoSample(10)"
+            }
+    	],
+        "example_inputs": [
+            "Go to the second sample"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Sample configuration",
+        "title": "Set sample position",
+        "function": "sam.setOrigin(['x', 'y', 'th'])",
+        "params": [
+            {
+                "name": "list of strings with motors",
+                "type": "list",
+                "description": "motors to be set for sample origin" 
+            }
+        ],
+        "notes": [
+            "This sets the motor position as the sample origin. Can do this just for x and/or y and/or theta."
+        ],
+        "usage": [
+            {
+                "input": "Set the current x position as the sample x origin",
+                "code": "sam.setOrigin(['x'])"
+            },
+            {
+                "input": "Set the current y position as the sample y origin",
+                "code": "sam.setOrigin(['y'])"
+            },
+            {
+                "input": "Set the current theta position as the sample theta origin",
+                "code": "sam.setOrigin(['th'])"
+            }
+    	],
+        "example_inputs": [
+            "Set the current sample motor positions as the sample origin"
+        ],
+        "cog": "Op",
+        "default": true
+    },
+    {
+        "class": "Holder configuration",
+        "title": "Set holder position",
+        "function": "hol.setOrigin(['x', 'y', 'th'])",
+        "params": [
+            {
+                "name": "list of strings with motors",
+                "type": "list",
+                "description": "motors to be set for holder origin" 
+            }
+        ],
+        "notes": [
+            "This sets the motor position as the holder origin. Can do this just for x and/or y and/or theta."
+        ],
+        "usage": [
+            {
+                "input": "Set the current x position as the sample x origin",
+                "code": "hol.setOrigin(['x'])"
+            },
+            {
+                "input": "Set the current y position as the sample y origin",
+                "code": "hol.setOrigin(['y'])"
+            },
+            {
+                "input": "Set the current theta position as the sample theta origin",
+                "code": "hol.setOrigin(['th'])"
+            }
+    	],
+        "example_inputs": [
+            "Set the current motor positions as the holder origin"
+        ],
+        "cog": "Op",
+        "default": true
+    }
+]
