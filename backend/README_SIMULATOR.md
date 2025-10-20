@@ -2,7 +2,7 @@
 
 This file documents how to **install and launch the CMS beamline simulator** used by the tests in `tests/test_op_cog.py`.
 
-Please view the `docker-related/` directory if you want to skip doing all this setup. It will do all this setup in a docker container automatically.
+**Please view** the `docker-related/` directory if you want to skip doing all this setup. Specifically, check out the `docker-related/README.md`. It will do all this setup in a docker container automatically.
 
 ---
 
