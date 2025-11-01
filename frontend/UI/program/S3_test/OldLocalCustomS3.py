@@ -3,6 +3,7 @@ import io
 import os
 import time
 import json
+import shutil
 import numpy as np
 from pathlib import Path
 from .Base import Base
@@ -34,6 +35,7 @@ class CustomS3(Base):
                  name='S3',
                  save_dir='./',
                  log_verbosity=5,
+                 client_id=None,
                  **kwargs):
 
         super().__init__(name=name, log_verbosity=log_verbosity, **kwargs)
@@ -46,6 +48,7 @@ class CustomS3(Base):
         self.receive = receive
         self.save_dir = save_dir
         self.bucket_name = bucket_name
+        self.client_id = client_id
 
         # Use system temp directory for inter-process communication
         self.comm_dir = Path(get_system_temp_dir())
@@ -64,6 +67,9 @@ class CustomS3(Base):
             os.chmod(self.base_path, 0o777)
             os.chmod(self.send_path_dir, 0o777)
             os.chmod(self.receive_path_dir, 0o777)
+
+        # Track processed files to avoid re-processing
+        self._seen_objects = set()
 
         self.msg(f"Using communication directory: {self.comm_dir}", 4, 1)
 
@@ -115,20 +121,117 @@ class CustomS3(Base):
 
         self.msg(f'Sent local data: {comm_file_path}', 4, 2)
 
-    def get(self, save=True, check_interrupted=True, force_load=False):
+    def publish_status_file(self, file_path, name=None):
+        """Upload a status file to the local communication directory"""
+        self.msg(f'Uploading status file ({self.now()})...', 4, 1)
+
+        p = Path(file_path)
+        name = p.name if name is None else f'{name}{p.suffix}'
+        
+        # Create status directory in communication path
+        status_dir = self.base_path / 'status' / self.send
+        status_dir.mkdir(parents=True, exist_ok=True)
+        
+        dest_path = status_dir / name
+
+        # Copy the file to the status directory
+        shutil.copy2(file_path, dest_path)
+        
+        if os.name != 'nt':
+            os.chmod(dest_path, 0o666)
+
+        self.msg(f'Sent local status file: {dest_path}', 4, 2)
+
+    def get_status_files(self, name='status', timestamp=False):
+        """Retrieve status files from the local communication directory"""
+        status_prefix = self.base_path / name
+        now_str = self.now(str_format='%Y-%m-%d_%H%M%S')
+
+        self.msg(f'Getting status files ({self.now()})', 4, 1)
+        self.msg(f'recursive searching: {status_prefix}', 4, 2)
+
+        if not status_prefix.exists():
+            self.msg(f'Status directory does not exist: {status_prefix}', 3, 2)
+            return
+
+        # Walk through all files in the status directory
+        for file_path in status_prefix.rglob('*'):
+            if file_path.is_file():
+                self.msg(f'downloading: {file_path}', 4, 3)
+
+                # Calculate relative path from base_path
+                relative_path = file_path.relative_to(self.base_path)
+                
+                if timestamp:
+                    dest_path = Path(self.save_dir) / 'status' / now_str / relative_path.relative_to(name)
+                else:
+                    dest_path = Path(self.save_dir) / relative_path
+
+                # Create destination directory if needed
+                dest_path.parent.mkdir(parents=True, exist_ok=True)
+
+                try:
+                    shutil.copy2(file_path, dest_path)
+                except Exception as ex:
+                    self.msg_error('Python Exception in get_status_files', 1, 2)
+                    self.print(ex)
+
+        self.msg('Done.', 4, 2)
+
+    def get(self, save=True, check_interrupted=True, force_load=False, return_all=False):
+        """Get the current item being published, optionally returning all available messages"""
         self.msg(f'Getting data/command ({self.now()})', 4, 1)
 
         if force_load or (check_interrupted and self.interrupted()):
             self.msg('Loading data/command from disk...', 4, 1)
             data = self.load()
+            
+            if isinstance(data, (list, tuple, np.ndarray)):
+                self.msg(f'Loaded: list length {len(data)}', 4, 2)
+            else:
+                self.msg('Loaded.', 4, 2)
         else:
-            self.msg(f'Waiting for data/command ({self.now()})...', 4, 1)
-            data = self.get_s3_file()
-
-        if isinstance(data, (list, tuple, np.ndarray)):
-            self.msg(f'Received: list length {len(data)}', 4, 2)
-        else:
-            self.msg('Received.', 4, 2)
+            messages = []
+            while not messages:  # wait until at least one new file is available
+                # List all files and sort chronologically
+                all_files = sorted(self.receive_path_dir.glob('*.npy'), key=lambda f: f.stat().st_mtime)
+                
+                for file_path in all_files:
+                    file_str = str(file_path)
+                    if file_str in self._seen_objects:
+                        continue  # already consumed
+                    
+                    tmp_file = Path(self.save_dir) / f'_tmp_{file_path.name}'
+                    try:
+                        shutil.copy2(file_path, tmp_file)
+                        msg = np.load(tmp_file, allow_pickle=True)
+                        messages.append(msg)
+                        self._seen_objects.add(file_str)
+                        
+                        if tmp_file.exists():
+                            tmp_file.unlink()
+                            self.msg(f"{tmp_file} deleted.", 4, 3)
+                    except Exception as ex:
+                        self.msg_error(f'Error processing file {file_path.name}: {str(ex)}', 1, 2)
+                
+                if not messages:
+                    time.sleep(0.05)  # short pause before retrying
+            
+            # If caller wants everything (streaming) return the full list.
+            # Otherwise deliver only the newest message to avoid flooding
+            # single-shot request/reply calls with a backlog.
+            if return_all:
+                data = messages
+            else:
+                data = messages[-1]  # newest (list is chronological)
+            
+            if isinstance(data, (list, tuple, np.ndarray)):
+                if return_all:
+                    self.msg(f'Received: {len(data)} messages', 4, 2)
+                else:
+                    self.msg(f'Received: list length {len(data)}', 4, 2)
+            else:
+                self.msg('Received.', 4, 2)
 
         return data
 
@@ -173,7 +276,20 @@ class CustomS3(Base):
         file_path = Path(self.save_dir) / f'{self.name}-{stype}.npy'
         return np.load(file_path, allow_pickle=True)
 
+    def flush(self):
+        """
+        Mark all current files in the receive queue as already seen.
+        This ensures that only new files (created after this call)
+        are delivered on next get().
+        """
+        try:
+            for file_path in self.receive_path_dir.glob('*.npy'):
+                self._seen_objects.add(str(file_path))
+        except Exception as ex:
+            self.msg_warning(f'flush() failed: {ex}', 2, 1)
+
     def clear(self):
+        """Remove saved files for this queue and reset seen-object tracking"""
         self.msg('Clearing queue saved files.', 2, 1)
 
         for stype in ['received', 'sent']:
@@ -183,6 +299,9 @@ class CustomS3(Base):
                 file_path.unlink()
             else:
                 self.msg(f'{stype.capitalize()} data does not exist ({file_path})', 3, 2)
+
+        # Reset the seen-object tracking
+        self._seen_objects.clear()
 
 
 class Queue_AI(CustomS3):

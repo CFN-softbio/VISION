@@ -3,6 +3,7 @@ import io
 import os
 import time
 import json
+import shutil
 import numpy as np
 from pathlib import Path
 from Base import Base
@@ -134,6 +135,63 @@ class CustomS3(Base):
 
         self.msg(f'Sent local data: {comm_file_path}', 4, 2)
 
+    def publish_status_file(self, file_path, name=None):
+        """Upload a status file to the local communication directory"""
+        self.msg(f'Uploading status file ({self.now()})...', 4, 1)
+
+        p = Path(file_path)
+        name = p.name if name is None else f'{name}{p.suffix}'
+        
+        # Create status directory in communication path
+        status_dir = self.base_path / 'status' / self.send
+        status_dir.mkdir(parents=True, exist_ok=True)
+        
+        dest_path = status_dir / name
+
+        # Copy the file to the status directory
+        shutil.copy2(file_path, dest_path)
+        
+        if os.name != 'nt':
+            os.chmod(dest_path, 0o666)
+
+        self.msg(f'Sent local status file: {dest_path}', 4, 2)
+
+    def get_status_files(self, name='status', timestamp=False):
+        """Retrieve status files from the local communication directory"""
+        status_prefix = self.base_path / name
+        now_str = self.now(str_format='%Y-%m-%d_%H%M%S')
+
+        self.msg(f'Getting status files ({self.now()})', 4, 1)
+        self.msg(f'recursive searching: {status_prefix}', 4, 2)
+
+        if not status_prefix.exists():
+            self.msg(f'Status directory does not exist: {status_prefix}', 3, 2)
+            return
+
+        # Walk through all files in the status directory
+        for file_path in status_prefix.rglob('*'):
+            if file_path.is_file():
+                self.msg(f'downloading: {file_path}', 4, 3)
+
+                # Calculate relative path from base_path
+                relative_path = file_path.relative_to(self.base_path)
+                
+                if timestamp:
+                    dest_path = Path(self.save_dir) / 'status' / now_str / relative_path.relative_to(name)
+                else:
+                    dest_path = Path(self.save_dir) / relative_path
+
+                # Create destination directory if needed
+                dest_path.parent.mkdir(parents=True, exist_ok=True)
+
+                try:
+                    shutil.copy2(file_path, dest_path)
+                except Exception as ex:
+                    self.msg_error('Python Exception in get_status_files', 1, 2)
+                    self.print(ex)
+
+        self.msg('Done.', 4, 2)
+
     def get(self, save=True, check_interrupted=True, force_load=False):
         self.msg(f'Getting data/command ({self.now()})', 4, 1)
 
@@ -192,11 +250,15 @@ class CustomS3(Base):
         file_path = Path(self.save_dir) / f'{self.name}-{stype}.npy'
         return np.load(file_path, allow_pickle=True)
 
-    def clear(self):
+    def clear(self, name=None):
+        """Remove the saved files."""
         self.msg('Clearing queue saved files.', 2, 1)
 
+        if name is None:
+            name = self.name
+
         for stype in ['received', 'sent']:
-            file_path = Path(self.save_dir) / f'{self.name}-{stype}.npy'
+            file_path = Path(self.save_dir) / f'{name}-{stype}.npy'
             if file_path.exists():
                 self.msg(f'Removing {file_path}', 3, 2)
                 file_path.unlink()
