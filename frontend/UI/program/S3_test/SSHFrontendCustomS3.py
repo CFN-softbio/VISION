@@ -66,6 +66,9 @@ class CustomS3(Base):
         self.receive = receive
         self.save_dir = save_dir
 
+        # Track processed files to avoid re-processing
+        self._seen_files = set()
+
         # Create remote directories if they don't exist
         self._ensure_remote_paths()
 
@@ -265,6 +268,104 @@ class CustomS3(Base):
             self.msg_error(f'Error in publish_s3_file: {str(ex)}', 1, 2)
             raise
 
+    def publish_status_file(self, file_path, name=None):
+        """Upload a status file to the remote server via SFTP"""
+        self.msg(f'Uploading status file ({self.now()})...', 4, 1)
+
+        p = Path(file_path)
+        name = p.name if name is None else f'{name}{p.suffix}'
+        
+        # Create remote status directory path
+        remote_status_dir = f'{self.remote_base_path}/vision_data/{self.bucket_name}/{self.experiment}/status/{self.send}'
+        remote_file_path = f'{remote_status_dir}/{name}'
+
+        try:
+            # Ensure remote status directory exists
+            self._ensure_remote_directory(remote_status_dir)
+
+            # Upload the file
+            self.sftp.put(str(file_path), remote_file_path)
+            
+            self.msg(f'Sent SSH status file: {remote_file_path}', 4, 2)
+
+        except Exception as ex:
+            self.msg_error(f'Error uploading status file: {str(ex)}', 1, 2)
+            raise
+
+    def get_status_files(self, name='status', timestamp=False):
+        """Download status files from the remote server via SFTP"""
+        remote_prefix = f'{self.remote_base_path}/vision_data/{self.bucket_name}/{self.experiment}/{name}'
+        now_str = self.now(str_format='%Y-%m-%d_%H%M%S')
+
+        self.msg(f'Getting status files ({self.now()})', 4, 1)
+        self.msg(f'recursive searching: {remote_prefix}', 4, 2)
+
+        try:
+            # Check if remote directory exists
+            try:
+                self.sftp.stat(remote_prefix)
+            except FileNotFoundError:
+                self.msg(f'Status directory does not exist: {remote_prefix}', 3, 2)
+                return
+
+            # Recursively download files
+            self._download_directory_recursive(remote_prefix, name, timestamp, now_str)
+
+            self.msg('Done.', 4, 2)
+
+        except Exception as ex:
+            self.msg_error(f'Error in get_status_files: {str(ex)}', 1, 2)
+
+    def _download_directory_recursive(self, remote_path, base_name, timestamp, now_str):
+        """Recursively download all files from a remote directory"""
+        try:
+            # List all items in the directory
+            for item in self.sftp.listdir_attr(remote_path):
+                remote_item_path = f'{remote_path}/{item.filename}'
+                
+                # Calculate relative path
+                relative_path = remote_item_path.split(f'{self.experiment}/{base_name}/')[-1]
+                
+                if self._is_directory(item):
+                    # Recursively process subdirectories
+                    self._download_directory_recursive(remote_item_path, base_name, timestamp, now_str)
+                else:
+                    # Download file
+                    self.msg(f'downloading: {remote_item_path}', 4, 3)
+                    
+                    if timestamp:
+                        local_file_path = Path(self.save_dir) / base_name / now_str / relative_path
+                    else:
+                        local_file_path = Path(self.save_dir) / base_name / relative_path
+
+                    # Create local directory if needed
+                    local_file_path.parent.mkdir(parents=True, exist_ok=True)
+
+                    try:
+                        self.sftp.get(remote_item_path, str(local_file_path))
+                    except Exception as ex:
+                        self.msg_error(f'Error downloading {remote_item_path}: {str(ex)}', 1, 2)
+
+        except Exception as ex:
+            self.msg_error(f'Error in _download_directory_recursive: {str(ex)}', 1, 2)
+
+    def _is_directory(self, item):
+        """Check if an SFTP item is a directory"""
+        import stat
+        return stat.S_ISDIR(item.st_mode)
+
+    def _ensure_remote_directory(self, path):
+        """Ensure a remote directory exists, creating it if necessary"""
+        try:
+            self.sftp.stat(path)
+        except FileNotFoundError:
+            # Directory doesn't exist, create it recursively
+            parent = os.path.dirname(path)
+            if parent and parent != path:
+                self._ensure_remote_directory(parent)
+            self.msg(f'Creating remote directory: {path}', 4, 2)
+            self.sftp.mkdir(path)
+
     def _try_reconnect(self):
         """Try to reconnect SFTP session"""
         try:
@@ -281,9 +382,30 @@ class CustomS3(Base):
                                  self._password)
                 self.sftp = self.ssh.open_sftp()
 
-    def clear(self):
+    def flush(self):
+        """
+        Mark all current files in the receive queue as already seen.
+        This ensures that only new files (uploaded after this call)
+        are delivered on next get().
+        """
+        try:
+            receive_path = self.receive_path()
+            try:
+                self.sftp.stat(receive_path)
+                for f in self.sftp.listdir(receive_path):
+                    remote_file = f'{receive_path}/{f}'
+                    self._seen_files.add(remote_file)
+            except FileNotFoundError:
+                pass  # Directory doesn't exist yet, nothing to flush
+        except Exception as ex:
+            self.msg_warning(f'flush() failed: {ex}', 2, 1)
+
+    def clear(self, name=None):
         """Remove all files in remote and local directories"""
         try:
+            if name is None:
+                name = self.name
+
             # Clear remote files
             receive_path = self.receive_path()
             send_path = self.send_path()
@@ -302,13 +424,14 @@ class CustomS3(Base):
 
             # Clear local files
             for stype in ['received', 'sent']:
-                path = f'{self.save_dir}/{self.name}-{stype}.npy'
+                path = f'{self.save_dir}/{name}-{stype}.npy'
                 if os.path.exists(path):
                     os.remove(path)
                     self.msg(f'Removed local file: {path}', 4, 2)
 
-            # Reset timestamp
-            self._last_processed_time = time.time()  # Update to current time
+            # Reset timestamp and seen files tracking
+            self._last_processed_time = time.time()
+            self._seen_files.clear()
 
         except Exception as e:
             self.msg_error(f'Error during clear: {str(e)}', 1, 2)
@@ -334,13 +457,67 @@ class CustomS3(Base):
         except Exception as ex:
             self.msg_error(f'Error closing connections: {str(ex)}', 1, 2)
 
-    def get(self, save=True, check_interrupted=True, force_load=False):
+    def get(self, save=True, check_interrupted=True, force_load=False, return_all=False):
+        """Get data from the queue, optionally returning all available messages"""
         if force_load or (check_interrupted and self.interrupted()):
             self.msg('Loading data/command from disk...', 4, 1)
             data = self.load()
         else:
             self.msg('Waiting for data/command...', 4, 1)
-            data = self.get_s3_file()
+            
+            messages = []
+            receive_path = self.receive_path()
+            
+            while not messages:  # Wait until at least one new file is available
+                try:
+                    self.sftp.stat(receive_path)
+                except FileNotFoundError:
+                    self._ensure_remote_paths()
+                    time.sleep(0.05)
+                    continue
+                
+                # List all files and sort chronologically
+                files = []
+                for f in self.sftp.listdir(receive_path):
+                    try:
+                        remote_file = f'{receive_path}/{f}'
+                        if remote_file in self._seen_files:
+                            continue  # Already consumed
+                        
+                        stat = self.sftp.stat(remote_file)
+                        files.append((f, stat.st_mtime, remote_file))
+                    except Exception as e:
+                        self.msg_warning(f'Failed to stat file {f}: {str(e)}', 3, 2)
+                        continue
+                
+                # Sort by modification time to ensure FIFO order
+                files.sort(key=lambda x: x[1])
+                
+                for fname, mtime, remote_file in files:
+                    tmp_file = os.path.join(self.save_dir, f'_tmp_{fname}')
+                    try:
+                        self.sftp.get(remote_file, tmp_file)
+                        msg = np.load(tmp_file, allow_pickle=True)
+                        messages.append(msg)
+                        self._seen_files.add(remote_file)
+                        
+                        if os.path.exists(tmp_file):
+                            os.remove(tmp_file)
+                            self.msg(f"{tmp_file} deleted.", 4, 3)
+                    except Exception as ex:
+                        self.msg_error(f'Error processing file {fname}: {str(ex)}', 1, 2)
+                
+                if not messages:
+                    time.sleep(0.05)  # Short pause before retrying
+            
+            # If caller wants everything (streaming) return the full list.
+            # Otherwise deliver only the newest message to avoid flooding
+            # single-shot request/reply calls with a backlog.
+            if return_all:
+                data = messages
+            else:
+                data = messages[-1]  # Newest (list is chronological)
+        
         return data
 
     def publish(self, data, save=True):
