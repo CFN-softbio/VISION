@@ -9,18 +9,39 @@ from pathlib import Path
 from .Base import Base
 
 
-def get_system_temp_dir():
-    """Get the appropriate system-wide temp directory"""
+def get_shared_comm_dir():
+    """
+    Get the shared communication directory that works across Docker and host.
+    Checks environment variable first, then uses OS-specific defaults.
+    
+    Priority:
+    1. HAL_COMM_DIR environment variable (if set)
+    2. OS-specific default in user's home directory
+    
+    Returns a Path that should be mounted/accessible from both container and host.
+    """
+    # Check for explicit environment variable
+    env_dir = os.environ.get('HAL_COMM_DIR')
+    if env_dir:
+        return Path(env_dir)
+    
+    # Use defaults based on OS
+    home = Path.home()
+    
     if os.name == 'nt':  # Windows
-        return os.path.join(os.environ.get('TEMP', 'C:\\Temp'), 'hal_communication')
+        # Use AppData\Local for Windows
+        base_dir = Path(os.environ.get('LOCALAPPDATA', home / 'AppData' / 'Local'))
+        return base_dir / 'hal_vision' / 'shared'
     else:  # Linux/Mac
-        return os.path.join('/tmp', 'hal_communication')
+        # Use hidden directory in home for Unix-like systems
+        return home / '.hal_vision' / 'shared'
 
 
 class CustomS3(Base):
     """
     Local version of CustomS3 that mimics S3 behavior using local filesystem.
     Maintains the same interface as the original CustomS3 class.
+    Designed to work across Docker container and host machine via shared volume.
     """
 
     def __init__(self,
@@ -50,8 +71,8 @@ class CustomS3(Base):
         self.bucket_name = bucket_name
         self.client_id = client_id
 
-        # Use system temp directory for inter-process communication
-        self.comm_dir = Path(get_system_temp_dir())
+        # Use shared communication directory for inter-process/container communication
+        self.comm_dir = get_shared_comm_dir()
         self.base_path = self.comm_dir / bucket_name / experiment
         self.send_path_dir = self.base_path / send
         self.receive_path_dir = self.base_path / receive
@@ -61,17 +82,22 @@ class CustomS3(Base):
         self.send_path_dir.mkdir(parents=True, exist_ok=True)
         self.receive_path_dir.mkdir(parents=True, exist_ok=True)
 
-        # Set appropriate permissions for the communication directory
+        # Set appropriate permissions for the communication directory (Unix only)
         if os.name != 'nt':  # Not Windows
-            os.chmod(self.comm_dir, 0o777)
-            os.chmod(self.base_path, 0o777)
-            os.chmod(self.send_path_dir, 0o777)
-            os.chmod(self.receive_path_dir, 0o777)
+            try:
+                os.chmod(self.comm_dir, 0o777)
+                os.chmod(self.base_path, 0o777)
+                os.chmod(self.send_path_dir, 0o777)
+                os.chmod(self.receive_path_dir, 0o777)
+            except (OSError, PermissionError) as e:
+                self.msg(f"Warning: Could not set permissions: {e}", 3, 1)
 
         # Track processed files to avoid re-processing
         self._seen_objects = set()
 
-        self.msg(f"Using communication directory: {self.comm_dir}", 4, 1)
+        self.msg(f"Using shared communication directory: {self.comm_dir}", 4, 1)
+        self.msg(f"Send path: {self.send_path_dir}", 5, 2)
+        self.msg(f"Receive path: {self.receive_path_dir}", 5, 2)
 
     def send_path(self):
         return '{}/{}'.format(self.experiment, self.send)
@@ -117,7 +143,10 @@ class CustomS3(Base):
         np.save(local_file_path, data, allow_pickle=True)
 
         if os.name != 'nt':
-            os.chmod(comm_file_path, 0o666)
+            try:
+                os.chmod(comm_file_path, 0o666)
+            except (OSError, PermissionError) as e:
+                self.msg(f"Warning: Could not set file permissions: {e}", 4, 2)
 
         self.msg(f'Sent local data: {comm_file_path}', 4, 2)
 
@@ -138,7 +167,10 @@ class CustomS3(Base):
         shutil.copy2(file_path, dest_path)
         
         if os.name != 'nt':
-            os.chmod(dest_path, 0o666)
+            try:
+                os.chmod(dest_path, 0o666)
+            except (OSError, PermissionError) as e:
+                self.msg(f"Warning: Could not set file permissions: {e}", 4, 2)
 
         self.msg(f'Sent local status file: {dest_path}', 4, 2)
 
