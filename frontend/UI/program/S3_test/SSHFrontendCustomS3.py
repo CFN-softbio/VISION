@@ -2,10 +2,12 @@
 import io
 import os
 import time
+import uuid
 from pathlib import Path
 import paramiko
 import numpy as np
 from .Base import Base
+from .multi_client_base import MultiClientQueueBase, ClientSpecificQueueBase
 
 
 class CustomS3(Base):
@@ -23,6 +25,7 @@ class CustomS3(Base):
                  save_dir='./',
                  log_verbosity=5,
                  clear_on_start=True,
+                 client_id=None,
                  **kwargs):
 
         super().__init__(name=name, log_verbosity=log_verbosity, **kwargs)
@@ -39,6 +42,9 @@ class CustomS3(Base):
                 raise EnvironmentError("SSH_PASSWORD environment variable is not set.")
 
         self._password = password  # Store for potential reconnection
+        self._username = username
+        self._endpoint = endpoint
+        self._port = port
 
         # Setup SSH client
         self.ssh = paramiko.SSHClient()
@@ -65,6 +71,7 @@ class CustomS3(Base):
         self.send = send
         self.receive = receive
         self.save_dir = save_dir
+        self.client_id = client_id or str(uuid.uuid4())
 
         # Track processed files to avoid re-processing
         self._seen_files = set()
@@ -577,3 +584,165 @@ class Queue_user(CustomS3):
         super().__init__(username=username, send=send, receive=receive, endpoint=endpoint, password=password,
                          experiment=experiment, name=name, save_dir=save_dir, verbosity=verbosity,
                          remote_base_path=remote_base_path, **kwargs)
+
+
+class MultiClientQueue_AI(CustomS3, MultiClientQueueBase):
+    """
+    Multi-client queue for AI server that can handle requests from multiple clients simultaneously.
+    Each client gets its own dedicated queue path to avoid conflicts.
+    Uses SSH/SFTP backend for storage.
+    """
+
+    def __init__(self, username=USERNAME, endpoint=ENDPOINT, password=PASSWORD, port=22,
+                 experiment=EXPERIMENT, name='multiClientAI', save_dir='./', verbosity=VERBOSITY,
+                 remote_base_path=REMOTE_PATH, **kwargs):
+        CustomS3.__init__(self, username=username, send='ai', receive='user', endpoint=endpoint,
+                        password=password, port=port, experiment=experiment, name=name,
+                        save_dir=save_dir, log_verbosity=verbosity, remote_base_path=remote_base_path,
+                        clear_on_start=False, **kwargs)
+        MultiClientQueueBase.__init__(self)
+
+        # Store parameters for creating client queues
+        self.username = username
+        self.endpoint = endpoint
+        self.password = password
+        self.port = port
+        self.remote_base_path_param = remote_base_path
+
+    def _discover_clients_from_storage(self):
+        """Discover new clients by checking for client-specific directories via SSH."""
+        discovered_clients = set()
+        try:
+            # Look for directories starting with 'user_' in the base experiment path
+            base_path = f'{self.remote_base_path}/vision_data/{self.bucket_name}/{self.experiment}'
+            
+            try:
+                # List all items in the directory
+                for item in self.sftp.listdir_attr(base_path):
+                    if self._is_directory(item) and item.filename.startswith('user_'):
+                        client_id = item.filename[5:]  # Remove 'user_' prefix
+                        discovered_clients.add(client_id)
+            except FileNotFoundError:
+                self.msg(f'Base path does not exist yet: {base_path}', 4, 2)
+            except Exception as e:
+                self.msg_error(f'Error listing directory {base_path}: {str(e)}', 2, 2)
+
+        except Exception as e:
+            print(f"[MULTI-CLIENT] Error discovering clients from SSH: {e}")
+
+        return discovered_clients
+
+    def _create_client_queue(self, client_id):
+        """Create a new SSH-based queue instance for a specific client."""
+        return ClientSpecificQueue(
+            username=self.username,
+            send=f'ai_{client_id}',
+            receive=f'user_{client_id}',
+            endpoint=self.endpoint,
+            password=self.password,
+            port=self.port,
+            experiment=self.experiment,
+            name=f'aiSSH_{client_id}',
+            save_dir=self.save_dir,
+            verbosity=self.log_verbosity,
+            remote_base_path=self.remote_base_path_param,
+            client_id=client_id,
+            clear_on_start=False
+        )
+
+    def _get_client_queue_name(self, client_id):
+        """Get the queue name for a specific client."""
+        return f'aiSSH_{client_id}'
+
+
+class ClientSpecificQueue(CustomS3, ClientSpecificQueueBase):
+    """
+    Queue for a specific client with non-blocking get capability.
+    Uses SSH/SFTP backend for storage.
+    """
+
+    def __init__(self, **kwargs):
+        CustomS3.__init__(self, **kwargs)
+
+    def get_non_blocking(self):
+        """
+        Non-blocking version of get() that returns None if no data is available.
+        """
+        try:
+            receive_path = self.receive_path()
+            
+            # Check if directory exists
+            try:
+                self.sftp.stat(receive_path)
+            except FileNotFoundError:
+                return None
+
+            # Get list of files
+            files = []
+            for f in self.sftp.listdir(receive_path):
+                try:
+                    stat = self.sftp.stat(f'{receive_path}/{f}')
+                    files.append((f, stat.st_mtime))
+                except Exception as e:
+                    self.msg_warning(f'Failed to stat file {f}: {str(e)}', 3, 2)
+                    continue
+
+            if not files:
+                return None
+
+            # Sort by modification time and get oldest file
+            files.sort(key=lambda x: x[1])
+            oldest_file, _ = files[0]
+            remote_file = f'{receive_path}/{oldest_file}'
+
+            # Download file
+            local_path = f'{self.save_dir}/{self.name}-received.npy'
+            
+            try:
+                self.sftp.get(remote_file, local_path)
+                
+                if not os.path.exists(local_path) or os.path.getsize(local_path) == 0:
+                    return None
+
+                # Load data
+                loaded_data = np.load(local_path, allow_pickle=True).item()
+                data = loaded_data['data']
+
+                # Delete the remote file after reading
+                self.sftp.remove(remote_file)
+                
+                return data
+
+            except Exception as ex:
+                self.msg_error(f'Error reading file {remote_file}: {ex}', 1, 2)
+                return None
+
+        except Exception as ex:
+            self.msg_error(f'Error in get_non_blocking: {ex}', 1, 2)
+            return None
+
+
+class MultiClientQueue_user(CustomS3):
+    """
+    Multi-client queue for user clients that can send requests to the AI server.
+    Uses SSH/SFTP backend for storage.
+    """
+
+    def __init__(self, client_id=None, username=USERNAME, endpoint=ENDPOINT, password=PASSWORD, port=22,
+                 experiment=EXPERIMENT, name='multiClientUser', save_dir='./', verbosity=VERBOSITY,
+                 remote_base_path=REMOTE_PATH, **kwargs):
+        # Generate client_id if not provided
+        if client_id is None:
+            client_id = str(uuid.uuid4())
+
+        # Use client-specific queue names
+        send_queue = f'user_{client_id}'
+        receive_queue = f'ai_{client_id}'
+
+        super().__init__(username=username, send=send_queue, receive=receive_queue, endpoint=endpoint,
+                        password=password, port=port, experiment=experiment, name=name, save_dir=save_dir,
+                        log_verbosity=verbosity, remote_base_path=remote_base_path, client_id=client_id,
+                        clear_on_start=False, **kwargs)
+
+        print(f"[MULTI-CLIENT-USER] Initialized with client_id: {client_id}")
+        print(f"[MULTI-CLIENT-USER] Send queue: {send_queue}, Receive queue: {receive_queue}")

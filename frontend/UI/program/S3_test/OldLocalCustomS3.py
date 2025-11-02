@@ -4,9 +4,11 @@ import os
 import time
 import json
 import shutil
+import uuid
 import numpy as np
 from pathlib import Path
 from .Base import Base
+from .multi_client_base import MultiClientQueueBase, ClientSpecificQueueBase
 
 
 def get_shared_comm_dir():
@@ -69,7 +71,7 @@ class CustomS3(Base):
         self.receive = receive
         self.save_dir = save_dir
         self.bucket_name = bucket_name
-        self.client_id = client_id
+        self.client_id = client_id or str(uuid.uuid4())
 
         # Use shared communication directory for inter-process/container communication
         self.comm_dir = get_shared_comm_dir()
@@ -354,3 +356,119 @@ class Queue_user(CustomS3):
                          endpoint=endpoint, secret_key_path=secret_key_path,
                          experiment=experiment, name=name, save_dir=save_dir,
                          log_verbosity=verbosity, **kwargs)
+
+
+class MultiClientQueue_AI(CustomS3, MultiClientQueueBase):
+    """
+    Multi-client queue for AI server that can handle requests from multiple clients simultaneously.
+    Each client gets its own dedicated queue path to avoid conflicts.
+    Uses local filesystem for storage.
+    """
+
+    def __init__(self, username="local", endpoint="local", secret_key_path=None,
+                 experiment=None, name='multiClientAI', save_dir='./', verbosity=5, **kwargs):
+        CustomS3.__init__(self, username=username, send='ai', receive='user', endpoint=endpoint,
+                        secret_key_path=secret_key_path, experiment=experiment, name=name,
+                        save_dir=save_dir, log_verbosity=verbosity, **kwargs)
+        MultiClientQueueBase.__init__(self)
+
+        # Store parameters for creating client queues
+        self.username = username
+        self.endpoint = endpoint
+        self.secret_key_path = secret_key_path
+
+    def _discover_clients_from_storage(self):
+        """Discover new clients by checking for client-specific directories in filesystem."""
+        discovered_clients = set()
+        try:
+            # Look for directories starting with 'user_' in the base path
+            for path in self.base_path.glob('user_*'):
+                if path.is_dir():
+                    client_id = path.name[5:]  # Remove 'user_' prefix
+                    discovered_clients.add(client_id)
+
+        except Exception as e:
+            print(f"[MULTI-CLIENT] Error discovering clients from filesystem: {e}")
+
+        return discovered_clients
+
+    def _create_client_queue(self, client_id):
+        """Create a new local filesystem-based queue instance for a specific client."""
+        return ClientSpecificQueue(
+            username=self.username,
+            send=f'ai_{client_id}',
+            receive=f'user_{client_id}',
+            endpoint=self.endpoint,
+            secret_key_path=self.secret_key_path,
+            experiment=self.experiment,
+            name=f'aiS3_{client_id}',
+            save_dir=self.save_dir,
+            verbosity=self.log_verbosity,
+            client_id=client_id
+        )
+
+    def _get_client_queue_name(self, client_id):
+        """Get the queue name for a specific client."""
+        return f'aiS3_{client_id}'
+
+
+class ClientSpecificQueue(CustomS3, ClientSpecificQueueBase):
+    """
+    Queue for a specific client with non-blocking get capability.
+    Uses local filesystem for storage.
+    """
+
+    def __init__(self, **kwargs):
+        CustomS3.__init__(self, **kwargs)
+
+    def get_non_blocking(self):
+        """
+        Non-blocking version of get() that returns None if no data is available.
+        """
+        try:
+            # Check if there are any files in the receive path
+            files = sorted(self.receive_path_dir.glob('*.npy'))
+
+            if not files:
+                return None
+
+            # Get the first available file
+            file_path = files[0]
+
+            try:
+                data = np.load(file_path, allow_pickle=True)
+                # Delete the file after reading
+                file_path.unlink()
+                return data
+
+            except Exception as ex:
+                self.msg_error(f'Error reading file {file_path}: {ex}', 1, 2)
+                return None
+
+        except Exception as ex:
+            self.msg_error(f'Error in get_non_blocking: {ex}', 1, 2)
+            return None
+
+
+class MultiClientQueue_user(CustomS3):
+    """
+    Multi-client queue for user clients that can send requests to the AI server.
+    Uses local filesystem for storage.
+    """
+
+    def __init__(self, client_id=None, username="local", endpoint="local", secret_key_path=None,
+                 experiment=None, name='multiClientUser', save_dir='./', verbosity=5, **kwargs):
+        # Generate client_id if not provided
+        if client_id is None:
+            client_id = str(uuid.uuid4())
+
+        # Use client-specific queue names
+        send_queue = f'user_{client_id}'
+        receive_queue = f'ai_{client_id}'
+
+        super().__init__(username=username, send=send_queue, receive=receive_queue, endpoint=endpoint,
+                        secret_key_path=secret_key_path, experiment=experiment, name=name, save_dir=save_dir,
+                        log_verbosity=verbosity, client_id=client_id, **kwargs)
+
+        print(f"[MULTI-CLIENT-USER] Initialized with client_id: {client_id}")
+        print(f"[MULTI-CLIENT-USER] Send queue: {send_queue}, Receive queue: {receive_queue}")

@@ -11,6 +11,7 @@ from minio import Minio
 
 from Base import Base
 from src.hal_beam_com.model_manager import ModelManager
+from src.hal_beam_com.multi_client_base import MultiClientQueueBase, ClientSpecificQueueBase
 
 from utils import model_configurations, ACTIVE_CONFIG, get_finetuned_config
 
@@ -445,29 +446,28 @@ class Queue_user(CustomS3):  # user at beamline
                          experiment=experiment, name=name, save_dir=save_dir, verbosity=verbosity, **kwargs)
 
 
-class MultiClientQueue_AI(CustomS3):
+class MultiClientQueue_AI(CustomS3, MultiClientQueueBase):
     """
     Multi-client queue for AI server that can handle requests from multiple clients simultaneously.
     Each client gets its own dedicated queue path to avoid conflicts.
+    Uses the Minio S3 backend for storage.
     """
 
     def __init__(self, username=USERNAME, endpoint=ENDPOINT, secret_key_path=SECRET_KEY_PATH,
                  experiment=EXPERIMENT, name='multiClientAI', save_dir='./', verbosity=VERBOSITY, **kwargs):
-        super().__init__(username=username, send='ai', receive='user', endpoint=endpoint,
+        CustomS3.__init__(self, username=username, send='ai', receive='user', endpoint=endpoint,
                         secret_key_path=secret_key_path, experiment=experiment, name=name,
                         save_dir=save_dir, verbosity=verbosity, **kwargs)
+        MultiClientQueueBase.__init__(self)
 
-        # Store username for creating client queues
+        # Store parameters for creating client queues
         self.username = username
         self.endpoint = endpoint
         self.secret_key_path = secret_key_path
 
-        # Track active client queues
-        self.active_clients = {}
-        self.client_queues = {}
-
-    def discover_new_clients(self):
-        """Discover new clients by checking for client-specific directories."""
+    def _discover_clients_from_storage(self):
+        """Discover new clients by checking for client-specific directories in S3."""
+        discovered_clients = set()
         try:
             # List all objects in the user directory to find client-specific queues
             objects = list(self.client.list_objects(
@@ -483,110 +483,41 @@ class MultiClientQueue_AI(CustomS3):
                     user_part = path_parts[1]  # user_clientid
                     if user_part.startswith('user_'):
                         client_id = user_part[5:]  # Remove 'user_' prefix
-                        if client_id not in self.active_clients:
-                            self.active_clients[client_id] = True
-                            print(f"[MULTI-CLIENT] Discovered new client: {client_id}")
+                        discovered_clients.add(client_id)
 
         except Exception as e:
-            print(f"[MULTI-CLIENT] Error discovering clients: {e}")
+            print(f"[MULTI-CLIENT] Error discovering clients from S3: {e}")
 
-    def get_client_queue(self, client_id):
-        """Get or create a queue for a specific client."""
-        if client_id not in self.client_queues:
-            # Create a new queue instance for this client
-            client_queue = ClientSpecificQueue(
-                username=self.username,
-                send=f'ai_{client_id}',
-                receive=f'user_{client_id}',
-                endpoint=self.endpoint,
-                secret_key_path=self.secret_key_path,
-                experiment=self.experiment,
-                name=f'aiS3_{client_id}',
-                save_dir=self.save_dir,
-                verbosity=self.log_verbosity,
-                client_id=client_id
-            )
-            self.client_queues[client_id] = client_queue
-            self.active_clients[client_id] = True
-            print(f"[MULTI-CLIENT] Created queue for client: {client_id}")
+        return discovered_clients
 
-        return self.client_queues[client_id]
+    def _create_client_queue(self, client_id):
+        """Create a new Minio-based queue instance for a specific client."""
+        return ClientSpecificQueue(
+            username=self.username,
+            send=f'ai_{client_id}',
+            receive=f'user_{client_id}',
+            endpoint=self.endpoint,
+            secret_key_path=self.secret_key_path,
+            experiment=self.experiment,
+            name=f'aiS3_{client_id}',
+            save_dir=self.save_dir,
+            verbosity=self.log_verbosity,
+            client_id=client_id
+        )
 
-    def get(self, save=True, check_interrupted=True, force_load=False):
-        """
-        Get request from any available client queue.
-        Returns tuple of (data, client_id, client_queue).
-        """
-        # First, discover any new clients
-        self.discover_new_clients()
-
-        # Check all active client queues for requests
-        for client_id, is_active in list(self.active_clients.items()):
-            if not is_active:
-                continue
-
-            try:
-                client_queue = self.get_client_queue(client_id)
-                # Try to get data from this client's queue (non-blocking)
-                data = client_queue.get_non_blocking()
-                if data is not None:
-                    print(f"[MULTI-CLIENT] Received request from client: {client_id}")
-                    return data, client_id, client_queue
-            except Exception as e:
-                print(f"[MULTI-CLIENT] Error checking client {client_id}: {e}")
-                # Mark client as inactive if there's an error
-                self.active_clients[client_id] = False
-
-        # If no immediate requests, wait for the first available one
-        # This is a simplified approach - in production you might want more sophisticated polling
-        import time
-        while True:
-            # Periodically rediscover clients
-            self.discover_new_clients()
-
-            for client_id, is_active in list(self.active_clients.items()):
-                if not is_active:
-                    continue
-
-                try:
-                    client_queue = self.get_client_queue(client_id)
-                    data = client_queue.get_non_blocking()
-                    if data is not None:
-                        print(f"[MULTI-CLIENT] Received request from client: {client_id}")
-                        return data, client_id, client_queue
-                except Exception as e:
-                    print(f"[MULTI-CLIENT] Error checking client {client_id}: {e}")
-                    self.active_clients[client_id] = False
-
-            time.sleep(0.1)  # Small delay to prevent busy waiting
-
-    def publish_to_client(self, data, client_id):
-        """Publish response to a specific client."""
-        if client_id in self.client_queues:
-            client_queue = self.client_queues[client_id]
-            client_queue.publish(data)
-            print(f"[MULTI-CLIENT] Published response to client: {client_id}")
-            self.remove_client(client_id)
-            client_queue.clear(f'aiS3_{client_id}')
-        else:
-            print(f"[MULTI-CLIENT] Warning: Client {client_id} not found for publishing")
-
-    def remove_client(self, client_id):
-        """Remove a client from the active clients list."""
-        if client_id in self.active_clients:
-            del self.active_clients[client_id]
-        if client_id in self.client_queues:
-            del self.client_queues[client_id]
-        print(f"[MULTI-CLIENT] Removed client: {client_id}")
+    def _get_client_queue_name(self, client_id):
+        """Get the queue name for a specific client."""
+        return f'aiS3_{client_id}'
 
 
-class ClientSpecificQueue(CustomS3):
+class ClientSpecificQueue(CustomS3, ClientSpecificQueueBase):
     """
     Queue for a specific client with non-blocking get capability.
+    Uses Minio S3 backend for storage.
     """
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        CustomS3.__init__(self, **kwargs)
 
     def get_non_blocking(self):
         """
@@ -631,6 +562,7 @@ class ClientSpecificQueue(CustomS3):
 class MultiClientQueue_user(CustomS3):
     """
     Multi-client queue for user clients that can send requests to the AI server.
+    Uses Minio S3 backend for storage.
     """
 
     def __init__(self, client_id=None, username=USERNAME, endpoint=ENDPOINT, secret_key=SECRET_KEY_PATH,
