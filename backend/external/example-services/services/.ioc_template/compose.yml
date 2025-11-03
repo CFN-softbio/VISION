@@ -1,0 +1,31 @@
+services:
+
+  replace_me:
+
+    extends:
+      service: linux_ioc
+      file: ../../include/ioc.yml
+
+    image: replace_with_image_uri
+
+    labels:
+      version: 0.1.0
+
+    environment:
+      IOCSH_PS1: replace_me >
+      IOC_NAME: replace_me
+
+    volumes:
+      - ../../opi/auto-generated/replace_me:/epics/opi
+
+    configs:
+      - source: replace_me_config
+        target: epics/ioc/config
+
+configs:
+  replace_me_config:
+    file: config
+
+include:
+  - path:
+      ../../include/networks.yml

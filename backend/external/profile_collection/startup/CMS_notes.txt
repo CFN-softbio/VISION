@@ -1,0 +1,23 @@
+1. Timeout error at CMS
+
+Problem: data aquisition was regularly terminated after 8k--15k contineous exposures. The reason is that long timeout is required to read detector PVs. It happened randomly on detector PV. 
+
+Solution: 
+
+locate the error: 
+
+/opt/conda_envs/collection-2020-2.0rc7-1/lib/python3.7/site-packages/epics/ca.py
+
+def get_complete_with_metadata(chid, ftype=None, count=None, timeout=None,
+                               as_string=False, as_numpy=True):
+
+    t0 = time.time()
+    if timeout is None:
+        timeout = 1.0 + log10(max(1, count)) ###this line gives the error
+        
+        
+        change to :::
+        
+        timeout = 10.0 + log10(max(1, count))
+        
+2. extra comments before bsui:  export EPICS_CA_AUTO_ADDR_LIST=no; export EPICS_CA_ADDR_LIST=10.68.83.255
