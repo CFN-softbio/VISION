@@ -88,8 +88,8 @@ class CustomS3(Base):
         initialize_models()
 
         if experiment is None:
-            # Use only date (not hour) so frontend and backend use same experiment name
-            experiment = f'experiment_{self.now(str_format="%Y-%m-%d")}'
+            # If the experiment name is None, just a test folder
+            experiment = "experiment_test"
 
         self.experiment = experiment
         self.send = send
