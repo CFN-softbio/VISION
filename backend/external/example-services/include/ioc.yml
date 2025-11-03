@@ -1,0 +1,60 @@
+# common features for all IOCs in this repository.
+#
+# For use with 'extends' in each individual IOC service description
+
+services:
+  # linux IOCs that run in a container #########################################
+  linux_ioc: &linux_ioc
+    labels:
+      # a reference to which repository created this IOC
+      ioc_group: bl01t
+      # let tools identify which containers are IOCs
+      is_ioc: true
+      # in K8S each IOC can have an indication of what physical location it
+      # should be (used by machine IOCs) this is for parity (but redundant).
+      location: localhost
+
+    security_opt:
+      - label=disable
+
+    # NOTE: blank environment vars should be overriden in individual IOCs
+    environment:
+      IOCSH_PS1:
+      IOC_NAME:
+      # a prefix for devIocStats PVs. Configured externally for health_check
+      IOC_PREFIX:
+      IOC_LOCATION: localhost
+      BEAMLINE: bl01t
+      IOC_GROUP: bl01t
+      EPICS_CA_SERVER_PORT: ${EPICS_CA_SERVER_PORT}
+      EPICS_CA_REPEATER_PORT: ${EPICS_CA_REPEATER_PORT}
+      EPICS_PVA_SERVER_PORT: ${EPICS_PVA_SERVER_PORT}
+
+    tty: true
+    stdin_open: true
+    restart: unless-stopped
+
+    # for docker use 'networks: [channel_access]'
+    # for podman at DLS use 'network_mode: host'
+    # or for both use 'networks: [channel_access]'
+    #    and ca-gateway + pvagw
+    # network_mode: host
+
+    networks:
+      - channel_access
+
+  # proxy services that each manage an RTEMS hard IOC ##########################
+  rtems_ioc:
+    # use an alias to copy all of the linux_ioc spec
+    <<: *linux_ioc
+
+    # and add RTEMS environment variables
+    environment:
+      RTEMS_ROOT_NFS: /nfsv2-tftp
+      RTEMS_ROOT_TFTP: /nfsv2-tftp
+      RTEMS_NFS_IP": 172.23.90.238
+      RTEMS_TFTP_IP": 172.23.90.238
+      # NB. Gateway and Netmask are the same for all RTEMS IOCs on a beamline
+      # But may need to move these to individual IOCs for the Machine.
+      RTEMS_IOC_NETMASK": 255.255.240.0
+      RTEMS_IOC_GATEWAY": 172.23.240.254

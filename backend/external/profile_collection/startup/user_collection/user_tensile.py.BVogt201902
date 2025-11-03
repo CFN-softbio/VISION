@@ -1,0 +1,746 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# vi: ts=4 sw=4
+
+
+
+
+################################################################################
+#  Short-term settings (specific to a particular user/experiment) can
+# be placed in this file. You may instead wish to make a copy of this file in
+# the user's data directory, and use that as a working copy.
+################################################################################
+
+
+#logbooks_default = ['User Experiments']
+#tags_default = ['CFN Soft-Bio']
+
+import pickle
+
+from ophyd import EpicsSignal
+from bluesky.suspenders import SuspendFloor
+
+beam_current = EpicsSignal('SR:OPS-BI{DCCT:1}I:Real-I')
+sus = SuspendFloor(beam_current, 100, resume_thresh=400)
+RE.install_suspender(sus)
+#RE.clear_suspenders()
+
+INTENSITY_EXPECTED_050 = 12065.0
+INTENSITY_EXPECTED_025 = INTENSITY_EXPECTED_050*0.5
+
+
+if False:
+    # The following shortcuts can be used for unit conversions. For instance,
+    # for a motor operating in 'mm' units, one could instead do:
+    #     sam.xr( 10*um )
+    # To move it by 10 micrometers. HOWEVER, one must be careful if using
+    # these conversion parameters, since they make implicit assumptions.
+    # For instance, they assume linear axes are all using 'mm' units. Conversely,
+    # you will not receive an error if you try to use 'um' for a rotation axis!
+    m = 1e3
+    cm = 10.0
+    mm = 1.0
+    um = 1e-3
+    nm = 1e-6
+    
+    inch = 25.4
+    pixel = 0.172 # Pilatus
+    
+    deg = 1.0
+    rad = np.degrees(1.0)
+    mrad = np.degrees(1e-3)
+    urad = np.degrees(1e-6)
+    
+    
+
+
+def get_default_stage():
+    return stg
+
+
+class SampleTSAXS(SampleTSAXS_Generic):
+    
+    def __init__(self, name, base=None, **md):
+        super().__init__(name=name, base=base, **md)
+        #self.naming_scheme = ['name', 'extra', 'exposure_time']
+        self.naming_scheme = ['name', 'extra', 'x', 'y', 'exposure_time']
+
+
+class SampleGISAXS(SampleGISAXS_Generic):
+    
+    def __init__(self, name, base=None, **md):
+        super().__init__(name=name, base=base, **md)
+        self.naming_scheme = ['name', 'extra', 'x', 'y', 'exposure_time']
+        self.naming_scheme = ['name', 'extra', 'clock', 'temperature', 'exposure_time']
+
+
+class Sample(SampleTSAXS):
+#class Sample(SampleGISAXS):
+
+    def __init__(self, name, base=None, **md):
+       
+       super().__init__(name=name, base=base, **md)
+       self._axes['x'].origin = -17.3 
+       self._axes['y'].origin = -5        
+       
+       #self.detector='SAXS'
+       
+       self.SAXS_exposure_time=10
+       #self.WAXS_exposure_time=30
+       
+       #self.naming_scheme = ['name', 'extra', 'clock', 'temperature', 'exposure_time']
+       self.naming_scheme = ['name', 'extra', 'clock', 'x', 'y', 'exposure_time']
+       #self.naming_scheme = ['name', 'extra', 'exposure_time']
+       #for GISAXS/GIWAXS
+       #self.naming_scheme = ['name', 'extra',  'temperature', 'clock','exposure_time']
+       #self.naming_scheme = ['name', 'extra',  'temperature_B', 'exposure_time']
+       #self.naming_scheme = ['name', 'extra', 'th', 'exposure_time']
+
+
+       
+       self.md['exposure_time'] = 10
+       
+       self.incident_angles_default = [0.08, 0.10, 0.12, 0.15, 0.20]
+       #self.incident_angles_default = [0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20]
+       #self.incident_angles_default = [0.05, 0.08, 0.10, 0.12, 0.15]
+       #self.incident_angles_default = [0.02, 0.04, 0.05, 0.06, 0.08, 0.09, 0.1, 0.12, 0.15]
+       #self.incident_angles_default = [0.02, 0.04, 0.06, 0.08, 0.1, 0.12, 0.15]
+       #self.incident_angles_default = [0.0]
+
+       self.x_pos_default = [-1, 0, 1]
+
+
+    def _set_axes_definitions(self):
+        '''Internal function which defines the axes for this stage. This is kept
+        as a separate function so that it can be over-ridden easily.'''
+        super()._set_axes_definitions()
+        
+        self._axes_definitions.append( {'name': 'phi',
+                            'motor': srot,
+                            'enabled': True,
+                            'scaling': +1.0,
+                            'units': 'deg',
+                            'hint': None,
+                            } )
+        self._axes_definitions.append( {'name': 'trans2',
+                            'motor': strans2,
+                            'enabled': True,
+                            'scaling': +1.0,
+                            'units': 'deg',
+                            'hint': None,
+                            } )
+        
+    def _measureTimeSeries(self, exposure_time=None, num_frames=10, wait_time=None, extra=None, measure_type='measureTimeSeries', verbosity=3, **md):
+        
+        self.naming_scheme_hold = self.naming_scheme
+        self.naming_scheme = ['name', 'extra', 'clock', 'exposure_time']
+        super().measureTimeSeries(exposure_time=exposure_time, num_frames=num_frames, wait_time=wait_time, extra=extra, measure_type=measure_type, verbosity=verbosity, **md)
+        self.naming_scheme = self.naming_scheme_hold
+    
+    def goto(self, label, verbosity=3, **additional):
+        super().goto(label, verbosity=verbosity, **additional)
+        # You can add customized 'goto' behavior here
+        
+    def scan_SAXSdet(self, exposure_time=None) :
+        SAXS_pos=[-73, 0, 73]
+        #SAXSx_pos=[-65, 0, 65]
+        
+        RE.md['stitchback'] = True
+                
+        for SAXSx_pos in SAXS_pos:
+            for SAXSy_pos in SAXS_pos:
+                mov(SAXSx, SAXSx_pos)
+                mov(SAXSy, SAXSy_pos)
+                self.measure(10)
+                
+
+    def measureKineticsMultiXY(self, exposure_time=1, num_spots=5, wait_time=None, loop_wait_time=None, extra=None, measure_type='measureKineticsMultiY', verbosity=3, fill_gaps=False, axis='x', **md):
+       
+        #self.xr(-2) # Offset negative
+
+        self.naming_scheme_hold = self.naming_scheme
+        self.naming_scheme = ['name', 'extra', 'clock', 'x', 'y', 'exposure_time']
+       
+        if 'spot_number' not in self.md:
+           self.md['spot_number'] = 1
+       
+        y_move_amount = -0.2
+       
+        x_move_amount = -0.2
+       
+        #spots numbwer in half loop
+        scan_spots = 3
+       
+        #loops number
+        num_spots=math.floor((num_spots-1)/scan_spots/2)+1
+       
+        print('There will be {} scan loops. Each loop contains {} exposures.'.format(num_spots, scan_spots*2))
+       
+        #self.yr(y_move_amount*-1.0*(scan_spots-1)/2)
+           
+        # Keep translating along y axis...
+        for spot_num in range(num_spots):
+           
+            # Measure three different positions along vertical
+           
+            self.xr(x_move_amount)
+            self.yr(y_move_amount*- (np.floor(scan_spots-1)/2 +1))
+                        
+            for ii in range(scan_spots):
+                # Position 1
+                # move to next Position 
+                self.yr(y_move_amount)
+                #extra_current = 'p1' if extra is None else '{}_p1'.format(extra)
+                self.measure(exposure_time=exposure_time, extra=extra, measure_type=measure_type, fill_gaps=fill_gaps, measure_position=1, **md)
+                
+                if verbosity>=3:
+                    print('Measured frame {:d}/{:d} ({:.1f}% complete).'.format((spot_num*num_spots+ii+1), (num_spots*scan_spots*2), 100.0*(spot_num*num_spots+ii+1)/(num_spots*scan_spots*2)))
+                
+                if wait_time is not None:
+                    time.sleep(wait_time)
+            
+            self.xr(x_move_amount*-2.0)
+            #self.yo()
+            #self.yr(y_move_amount)  
+            
+            for ii in range(scan_spots):
+                # Position 2
+                #extra_current = 'p1' if extra is None else '{}_p1'.format(extra)
+                self.measure(exposure_time=exposure_time, extra=extra, measure_type=measure_type, fill_gaps=fill_gaps, measure_position=2, **md)
+
+                if verbosity>=3:
+                    print('Measured frame {:d}/{:d} ({:.1f}% complete).'.format((spot_num*num_spots+ii+1+scan_spots), (num_spots*scan_spots*2), 100.0*(spot_num*num_spots+ii+1+scan_spots)/(num_spots*scan_spots*2)))
+                
+                if wait_time is not None:
+                    time.sleep(wait_time)
+
+                # move to next Position 
+                self.yr(y_move_amount*-1.0)
+
+            
+            self.xo()
+            self.yo()
+                        
+            # Move back to initial y-position
+            #self.yr(y_move_amount*-2.0)
+                
+            # Translate along 'axis'
+            #getattr(self, axis+'r')(translation_amount)
+            self.md['spot_number'] += 1
+
+            if wait_time is not None:
+                time.sleep(wait_time)
+        
+        
+        #self.xr(-2) # Go back to center
+        
+        self.naming_scheme = self.naming_scheme_hold
+            
+    def do(self, step=0, verbosity=3, **md):
+        '''Performs the "default action" for this sample. This usually means 
+        aligning the sample, and taking data.
+        
+        The 'step' argument can optionally be given to jump to a particular
+        step in the sequence.'''
+        
+        if verbosity>=4:
+            print('  doing sample {}'.format(self.name))
+        
+        if step<=1:
+            if verbosity>=5:
+                print('    step 1: goto origin')
+            self.xo() # goto origin
+            self.yo()
+            #self.gotoAlignedPosition()
+            
+        #if step<=5:
+            #self.align()
+            
+        if step<=10:
+            if verbosity>=5:
+                print('    step 10: measuring')
+            detselect([pilatus2M, pilatus800])
+            self.measure(exposure_time=self.SAXS_exposure_time)
+      
+
+    #def do(self, step=0, align_step=0, **md):
+        
+        #if step<=1:
+            #get_beamline().modeAlignment()
+            ##saxs_on()
+            
+        #if step<=2:
+            #self.xo() # goto origin
+
+
+        #if step<=4:
+            #self.yo()
+            #self.tho()
+        
+        #if step<=5:
+            #self.align(step=align_step, reflection_angle=0.12)
+            ##self.setOrigin(['y','th']) # This is done within align
+
+        ##if step<=7:
+            ##self.xr(0.2)
+
+        #if step<=8:
+            #get_beamline().modeMeasurement()
+        
+        #if step<=10:
+            ##saxs_on()
+            #detselect([pilatus2M, pilatus800])
+            #for detector in get_beamline().detector:
+                #RE(detector.setExposureTime(self.SAXS_exposure_time))
+            #self.measureIncidentAngles(self.incident_angles_default, **md)
+            #self.thabs(0.0)
+            ##waxs_on()
+            ##for detector in get_beamline().detector:
+                ##detector.setExposureTime(self.WAXS_exposure_time)
+            ##self.measureIncidentAngles(self.incident_angles_default, **md)
+            ##self.thabs(0.0)
+
+    def alignVeryQuick(self, intensity=INTENSITY_EXPECTED_025, align_step=9, reflection_angle=0.07, mode_control=True, verbosity=3):
+
+
+        if mode_control:
+            get_beamline().modeAlignment()
+            beam.on()
+            caput('XF:11BMB-ES{Det:PIL2M}:cam1:AcquireTime', 0.25)
+            caput('XF:11BMB-ES{Det:PIL2M}:cam1:AcquirePeriod', 0.3)
+
+        #self.yo()
+        self.tho()
+        
+        #fit_scan(smy, 0.4, 13, fit='HMi')
+        #fit_scan(sth, 0.8, 21, fit='COM')
+        
+        self.ysearch(step_size=0.05, min_step=0.01, intensity=intensity, target=0.5, polarity=-1)
+        self.thsearch(step_size=0.1, min_step=0.01, target='max')
+        
+        self.setOrigin(['y', 'th'])
+        #self.align(step=align_step, reflection_angle=reflection_angle, verbosity=verbosity)
+
+        if mode_control:
+            beam.off()
+            get_beamline().modeMeasurement()
+            
+    def IC_int(self):
+        
+        ion_chamber_readout1=caget('XF:11BMB-BI{IM:3}:IC1_MON')
+        ion_chamber_readout2=caget('XF:11BMB-BI{IM:3}:IC2_MON')
+        ion_chamber_readout3=caget('XF:11BMB-BI{IM:3}:IC3_MON')
+        ion_chamber_readout4=caget('XF:11BMB-BI{IM:3}:IC4_MON')
+        
+        ion_chamber_readout=ion_chamber_readout1+ion_chamber_readout2+ion_chamber_readout3+ion_chamber_readout4
+        
+        return ion_chamber_readout>1*5e-08
+    
+class CapillaryHolderCustom(CapillaryHolder):
+    def __init__(self, name='CapillaryHolder', base=None, **kwargs):
+        super().__init__(name=name, base=base, **kwargs)
+        #for TSAXS/WAXS
+        #self._axes['x'].origin = -16.1  
+        #self._axes['y'].origin = -1.57  
+        #for thermal TSAXS/WAXS
+        #self._axes['x'].origin = -15.9 
+        #self._axes['y'].origin = -3.62  
+        self._axes['x'].origin = -17.0 
+        self._axes['y'].origin = -1.8  
+        
+        self.temp_series_heating1 = np.arange(30, 90+.1, 2)
+        
+        self.temp_series_cooling1 = np.arange(90, 30-.1, -5)
+        #self.temp_series_heating = np.arange(30, 250+.1, 10)
+        #self.temp_series_heating2 = np.arange(100, 150, 5)
+        #self.temp_series_heating3 = np.arange(150, 180+.1, 2)
+        #self.temp_series_heating = np.concatenate((self.temp_series_heating1, self.temp_series_heating2, self.temp_series_heating3), axis=0)
+        self.temp_series_ramp = np.concatenate((self.temp_series_heating1, self.temp_series_cooling1), axis=0)
+        
+        
+    def doTemperature_cool(self, step=0, exposure_time_SAXS=30.0, exposure_time_WAXS=30.0, temperature_tolerance=0.2, wait_time=60, verbosity=3, x_offset=-1, x_step=+0.10, **md):
+
+        for sample in self.getSamples():
+            #sample.incident_angles_default = [0.08, 0.1, 0.12]
+            sample.naming_scheme = ['name', 'extra', 'temperature', 'clock', 'exposure_time']
+
+        ##run the Bar at RT
+        #if step < 1:
+            #self.doSamples()
+            
+
+        ##1st heating up to 200C directly
+        #if step < 5:
+            
+            #self.setTemperature(95)
+            #while abs(self.temperature(verbosity=0) - 95)>temperature_tolerance:
+                #if verbosity>=3:
+                    #print('  setpoint = {:.3f}°C, Temperature = {:.3f}°C          \r'.format(self.temperature_setpoint()-273.15, self.temperature(verbosity=0)), end='')
+                #time.sleep(2)            
+            #if wait_time is not None:
+                #time.sleep(wait_time)         
+                
+            #self.doSamples()
+            
+        # cooling process
+        if step < 10:
+            flow_max()            
+            for temperature in self.temp_series_cooling :
+                self.setTemperature(temperature)
+                while abs(self.temperature(verbosity=0) - temperature)>temperature_tolerance:
+                    if verbosity>=3:
+                        print('  setpoint = {:.3f}°C, Temperature = {:.3f}°C          \r'.format(self.temperature_setpoint()-273.15, self.temperature(verbosity=0)), end='')
+                    time.sleep(2)            
+                if wait_time is not None:
+                    time.sleep(wait_time)         
+                
+                # Measure
+                get_beamline().modeMeasurement()
+                saxs_on()
+                for sample in self.getSamples():
+                    sample.gotoOrigin(['x','y','th'])
+                    #sample.xr(x_offset)
+                    sample.measure(exposure_time=exposure_time_SAXS)
+                waxs_on()
+                for sample in self.getSamples():
+                    sample.gotoOrigin(['x','y','th'])
+                    sample.measure(exposure_time=exposure_time_WAXS)
+        ## heating process
+        #if step < 15:
+            #flow_off()            
+            #for temperature in self.temp_series_cooling :
+                #self.setTemperature(temperature)
+                #while abs(self.temperature(verbosity=0) - temperature)>temperature_tolerance:
+                    #if verbosity>=3:
+                        #print('  setpoint = {:.3f}°C, Temperature = {:.3f}°C          \r'.format(self.temperature_setpoint()-273.15, self.temperature(verbosity=0)), end='')
+                    #time.sleep(2)            
+                #if wait_time is not None:
+                    #time.sleep(wait_time)         
+                
+                ## Measure
+                #get_beamline().modeMeasurement()
+                #saxs_on()
+                #for sample in self.getSamples():
+                    #sample.gotoOrigin(['x','y','th'])
+                    ##sample.xr(x_offset)
+                    #sample.measure(exposure_time=exposure_time_SAXS)
+                #waxs_on()
+                #for sample in self.getSamples():
+                    #sample.gotoOrigin(['x','y','th'])
+                    #sample.measure(exposure_time=exposure_time_WAXS)
+         
+        flow_off()  
+
+    #def doTemperature_heat(self, step=0, exposure_time_SAXS=30.0, exposure_time_WAXS=30.0, temperature_probe='A', temperature_tolerance=0.4, wait_time=120, verbosity=3, x_offset=-1, x_step=+0.10, **md):
+
+        #for sample in self.getSamples():
+            #sample.naming_scheme = ['name', 'extra', 'temperature', 'clock', 'exposure_time']
+            ##sample.naming_scheme = ['name', 'extra', 'temperature_B', 'clock', 'exposure_time']
+
+        ##run the Bar at RT
+        #if step < 1:
+            #self.doSamples()
+            
+
+        ## heating process
+        #if step < 15:
+            ##flow_off()            
+            #for temperature in self.temp_series_heating :
+                #self.setTemperature(temperature)
+                #while abs(self.temperature(temperature_probe=temperature_probe, verbosity=0) - temperature)>temperature_tolerance:
+                    #if verbosity>=3:
+                        #print('  setpoint = {:.3f}°C, Temperature = {:.3f}°C          \r'.format(self.temperature_setpoint()-273.15, self.temperature(verbosity=0)), end='')
+                    #time.sleep(2)            
+                #if wait_time is not None:
+                    #time.sleep(wait_time)         
+                
+                ## Measure
+                #get_beamline().modeMeasurement()
+                #saxs_on()
+                #for sample in self.getSamples():
+                    #sample.gotoOrigin(['x','y','th'])
+                    ##sample.xr(x_offset)
+                    #sample.measure(exposure_time=exposure_time_SAXS)
+                #waxs_on()
+                #for sample in self.getSamples():
+                    #sample.gotoOrigin(['x','y','th'])
+                    #sample.measure(exposure_time=exposure_time_WAXS)
+        #self.setTemperature(25)
+
+    def doTemperature_series(self, temp_range=None, step=0, temperature_probe='B', temperature_tolerance=0.4, wait_time=300,wait_time_cooling=600, verbosity=3,  **md):
+
+        #if temp_range == None:
+            #temp_range == self.temp_series_ramp
+
+        # heating process
+        if step < 10:
+            for temperature in self.temp_series_heating1 :
+                self.setTemperature(temperature)
+                while abs(self.temperature(temperature_probe=temperature_probe, verbosity=0) - temperature)>temperature_tolerance:
+                    if verbosity>=3:
+                        print('  setpoint = {:.3f}°C, Temperature = {:.3f}°C          \r'.format(self.temperature_setpoint()-273.15, self.temperature(temperature_probe=temperature_probe,verbosity=0)), end='')
+                    time.sleep(2)            
+                if wait_time is not None:
+                    time.sleep(wait_time)         
+
+                # Measure
+                get_beamline().modeMeasurement()
+                swaxs_on()
+                self.doSamples()
+
+        # heating process
+        if step < 15:
+            for temperature in self.temp_series_cooling1 :
+                self.setTemperature(temperature)
+                while abs(self.temperature(temperature_probe=temperature_probe, verbosity=0) - temperature)>temperature_tolerance:
+                    if verbosity>=3:
+                        print('  setpoint = {:.3f}°C, Temperature = {:.3f}°C          \r'.format(self.temperature_setpoint()-273.15, self.temperature(temperature_probe=temperature_probe,verbosity=0)), end='')
+                    time.sleep(2)            
+                if wait_time_cooling is not None:
+                    time.sleep(wait_time_cooling)         
+
+                # Measure
+                get_beamline().modeMeasurement()
+                swaxs_on()
+                self.doSamples()
+                
+        if step < 20:
+            self.setTemperature(25)        
+                    
+
+
+class GIBarCustom(GIBar_long_thermal):
+#class GIBarCustom(GIBar):
+    
+    def __init__(self, name='GIBar', base=None, **kwargs):
+        
+        super().__init__(name=name, base=base, **kwargs)
+        #self._axes['x'].origin = -17.0 
+        self._axes['y'].origin = 8  
+        
+        temp_series0 = np.arange(30, 200+.1, 10)
+        #temp_series_cooling1 = np.arange(200, 150-.1, -5)
+        #temp_series_cooling2 = np.arange(140, 70-.1, -10)
+        #temp_series_cooling3 = np.arange(65, 40-.1, -5)
+
+        #self.temp_series_cooling1 = np.arange(190, 30-.1, -10)
+        #self.temp_series_heating1 = np.arange(30, 200+.1, 10)
+
+
+        self.temp_series_cooling1 = np.array([160, 120, 80, 40])
+        self.temp_series_heating1 = np.arange(30, 90+.1, 10)
+
+        temp_series1 = np.arange(40, 65+.1, 5)
+        temp_series2 = np.arange(70, 140+.1, 10)
+        temp_series3 = np.arange(150, 200+.1, 5)
+
+        temp_series_cooling2 = np.arange(200, 30-.1, -10)
+
+        #self.temp_series = np.arange(30, 200+.1, 10)
+        #self.temp_series = np.arange(130, 200+.1, 10)
+        #self.temp_series = np.arange(140, 200+.1, 10)
+        
+        #self.temp_series = np.concatenate((temp_series_cooling, temp_series1, temp_series2, temp_series3), axis=0)
+        #self.temp_series = np.concatenate((temp_series1, temp_series2, temp_series3), axis=0)
+        
+        #heating only
+        #self.temp_series = np.concatenate((temp_series1, temp_series2, temp_series3, temp_series_cooling2), axis=0)
+        #self.temp_align = [60, 90, 120, 150, 180]
+        self.temp_align = [40, 80, 120, 160, 200]
+        #self.temperature_series = []
+    
+    def doTemperature_series(self, step=0, temperature_tolerance=0.4, wait_time=300, verbosity=3,  **md):
+
+        # heating process
+        if step < 15:
+            for temperature in self.temp_series_heating1 :
+                self.setTemperature(temperature)
+                while abs(self.temperature(verbosity=0) - temperature)>temperature_tolerance:
+                    if verbosity>=3:
+                        print('  setpoint = {:.3f}°C, Temperature = {:.3f}°C          \r'.format(self.temperature_setpoint()-273.15, self.temperature(verbosity=0)), end='')
+                    time.sleep(2)            
+                if wait_time is not None:
+                    time.sleep(wait_time)         
+
+                # Measure
+                get_beamline().modeMeasurement()
+                swaxs_on()
+                self.doSamples()
+                    
+        if step < 20:
+            self.setTemperature(25)
+
+
+        
+#def flow_off():
+    #agilent.setDAC(1,0.0)
+    #if agilent.readDAC(1) != 0.0:
+        #print('Gas flow is turned off.')
+#def flow_max():
+    #agilent.setDAC(1,3.5)
+    #print('Gas flow is set to MAX.')
+#def flow_on(voltage=1):
+    #agilent.setDAC(1,voltage)
+    #print('Voltage is set as {}. Please check the flow rate from flow meter.'.format(agilent.readDAC(1)))
+
+
+#def waxs_on():
+    #detselect([psccd])
+    #DETx.move(0)
+    #WAXSx.move(-9)
+
+#def saxs_on():
+    #detselect([pilatus2M])
+    #DETx.move(0)
+    #WAXSx.move(-30)
+
+#def swaxs_on():
+    #detselect([pilatus2M,psccd])
+    #DETx.move(0)
+    #WAXSx.move(-20)
+
+#cms.SAXS.setCalibration([757, 1078], 5, [-65, -73]) # 2018-05-29, 13.5 keV, 5m, GISAXS 
+#cms.SAXS.setCalibration([757, 1075], 5, [-65, -73])
+#cms.SAXS.setCalibration([759.0, 1678-604.0], 5.03, [-65, -73])  #13.5kev, 3m setup at 2018-10-03
+cms.SAXS.setCalibration([740, 1089], 2.01, [-65, -73])  # 2019-04-24, 13.5 keV, 2m
+
+
+print('\n\n\nReminders:')
+print('    Define your detectors using, e.g.: detselect(pilatus2M)')
+print('    Reload your user-specific script, e.g.: %run -i /GPFS/xf11bm/data/2018_1/user_group/user.py')
+print('\n')
+
+
+RE.md['experiment_group'] = 'B. Vogt (U. Akron)'
+RE.md['experiment_alias_directory'] = '/nsls2/xf11bm/data/2019_1/BVogt4'
+
+
+if False:
+    
+    # Example of a multi-sample holder
+    
+    md = {
+        'owner' : 'B.Vogt(Akron)' ,
+        'series' : 'various' ,
+        }
+    
+    #hol = GIBar(base=stg)
+    hol = GIBarCustom(base=stg)
+
+    #hol.addSampleSlotPosition( Sample('t1_cs51', **md), 1, 6)
+    #hol.addSampleSlotPosition( Sample('t2_cs51', **md), 2, 22 )
+    #hol.addSampleSlotPosition( Sample('t3_cs51', **md), 3, 36)
+    #hol.addSampleSlotPosition( Sample('t4_cs51', **md), 4, 50)
+    #hol.addSampleSlotPosition( Sample('t5_cs51', **md), 5, 64)
+    #hol.addSampleSlotPosition( Sample('t6_cs51', **md), 6, 77 )
+    #hol.addSampleSlotPosition( Sample('t7,CS51',**md), 7, 90 )
+    #hol.addSampleSlotPosition( Sample('t8_cs51', **md), 8, 104)
+    hol.addSampleSlotPosition( Sample('Si_wafer_BKG', **md), 8, 4.3*25.4/2)
+    
+  
+    
+if True:
+    
+    hol = CapillaryHolder(base=stg)
+    #hol = CapillaryHolderCurrent(base=stg)
+    #hol = CapillaryHolderCustom(base=stg)
+    
+    #hol.addSampleSlot( SampleTSAXS('ZB_QS_0_Trans'), 1.0 )
+    #hol.addSampleSlot( SampleTSAXS('HD_Org_edge2'), 2.0 )
+    hol.addSampleSlot( SampleTSAXS('BKG_Meeta_XX_2m'), 3.0 )
+    hol.addSampleSlot( SampleTSAXS('Meeta_cs51_t_800CC_2m'), 4.0 )
+    hol.addSampleSlot( SampleTSAXS('Meeta_cs51_t_350c_2m'), 5.0 )
+    hol.addSampleSlot( SampleTSAXS('Meeta_cs51_dop0.5_2m'), 6.0 )
+    hol.addSampleSlot( SampleTSAXS('Pablo_PEGMA_2m'), 7.0 )
+    #hol.addSampleSlot( SampleTSAXS('Meeta_tmb0.9_2m'), 8.0)
+   # hol.addSampleSlot( SampleTSAXS('Meeta_gta0.5_2m'), 9.0 )
+    hol.addSampleSlot( SampleTSAXS('XXH_NC_500W_2m'), 10.0 )
+    hol.addSampleSlot( SampleTSAXS('Pablo_PEGMA+CP_2m'), 11.0 )
+    hol.addSampleSlot( SampleTSAXS('1-background_Meeta_2m'), 12.0 )
+    hol.addSampleSlot( SampleTSAXS('XXH_NC_2000W_2m'), 13.0 )
+    #hol.addSampleSlot( SampleTSAXS('Empty'), 14.0 )
+    #hol.addSampleSlot( SampleTSAXS('Empty'), 15.0 )
+
+
+if False:
+    
+    hol = CapillaryHolder(base=stg)
+    #hol = CapillaryHolderCurrent(base=stg)
+    #hol = CapillaryHolderCustom(base=stg)
+    
+    hol.addSampleSlot( SampleTSAXS('FL_screen'), 5.0 )
+    hol.addSampleSlot( SampleTSAXS('AgBH_2m_13.5kev'), 8.0 )
+    hol.addSampleSlot( SampleTSAXS('Empty'), 11.0 )
+    #hol.addSampleSlot( SampleTSAXS('Empty'), 12.0 )
+    #hol.addSampleSlot( SampleTSAXS('Empty'), 13.0 )
+    #hol.addSampleSlot( SampleTSAXS('Empty'), 14.0 )
+    #hol.addSampleSlot( SampleTSAXS('Empty'), 15.0 )
+
+'''  Data linked as: /nsls2/xf11bm/data/2019_1/BVogt//saxs/XXH-450W_1min_th0.120_10.00s_2267965_saxs.tiff
+
+%run -i /nsls2/xf11bm/data/2019_1/BVogt/user_5m_capillary.py    
+'''
+
+#robot.listGarage()
+
+'''
+In [1706]: %wa smx, smy
+Positioner                     Value      Low Limit  High Limit Offset    
+smx                            -15.8      -75.0      75.0       0.0       
+smy                            -1.61985   -7.0       25.0       0.0       
+
+In [769]: %wa bsx, bsy, bsphi
+Positioner                     Value      Low Limit  High Limit Offset    
+bsphi                          -15.7014   -223.4     -223.4     -223.4    
+bsx                            -10.9796   0.0        0.0        0.0       
+bsy                            -8.4094    0.0        0.0        0.0       
+
+
+In [1738]: %wa WAXSx, DETx
+Positioner                     Value      Low Limit  High Limit Offset    
+DETx                           0.0        -50.0      50.0       50.0      
+WAXSx                          -30.0      -31.0      0.0        0.0       
+
+### Position for Tensile stage
+In [2095]: %wa smx, smy
+Positioner                     Value      Low Limit  High Limit Offset    
+smx                            -16.5      -75.0      75.0       0.0       
+smy                            -5.0       -7.0       25.0       0.0       
+
+For SAXS/WAXS
+In [2129]: %wa WAXSx, DETx
+Positioner                     Value      Low Limit  High Limit Offset    
+DETx                           0.0        -50.0      50.0       50.0      
+WAXSx                          -20.0      -31.0      0.0        0.0   
+
+#Tensile protocol
+
+---load sample
+sam=Sample('test') sam=Sample('HF15-150K-3%_0428redo-continue')
+%wa smx, smy
+sam.gotoOrigin()
+
+#sam.reset_clock();sam.measureKineticsMultiXY(exposure_time=10, num_spots=3000)
+sam.reset_clock();sam.measureTimeSeries(exposure_time=10, num_frames=300, wait_time=30)
+
+
+####moving the WAXS detector manually
+The original position is x = marked, y = 15.8 from the base. 
+The beam center is located in the center of the removed chips. 
+
+
+### protocol for GISAXS
+cms.ventChamber()
+--change sample
+--tighten the chamber 
+cms.pumpChamber()
+--load the user.py. %run -i /nsls2/xf11bm/data/2019_1/BVogt5/user_2m_tensile.py
+hol.listSamples()
+hol.doSamples()
+
+++++++++++++++++++++++++
+sam=hol.gotoSample(5)
+sam.do()
+
+
+'''

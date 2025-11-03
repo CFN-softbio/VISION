@@ -1,0 +1,89 @@
+# When deploying IOCs to a server with docker, the choice is:
+#
+# 1. Use host network so their PVs available on the subnet
+# 2. Run a ca-gateway on each server
+#
+# for local testing we also run a ca-gateway and bind it to localhost
+
+services:
+
+  # ca-gateway for test / dev ##################################################
+
+  ca-gateway: &ca-gateway
+
+    container_name: ca-gateway
+
+    image: ghcr.io/epics-containers/gateways-developer:2024.12.3
+    platform: linux/amd64
+
+    security_opt:
+      - label=disable
+
+    ports:
+      # bind to localhost to isolate channel access to this host only
+      - 127.0.0.1:${EPICS_CA_SERVER_PORT}:${EPICS_CA_SERVER_PORT}/udp
+      - 127.0.0.1:${EPICS_CA_SERVER_PORT}:${EPICS_CA_SERVER_PORT}
+      - 127.0.0.1:${EPICS_CA_REPEATER_PORT}:${EPICS_CA_REPEATER_PORT}
+
+    environment:
+      EPICS_CA_SERVER_PORT: ${EPICS_CA_SERVER_PORT}
+      EPICS_CA_REPEATER_PORT: ${EPICS_CA_REPEATER_PORT}
+
+    restart: unless-stopped
+
+    networks:
+      channel_access:
+
+    configs:
+      - source: ca-gateway_config
+        target: /config
+
+    command:
+      - bash
+      - -c
+      - >
+        /epics/ca-gateway/bin/linux-x86_64/gateway
+        -cip ${CA_BROADCAST} -pvlist /config/pvlist
+        -access /config/access -log /dev/stdout -debug 1
+
+    profiles:
+      - test
+      - dev
+
+  # debugging version of gateway container #####################################
+  ca-gateway-debug:
+
+    container_name: ca-gateway-debug
+
+    <<: *ca-gateway
+
+    # this image is not distroless and has network tools installed
+    image: ghcr.io/epics-containers/docker-ca-gateway-debug:2.1.3ec1
+    platform: linux/amd64
+
+    profiles:
+      - debug
+
+  # per server ca-gateway for deployment #######################################
+  ca-gateway-deploy:
+
+    <<: *ca-gateway
+
+    ports:
+    # TODO - I need to look into safe config for per server ca-gateways
+      - 127.0.0.1:${EPICS_CA_SERVER_PORT}:${EPICS_CA_SERVER_PORT}/udp
+      - 127.0.0.1:${EPICS_CA_SERVER_PORT}:${EPICS_CA_SERVER_PORT}
+      - 127.0.0.1:${EPICS_CA_REPEATER_PORT}:${EPICS_CA_REPEATER_PORT}
+
+    command: -cip ${CA_BROADCAST} -pvlist /config/pvlist -access /config/access -log /dev/stdout -debug 1
+
+    profiles:
+      - deploy
+
+configs:
+  ca-gateway_config:
+    file: config
+
+include:
+  - path:
+      ../../include/networks.yml

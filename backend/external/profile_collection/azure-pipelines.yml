@@ -1,0 +1,18 @@
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: NSLS-II/profile-collection-ci
+      ref: refs/heads/main
+      endpoint: github
+
+jobs:
+  - template: 2024-2.3-py310-tiled.yml@templates
+    parameters:
+      beamline_acronym: CMS
+  - template: 2024-2.3-py311-tiled.yml@templates
+    parameters:
+      beamline_acronym: CMS
+  - template: 2024-2.3-py312-tiled.yml@templates
+    parameters:
+      beamline_acronym: CMS

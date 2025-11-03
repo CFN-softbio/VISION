@@ -1,0 +1,156 @@
+# yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2024.6.1/ibek.ioc.schema.json
+
+ioc_name: "{{ _global.get_env('IOC_NAME') }}"
+description: Example simulated camera for BL01T
+
+entities:
+  - type: devIocStats.iocAdminSoft
+    IOC: "{{ ioc_name | upper }}"
+
+  - type: ADSimDetector.simDetector
+    PORT: PIL
+    P: "XF:11BMB-ES{Det:PIL2M}"
+    R: ":cam1:"
+    # DATATYPE:0 = Int8 - TODO add an enum to the support yaml
+    DATATYPE: 0
+    WIDTH: 1024
+    HEIGHT: 1024
+
+  - type: epics.PostStartupCommand
+    command: |
+      dbpf XF:11BMB-ES{Det:PIL2M}:cam1:AcquireTime 0.1
+      dbpf XF:11BMB-ES{Det:PIL2M}:image1:EnableCallbacks 1
+      dbpf XF:11BMB-ES{Det:PIL2M}:Proc1:EnableCallbacks 1
+      dbpf XF:11BMB-ES{Det:PIL2M}:Trans1:EnableCallbacks 1
+      dbpf XF:11BMB-ES{Det:PIL2M}:ROI1:EnableCallbacks 1
+      dbpf XF:11BMB-ES{Det:PIL2M}:ROI2:EnableCallbacks 1
+      dbpf XF:11BMB-ES{Det:PIL2M}:ROI3:EnableCallbacks 1
+      dbpf XF:11BMB-ES{Det:PIL2M}:ROI4:EnableCallbacks 1
+      dbpf XF:11BMB-ES{Det:PIL2M}:Stats1:EnableCallbacks 1
+      dbpf XF:11BMB-ES{Det:PIL2M}:Stats2:EnableCallbacks 1
+      dbpf XF:11BMB-ES{Det:PIL2M}:Stats3:EnableCallbacks 1
+      dbpf XF:11BMB-ES{Det:PIL2M}:Stats4:EnableCallbacks 1
+      dbpf XF:11BMB-ES{Det:PIL2M}:Stats5:EnableCallbacks 1
+      dbpf XF:11BMB-ES{Det:PIL2M}:PVA:EnableCallbacks 1
+      dbpf XF:11BMB-ES{Det:PIL2M}:HDF1:EnableCallbacks 1
+      dbpf XF:11BMB-ES{Det:PIL2M}:TIFF1:EnableCallbacks 1
+      dbpf XF:11BMB-ES{Det:PIL2M}:cam1:SimMode Peaks
+      dbpf XF:11BMB-ES{Det:PIL2M}:cam1:PeakStartX 450
+      dbpf XF:11BMB-ES{Det:PIL2M}:cam1:PeakStartY 450
+      dbpf XF:11BMB-ES{Det:PIL2M}:cam1:PeakNumX 50
+      dbpf XF:11BMB-ES{Det:PIL2M}:cam1:PeakNumY 50
+      dbpf XF:11BMB-ES{Det:PIL2M}:cam1:PeakStepX 2
+      dbpf XF:11BMB-ES{Det:PIL2M}:cam1:PeakStepY 2
+      dbpf XF:11BMB-ES{Det:PIL2M}:cam1:PeakWidthX 5
+      dbpf XF:11BMB-ES{Det:PIL2M}:cam1:PeakWidthY 5
+      dbpf XF:11BMB-ES{Det:PIL2M}:cam1:PeakVariation 6
+      dbpf XF:11BMB-ES{Det:PIL2M}:cam1:Acquire 1
+
+  - type: ADCore.NDROI
+    PORT: ROI1
+    P: "XF:11BMB-ES{Det:PIL2M}"
+    R: ":ROI1:"
+    NDARRAY_PORT: PIL
+
+  - type: ADCore.NDROI
+    PORT: ROI2
+    P: "XF:11BMB-ES{Det:PIL2M}"
+    R: ":ROI2:"
+    NDARRAY_PORT: PIL
+
+  - type: ADCore.NDROI
+    PORT: ROI3
+    P: "XF:11BMB-ES{Det:PIL2M}"
+    R: ":ROI3:"
+    NDARRAY_PORT: PIL
+
+  - type: ADCore.NDROI
+    PORT: ROI4
+    P: "XF:11BMB-ES{Det:PIL2M}"
+    R: ":ROI4:"
+    NDARRAY_PORT: PIL
+
+  - type: ADCore.NDProcess
+    PORT: PROC1
+    P: "XF:11BMB-ES{Det:PIL2M}"
+    R: ":Proc1:"
+    NDARRAY_PORT: PIL
+
+  - type: ADCore.NDTransform
+    PORT: TRANS1
+    P: "XF:11BMB-ES{Det:PIL2M}"
+    R: ":Trans1:"
+    NDARRAY_PORT: PIL
+
+  - type: ADCore.NDPvaPlugin
+    PORT: PVA
+    PVNAME: XF:11BMB-ES{Det:PIL2M}:PVA:OUTPUT
+    P: "XF:11BMB-ES{Det:PIL2M}"
+    R: ":PVA:"
+    NDARRAY_PORT: PIL
+
+  - type: ADCore.NDStdArrays
+    PORT: image1
+    P: "XF:11BMB-ES{Det:PIL2M}"
+    R: ":image1:"
+    NDARRAY_PORT: PIL
+    TYPE: Int8
+    NELEMENTS: 1048576
+    FTVL: CHAR
+
+  - type: ADCore.NDStats
+    PORT: Stats1
+    P: "XF:11BMB-ES{Det:PIL2M}"
+    R: ":Stats1:"
+    NDARRAY_PORT: PIL
+    XSIZE: 1024
+    YSIZE: 1024
+    HIST_SIZE: 20
+
+  - type: ADCore.NDStats
+    PORT: Stats2
+    P: "XF:11BMB-ES{Det:PIL2M}"
+    R: ":Stats2:"
+    NDARRAY_PORT: PIL
+    XSIZE: 1024
+    YSIZE: 1024
+    HIST_SIZE: 20
+
+  - type: ADCore.NDStats
+    PORT: Stats3
+    P: "XF:11BMB-ES{Det:PIL2M}"
+    R: ":Stats3:"
+    NDARRAY_PORT: PIL
+    XSIZE: 1024
+    YSIZE: 1024
+    HIST_SIZE: 20
+
+  - type: ADCore.NDStats
+    PORT: Stats4
+    P: "XF:11BMB-ES{Det:PIL2M}"
+    R: ":Stats4:"
+    NDARRAY_PORT: PIL
+    XSIZE: 1024
+    YSIZE: 1024
+    HIST_SIZE: 20
+
+  - type: ADCore.NDStats
+    PORT: Stats5
+    P: "XF:11BMB-ES{Det:PIL2M}"
+    R: ":Stats5:"
+    NDARRAY_PORT: PIL
+    XSIZE: 1024
+    YSIZE: 1024
+    HIST_SIZE: 20
+
+  - type: ADCore.NDFileHDF5
+    PORT: HDF1
+    P: "XF:11BMB-ES{Det:PIL2M}"
+    R: ":HDF1:"
+    NDARRAY_PORT: PIL
+
+  - type: ADCore.NDFileTIFF
+    PORT: TIFF1
+    P: "XF:11BMB-ES{Det:PIL2M}"
+    R: ":TIFF1:"
+    NDARRAY_PORT: PIL
