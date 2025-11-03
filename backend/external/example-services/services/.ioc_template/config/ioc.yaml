@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://github.com/epics-containers/ioc-template-example/releases/download/3.5.1/ibek.ioc.schema.json
+
+# TODO replace above with the generic IOC schema this IOC is based on
+ioc_name: "{{ _global.get_env('IOC_NAME') }}"
+
+description: REPLACE WITH DESCRIPTION
+
+entities:
+  - type: epics.EpicsEnvSet
+    name: EPICS_TZ
+    value: GMT0BST
+
+  - type: devIocStats.iocAdminSoft
+    IOC: "{{ ioc_name | upper }}"
+
+  # - todo: Add more entities to make a meaningful IOC

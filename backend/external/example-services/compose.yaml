@@ -1,0 +1,50 @@
+# The top level compose file represents a set of IOCs that would be deployed
+# to a given IOC server
+#
+# For this example we have a single compose file. However, if you wanted to keep
+# all IOCs for a beamline in a single repo but deploy to multiple servers,
+# then each server would have its own named compose file
+
+# to deploy IOCs to the local machine, clone this repo and run the following
+# command from the repo root:
+#  docker compose --profile deploy up --detach
+# or for a multiple server repo:
+#  docker compose --profile deploy -f my_server_01.yml up --detach
+
+# to deploy the IOCs to a workstation for testing and development, use:
+# docker compose up --detach
+
+include:
+  # all profiles
+  - services/bl01t-ea-test-01/compose.yml
+  - services/bl01t-di-cam-01/compose.yml
+  - services/bl01t-mo-sim-01/compose.yml
+  - services/gateway/compose.yml
+  - services/pvagw/compose.yml
+  - services/mongodb/compose.yml
+
+  # develop profile only
+  - services/phoebus/compose.yml
+
+  # deploy profile only
+  - services/epics-opis/compose.yml
+
+services:
+  init:
+    image: ubuntu
+    platform: linux/amd64
+    security_opt:
+      - label=disable
+    restart: no
+    volumes:
+      - .:/workspace
+    command: /bin/bash -c "/workspace/include/init.sh"
+    environment:
+      - EPICS_CA_SERVER_PORT
+      - EPICS_CA_REPEATER_PORT
+      - EPICS_PVA_SERVER_PORT
+      - CA_SUBNET
+      - CA_BROADCAST
+      - EPICS_PVA_NAME_SERVERS
+      - EPICS_CA_NAME_SERVERS
+      - EPICS_CA_ADDR_LIST

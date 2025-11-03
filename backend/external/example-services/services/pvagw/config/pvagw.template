@@ -1,0 +1,35 @@
+/* Example pvagw configuration
+ *
+ * GW Server listens on: localhost:5076 and attempts to bind 5075
+ * GW Client searches to: 172.20.255.255/16:5076
+ * An additional server listening on 5.6.7.8 serves only gateway
+ * status PVs.
+ */
+{
+    "version":2,
+    "readOnly":false,
+    "clients":[
+        {
+            "name":"theclient",
+            "provider":"pva",
+            "addrlist":"172.20.255.255",
+            "autoaddrlist":false,
+            "serverport":5075,
+            "bcastport":5076
+        }
+    ],
+    "servers":[
+        {
+            "name":"theserver",
+            "clients":["theclient"],
+            /* "interface":["127.0.0.1"], */
+            /* "addrlist":"127.255.255.255", */
+            "autoaddrlist":false,
+            "serverport":5075,
+            "bcastport":5076,
+            "statusprefix":"sts:"
+            /* "access":"some.acf", */
+            /* "pvlist":"some.pvlist", */
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+**/*.tz
+**/*.tgz
+.history
+venv*
+.venv*
+*workspace
+
+# this is the root directory for generated opi files
+# and is created at runtime by IOCs using PVI
+opi/auto-generated/*
+!opi/auto-generated/README.md
+
+# these files are generated from templates
+# when sourcing environment.sh
+services/pvagw/config/pvagw.config
+services/phoebus/config/settings.ini
+
+pilatus-data/

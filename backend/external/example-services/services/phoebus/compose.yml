@@ -1,0 +1,51 @@
+# for development and testing it is useful to bring up phoebus instanced to
+# interact with the local IOCs PVs.
+
+services:
+  phoebus:
+    container_name: phoebus
+    image: ghcr.io/epics-containers/ec-phoebus:4.7.3ec2
+    platform: linux/amd64
+    depends_on:
+      - init
+    environment:
+      DISPLAY: $DISPLAY
+      UIDGID: ${UIDGID:-0:0} # defaults to working with rootless
+
+    tty: true
+    # pick a server port for phoebus so it does not reconnect to existing phoebus
+    command: phoebus-product/phoebus.sh -settings /config/settings.ini -resource /opi/demo.bob -server 7010
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ~/.Xauthority:/root/.Xauthority:Z
+      - ../../opi:/opi
+      - ../../..:/workspaces
+
+    security_opt:
+      - label=disable
+
+    # for X11 to work we need to run as the same UID as the host
+    # IMPORTANT: set UIDGID to your host user:group e.g. 1000:1000
+    # BUT: always to 0:0 if you are using podman
+    user: ${UIDGID}
+
+    # network host with a gateway for CA is the most reliable way to
+    # get X11 forwarding to work - even with ssh->container.
+    network_mode: host
+
+    configs:
+      - source: phoebus_config
+        target: /config
+
+    profiles:
+      - test
+      - dev
+      - debug
+
+configs:
+  phoebus_config:
+    file: config
+
+include:
+  - path:
+      ../../include/networks.yml

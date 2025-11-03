@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Saved on 2024-12-02 19:37:07 by root-->
+<display version="2.0.0">
+  <name>Example IOCs</name>
+  <width>388</width>
+  <height>80</height>
+  <grid_step_x>4</grid_step_x>
+  <grid_step_y>4</grid_step_y>
+  <widget type="label" version="2.0.0">
+    <name>Title</name>
+    <class>TITLE</class>
+    <text>Simulation IOCs Overview</text>
+    <x use_class="true">0</x>
+    <y use_class="true">0</y>
+    <width>1168</width>
+    <height>25</height>
+    <font use_class="true">
+      <font name="Header 1" family="Liberation Sans" style="BOLD" size="22.0">
+      </font>
+    </font>
+    <foreground_color use_class="true">
+      <color name="Text" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <transparent use_class="true">true</transparent>
+    <horizontal_alignment>1</horizontal_alignment>
+  </widget>
+  <widget type="group" version="3.0.0">
+    <name>CAMERA</name>
+    <macros>
+      <P>XF:11BMB-ES{Det:PIL2M}</P>
+      <R>:cam1:</R>
+    </macros>
+    <y>36</y>
+    <width>396</width>
+    <height>308</height>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label_3</name>
+      <text>Acquire</text>
+      <y>2</y>
+      <width>150</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>$(P)$(R)Acquire_RBV</pv_name>
+      <x>300</x>
+      <y>2</y>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_4</name>
+      <text>Array Counter</text>
+      <y>27</y>
+      <width>150</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>$(P)$(R)ArrayCounter</pv_name>
+      <x>155</x>
+      <y>27</y>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate_1</name>
+      <pv_name>$(P)$(R)ArrayCounter_RBV</pv_name>
+      <x>260</x>
+      <y>27</y>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="choice" version="2.0.0">
+      <name>ToggleButton_1</name>
+      <pv_name>$(P)$(R)Acquire</pv_name>
+      <x>155</x>
+      <y>2</y>
+      <height>20</height>
+      <items>
+        <item>Item 1</item>
+        <item>Item 2</item>
+      </items>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_5</name>
+      <text>Array Callbacks</text>
+      <y>52</y>
+      <width>150</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="choice" version="2.0.0">
+      <name>ToggleButton_2</name>
+      <pv_name>$(P)$(R)ArrayCallbacks</pv_name>
+      <x>155</x>
+      <y>52</y>
+      <height>20</height>
+      <items>
+        <item>Item 1</item>
+        <item>Item 2</item>
+      </items>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED_1</name>
+      <pv_name>$(P)$(R)ArrayCallbacks_RBV</pv_name>
+      <x>300</x>
+      <y>52</y>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_6</name>
+      <text>Acquire Time</text>
+      <y>77</y>
+      <width>150</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry_1</name>
+      <pv_name>$(P)$(R)AcquireTime</pv_name>
+      <x>155</x>
+      <y>77</y>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate_2</name>
+      <pv_name>$(P)$(R)AcquireTime_RBV</pv_name>
+      <x>260</x>
+      <y>77</y>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_7</name>
+      <text>Acquire Period</text>
+      <y>102</y>
+      <width>150</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry_2</name>
+      <pv_name>$(P)$(R)AcquirePeriod</pv_name>
+      <x>155</x>
+      <y>102</y>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate_3</name>
+      <pv_name>$(P)$(R)AcquirePeriod_RBV</pv_name>
+      <x>260</x>
+      <y>102</y>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_8</name>
+      <text>Num Images Counter</text>
+      <y>127</y>
+      <width>150</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate_4</name>
+      <pv_name>$(P)$(R)NumImagesCounter_RBV</pv_name>
+      <x>155</x>
+      <y>127</y>
+      <width>205</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_9</name>
+      <text>Num Images</text>
+      <y>152</y>
+      <width>150</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry_3</name>
+      <pv_name>$(P)$(R)NumImages</pv_name>
+      <x>155</x>
+      <y>152</y>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate_5</name>
+      <pv_name>$(P)$(R)NumImages_RBV</pv_name>
+      <x>260</x>
+      <y>152</y>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_10</name>
+      <text>Num Exposures</text>
+      <y>177</y>
+      <width>150</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry_4</name>
+      <pv_name>$(P)$(R)NumExposures</pv_name>
+      <x>155</x>
+      <y>177</y>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate_6</name>
+      <pv_name>$(P)$(R)NumExposures_RBV</pv_name>
+      <x>260</x>
+      <y>177</y>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_11</name>
+      <text>Image Mode</text>
+      <y>202</y>
+      <width>150</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>ComboBox</name>
+      <pv_name>$(P)$(R)ImageMode</pv_name>
+      <x>155</x>
+      <y>202</y>
+      <height>20</height>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate_7</name>
+      <pv_name>$(P)$(R)ImageMode_RBV</pv_name>
+      <x>260</x>
+      <y>202</y>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_13</name>
+      <text>Detector State</text>
+      <y>230</y>
+      <width>150</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate_9</name>
+      <pv_name>$(P)$(R)DetectorState_RBV</pv_name>
+      <x>155</x>
+      <y>230</y>
+      <width>205</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_14</name>
+      <text>Status Message</text>
+      <y>255</y>
+      <width>150</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate_10</name>
+      <pv_name>$(P)$(R)StatusMessage_RBV</pv_name>
+      <x>155</x>
+      <y>255</y>
+      <width>205</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <format>6</format>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+  </widget>
+  <widget type="group" version="3.0.0">
+    <name>PVA</name>
+    <macros>
+      <P>XF:11BMB-ES{Det:PIL2M}</P>
+      <R>:PVA:</R>
+    </macros>
+    <y>344</y>
+    <width>396</width>
+    <height>110</height>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label_19</name>
+      <text>Array Counter</text>
+      <y>52</y>
+      <width>150</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry_5</name>
+      <pv_name>$(P)$(R)ArrayCounter</pv_name>
+      <x>155</x>
+      <y>52</y>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate_13</name>
+      <pv_name>$(P)$(R)ArrayCounter_RBV</pv_name>
+      <x>260</x>
+      <y>52</y>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="choice" version="2.0.0">
+      <name>ToggleButton_6</name>
+      <pv_name>$(P)$(R)EnableCallbacks</pv_name>
+      <x>155</x>
+      <y>2</y>
+      <height>20</height>
+      <items>
+        <item>Item 1</item>
+        <item>Item 2</item>
+      </items>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_22</name>
+      <text>Enable Callbacks</text>
+      <y>2</y>
+      <width>150</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED_4</name>
+      <pv_name>$(P)$(R)EnableCallbacks_RBV</pv_name>
+      <x>300</x>
+      <y>2</y>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate_15</name>
+      <pv_name>$(P)$(R)PvName_RBV</pv_name>
+      <x>155</x>
+      <y>27</y>
+      <width>205</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <format>6</format>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_23</name>
+      <text>Pv Name</text>
+      <y>27</y>
+      <width>150</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+  </widget>
+  <widget type="group" version="3.0.0">
+    <name>Autogenerated Engineering Screens</name>
+    <macros>
+      <P>XF:11BMB-ES{Det:PIL2M}</P>
+      <R>:PVA:</R>
+    </macros>
+    <y>608</y>
+    <width>396</width>
+    <height>110</height>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label_26</name>
+      <text>Sim Detector</text>
+      <y>18</y>
+      <width>150</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>OpenDisplay</name>
+      <actions>
+        <action type="open_display">
+          <file>auto-generated/bl01t-di-cam-01/index.bob</file>
+          <macros>
+            <P>BL01T-EA-TST-01</P>
+            <R>:DET:</R>
+          </macros>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>XF:11BMB-ES{Det:PIL2M}</text>
+      <x>155</x>
+      <y>18</y>
+      <width>205</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_27</name>
+      <text>Sim Motor Controller</text>
+      <y>43</y>
+      <width>150</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>OpenDisplay_1</name>
+      <actions>
+        <action type="open_display">
+          <file>auto-generated/bl01t-mo-sim-01/index.bob</file>
+          <macros>
+            <P>BL01T-EA-TST-01</P>
+            <R>:PVA:</R>
+          </macros>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>bl01t-mo-sim-01</text>
+      <x>155</x>
+      <y>43</y>
+      <width>205</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+    </widget>
+  </widget>
+  <widget type="group" version="3.0.0">
+    <name>Standard Array</name>
+    <macros>
+      <P>XF:11BMB-ES{Det:PIL2M}</P>
+      <R>:image1:</R>
+    </macros>
+    <y>454</y>
+    <width>396</width>
+    <height>129</height>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>N Dimensions</text>
+      <width>150</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry_6</name>
+      <pv_name>$(P)$(R)NDimensions</pv_name>
+      <x>155</x>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>$(P)$(R)NDimensions_RBV</pv_name>
+      <x>260</x>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>Dimensions</text>
+      <y>25</y>
+      <width>150</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry_7</name>
+      <pv_name>$(P)$(R)Dimensions</pv_name>
+      <x>155</x>
+      <y>25</y>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate_8</name>
+      <pv_name>$(P)$(R)Dimensions_RBV</pv_name>
+      <x>260</x>
+      <y>25</y>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_2</name>
+      <text>Unique Id</text>
+      <y>50</y>
+      <width>150</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate_11</name>
+      <pv_name>$(P)$(R)UniqueId_RBV</pv_name>
+      <x>155</x>
+      <y>50</y>
+      <width>205</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_18</name>
+      <text>Enable Callbacks</text>
+      <y>77</y>
+      <width>150</width>
+      <tooltip>$(text)</tooltip>
+    </widget>
+    <widget type="choice" version="2.0.0">
+      <name>ToggleButton</name>
+      <pv_name>$(P)$(R)EnableCallbacks</pv_name>
+      <x>155</x>
+      <y>77</y>
+      <height>20</height>
+      <items>
+        <item>Item 1</item>
+        <item>Item 2</item>
+      </items>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED_2</name>
+      <pv_name>$(P)$(R)EnableCallbacks_RBV</pv_name>
+      <x>300</x>
+      <y>77</y>
+    </widget>
+  </widget>
+  <widget type="image" version="2.0.0">
+    <name>Image_1</name>
+    <pv_name>pva://XF:11BMB-ES{Det:PIL2M}:PVA:OUTPUT</pv_name>
+    <x>402</x>
+    <y>36</y>
+    <width>670</width>
+    <height>670</height>
+    <show_toolbar>true</show_toolbar>
+    <x_axis>
+      <visible>false</visible>
+      <title>SimDetector Image</title>
+      <minimum>0.0</minimum>
+      <maximum>1024.0</maximum>
+      <title_font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </title_font>
+      <scale_font>
+        <font name="Default" family="Liberation Sans" style="REGULAR" size="14.0">
+        </font>
+      </scale_font>
+    </x_axis>
+    <y_axis>
+      <visible>false</visible>
+      <title>Y</title>
+      <minimum>0.0</minimum>
+      <maximum>1024.0</maximum>
+      <title_font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </title_font>
+      <scale_font>
+        <font name="Default" family="Liberation Sans" style="REGULAR" size="14.0">
+        </font>
+      </scale_font>
+    </y_axis>
+    <data_width>1024</data_width>
+    <data_height>1024</data_height>
+    <unsigned>true</unsigned>
+    <cursor_crosshair>true</cursor_crosshair>
+  </widget>
+</display>

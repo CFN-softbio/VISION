@@ -1,0 +1,101 @@
+'''
+TODO:  make a config file containing all the settings that get reset often
+e.g.,
+~xf11bm/.cms_config or equivalent
+'''
+
+## detector lists
+#cms.DETS=[cms.DET_SAXS, cms.DET_WAXS]
+cms.DET_SAXS = pilatus2M
+cms.DET_WAXS = psccd
+
+## beamstop positions for direct beam
+cms.bsx_pos = -15.94
+
+## detector ROIs
+
+
+## robot configs
+robot._delta_y_hover = 5.0
+robot._delta_y_slot = 4.0
+
+#'SAFE' position of gripper
+robot._position_safe = [0, -104.9, 0.0, 0.0, +90] # x, y, z, r, phi
+        
+#default position of gripper to pick up from Stage
+robot._position_sample_gripped = [ -98, -103, -94.5, 0.0, 91 ] # x, y, z, r, phi
+robot._position_hold = [ 0, -103, -94.5, 0, 91 ] # x, y, z, r, phi
+
+#defacult position of gripper to pick up from Garage(1,1)
+robot._position_garage = [ -96, -197.5, -127, 0.0, 1 ] # x, y, z, r, phi
+
+#default position for stage
+robot._position_stg_exchange = [+50.0, -2.37] # smx, smy
+robot._position_stg_safe = [-30.0, -2.37] # smx, smy
+robot._position_stg_measure = [] # smx, smy
+        
+#garage structure parameter 
+robot._delta_garage_x = 44.45 # 1.75 inch = 44.45 mm
+robot._delta_garage_y = 63.5 # 2.5 inch = 63.5 mm
+
+
+
+
+    cms_config = {
+        'bsx_pos': cms.bsx_pos,
+        '_delta_y_hover': 5.0, '_delta_y_slot':4.0, 
+        '_position_safe': [[0, -104.9, 0.0, 0.0, +90]], 
+        '_position_sample_gripped': [[ -98, -103, -94.5, 0.0, 91 ]], 
+        '_position_hold': [[ 0, -103, -94.5, 0, 91 ]], 
+        '_position_garage': [[ -96, -197.5, -127, 0.0, 1 ]],
+        '_position_stg_exchange': [[+50.0, -2.37]], 
+        '_position_stg_safe': [[-30.0, -2.37]], 
+        '_delta_garage_x': 44.45, 
+        '_delta_garage_y': 63.5, 
+        'time':time.ctime() }
+
+cms_config_DF = pds.DataFrame(data=data,index=[1]) 
+
+import pandas as pds
+
+def config_update():
+
+    #collect the current positions of motors
+    
+    current_config = { 
+        'bsx_pos': cms.bsx_pos, 
+        '_delta_y_hover': robot._delta_y_hover, '_delta_y_slot': robot._delta_y_slot, 
+        '_delta_garage_x': robot._delta_garage_x, 
+        '_delta_garage_y': robot._delta_garage_y, 
+        '_position_safe': robot._position_safe, 
+        '_position_sample_gripped': robot._position_sample_gripped, 
+        '_position_hold': robot._position_hold, 
+        '_position_garage': robot._position_garage,
+        '_position_stg_exchange': robot._position_stg_exchange, 
+        '_position_stg_safe': robot._position_stg_safe, 
+        'time':time.ctime() }
+    #
+    current_config_DF = pds.DataFrame(data=current_config)
+    cms_config = cms_config.append(current_config_DF, ignore_index=True)    
+    
+    #save to file
+    cms_config.to_csv('test')
+    
+    
+def config_load():
+
+    #collect the current positions of motors
+    cms_config = pds.read_csv('test')
+    cms.bsx_pos = cms_config.bsx_pos.values[-1]
+    
+    robot._delta_y_hover = cms_config._delta_y_hover.values[-1]
+    robot._delta_y_slot = cms.config._delta_y_slot.values[-1]
+    robot._delta_garage_x = cms.config._delta_garage_x.values[-1] 
+    robot._delta_garage_y = cms.config._delta_garage_y.values[-1] 
+    robot._position_safe = cms.config._position_safe.values[-1] 
+    robot._position_sample_gripped = cms.config._position_sample_gripped.values[-1] 
+    robot._position_hold = cms.config._position_hold.values[-1] 
+    robot._position_garage = cms.config._position_garage.values[-1]
+    robot._position_stg_exchange = cms.config._position_stg_exchange.values[-1] 
+    robot._position_stg_safe = cms.config._position_stg_safe.values[-1] 
+    

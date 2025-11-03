@@ -1,0 +1,23 @@
+# a web server for serving up all IOCs opi files
+#
+# each ioc supplies its own opi files to a shared volume and this
+# service exposes those over HTTP
+
+# TODO: supply some config to nginx like we use in K8S
+
+services:
+
+  epics-opis:
+    image: docker.io/nginx:1.27
+    platform: linux/amd64
+
+    restart: unless-stopped
+
+    networks:
+      - channel_access
+
+    volumes:
+      - ../opi:/opi
+
+    profiles:
+      - deploy

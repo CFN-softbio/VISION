@@ -1,0 +1,32 @@
+services:
+
+  bl01t-mo-sim-01:
+
+    extends:
+      service: linux_ioc
+      file: ../../include/ioc.yml
+
+    image: ghcr.io/epics-containers/ioc-motorsim-runtime:2024.9.1
+    platform: linux/amd64
+
+    labels:
+      version: 0.1.0
+
+    environment:
+      IOCSH_PS1: bl01t-mo-sim-01 >
+      IOC_NAME: bl01t-mo-sim-01
+
+    volumes:
+      - ../../opi/auto-generated/bl01t-mo-sim-01:/epics/opi
+
+    configs:
+      - source:  bl01t-mo-sim-01_config
+        target: epics/ioc/config
+
+configs:
+  bl01t-mo-sim-01_config:
+    file: config
+
+include:
+  - path:
+      ../../include/networks.yml

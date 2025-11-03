@@ -1,0 +1,6 @@
+# See /EPICS/extensions/src/gateway/GATEWAY.access for more detailed example
+
+ASG(DEFAULT) {
+   RULE(1,READ)
+   RULE(1,WRITE)
+}

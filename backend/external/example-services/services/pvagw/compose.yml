@@ -1,0 +1,64 @@
+#  Configure a pvagw so that the PVA plugin image stream can be accessed
+
+services:
+
+  # local pvagw for test/dev  ##################################################
+
+  pvagw: &pvagw
+    container_name: pvagw
+
+    image: ghcr.io/epics-containers/gateways-developer:2024.12.3
+    platform: linux/amd64
+
+    depends_on:
+      - init
+
+    security_opt:
+      - label=disable
+
+    ports:
+      - 127.0.0.1:${EPICS_PVA_SERVER_PORT}:${EPICS_PVA_SERVER_PORT}
+
+    environment:
+      - EPICS_PVA_SERVER_PORT=${EPICS_PVA_SERVER_PORT}
+      - EPICS_PVAS_SERVER_PORT=${EPICS_PVA_SERVER_PORT}
+
+    restart: unless-stopped
+
+    networks:
+      - channel_access
+
+    configs:
+      - source: pvagw_config
+        target: /config
+
+    command:
+      - pvagw
+      - /config/pvagw.config
+      - --debug
+
+    profiles:
+      - test
+      - dev
+
+  # per server pvagw for deployment #############################################
+  pvagw-deploy:
+
+    <<: *pvagw
+
+    ports:
+    # TODO investigate how to configure this for deployment
+      - 127.0.0.1:${EPICS_PVA_SERVER_PORT}:${EPICS_PVA_SERVER_PORT}
+
+    command: -c "pvagw /config/pvagw.config"
+
+    profiles:
+      - removed
+
+configs:
+  pvagw_config:
+    file: config
+
+include:
+  - path:
+      ../../include/networks.yml
