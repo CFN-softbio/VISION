@@ -15,6 +15,14 @@ Key workflows include natural language-controlled (audio, text, or both) **beaml
 
 *Figure 2: VISION deployment at NSLS-II 11-BM CMS: GUI was launched at the beamline workstation, with backend processing performed on HAL. LLM-based cog results are displayed to prompt user confirmation, followed by execution on Bluesky or other software.*
 
+## EnvTrace
+To see an implementation of the EnvTrace method (written before the creation of the package), please see `backend/tests/test_op_cog.py`.
+This file contains the new testing methodology for our operator cog, using a beamline simulator, allowing us to track PV changes to generate a more accurate coding score.
+
+For the publicly usable package, which is written to be modular, please visit: https://github.com/CFN-softbio/EnvTrace
+
+## MLST Paper Code
+Looking for the project's public release as it was during the MLST 2025 release? Please switch to the `2025-mlst` branch.
 
 ## Directory Structure
 Highlight of the most important files:
@@ -72,6 +80,11 @@ Both frontend and backend require Python 3.12.7. Different versions might work b
    ```
 
 #### Backend Installation
+**We have created a Docker container to make this process easier. The container will take longer to set-up, but does not require supervision. It will also be much easier to get the simulator working this way, which is required if you want to press the simulate button in the UI.**
+Please look at `backend\README_SIMULATOR.md` for simulator information.
+
+If you do not care about running simulations, and just want to try out the tool, the below guide will get you up and running much faster:
+
 1. Navigate to the backend directory:
    ```bash
    cd backend
@@ -139,8 +152,9 @@ VISION supports three methods for the communication between frontend and backend
    - This is the default setting in this public repository. No additional configuration required
    - Data is transferred through files in a shared filesystem
    - If the commands become desynced, you can clear the temp folder to resolve it
-
+   - Works with the backend docker container (recommended)
 2. **SSH Connection**
+   - **Untested with the new MultiAgentQueue update, might require some debugging**
    - For connecting to a remote backend server
    - Requires SSH access to the backend machine
    - All communication goes through the server, credentials should be that of the server in both files
