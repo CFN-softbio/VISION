@@ -398,7 +398,8 @@ model_configurations = {
             "classifier": "claude-4.5-sonnet",
             "operator": "claude-4.5-sonnet",
             "analysis": "claude-4.5-sonnet",
-            "refinement": "claude-4.5-sonnet"
+            "refinement": "claude-4.5-sonnet",
+            "pv_evaluator": "claude-4.5-sonnet"
         },
         "audio": {
             "default": "whisper-large-v3-most-recent",
