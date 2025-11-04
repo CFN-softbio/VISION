@@ -167,6 +167,7 @@ VISION supports three methods for the communication between frontend and backend
      ```
 
 3. **Minio S3**
+   - **Untested with the new MultiAgentQueue abstraction, might require some debugging**
    - For scalable, production deployments
    - Requires a Minio S3 server
    - To enable, replace `CustomS3.py` with `MinioCustomS3.py` in both frontend and backend
