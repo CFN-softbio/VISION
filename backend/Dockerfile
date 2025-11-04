@@ -99,6 +99,9 @@ RUN sed -i 's/\r$//' /usr/local/bin/entrypoint.sh && \
 # Copy VISION dir later
 COPY . /home/vision/
 
+# Make sure we can run the .sh script
+RUN chmod +x /home/vision/external/profile_collection/.ci/apply-autosettings.sh
+
 # Default to bash
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["/bin/bash"]
