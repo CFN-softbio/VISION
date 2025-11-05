@@ -9,6 +9,9 @@ dockerd --host=unix:///var/run/docker.sock >/var/log/dockerd.log 2>&1 &
 # Start redis service
 nohup redis-server /usr/local/etc/redis/redis.conf &
 
+# Ensure shared communication directory has proper permissions
+mkdir -p /root/.hal_vision/shared
+chmod -R 777 /root/.hal_vision/shared
 
 # Initialize Miniconda and Simulator Environment
 conda init
@@ -46,6 +49,9 @@ echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc
 echo "pyenv activate .venv" >> ~/.bashrc
 echo "cd /home/vision" >> ~/.bashrc
 echo "pip install -r requirements.txt" >> ~/.bashrc
+
+# Set HAL_COMM_DIR environment variable in bashrc for consistency
+echo "export HAL_COMM_DIR=/root/.hal_vision/shared" >> ~/.bashrc
 
 # Kafka Config
 mkdir -p /etc/bluesky

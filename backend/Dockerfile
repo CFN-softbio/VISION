@@ -11,8 +11,6 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /home
 
-COPY . /home/vision/
-
 # Install Miniconda
 ENV CONDA_DIR=/opt/conda
 RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh && \
@@ -83,9 +81,26 @@ RUN bash -lc "eval \"\$(pyenv init -)\" && eval \"\$(pyenv virtualenv-init -)\" 
     pyenv virtualenv ${PYTHON_VERSION} .venv && \
     pyenv global .venv"
 
+# Create shared communication directory for host-container communication
+# This will be mounted as a volume when running the container
+RUN mkdir -p /root/.hal_vision/shared && chmod -R 777 /root/.hal_vision/shared
+
+# Set environment variable for shared communication directory
+ENV HAL_COMM_DIR=/root/.hal_vision/shared
+
+# Declare volume for shared communication
+VOLUME ["/root/.hal_vision/shared"]
+
 # Add Entry Script
 COPY docker-related/start.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh 
+RUN sed -i 's/\r$//' /usr/local/bin/entrypoint.sh && \
+    chmod +x /usr/local/bin/entrypoint.sh
+
+# Copy VISION dir later
+COPY . /home/vision/
+
+# Make sure we can run the .sh script
+RUN chmod +x /home/vision/external/profile_collection/.ci/apply-autosettings.sh
 
 # Default to bash
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

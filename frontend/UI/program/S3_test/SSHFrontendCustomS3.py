@@ -2,10 +2,12 @@
 import io
 import os
 import time
+import uuid
 from pathlib import Path
 import paramiko
 import numpy as np
 from .Base import Base
+from .multi_client_base import MultiClientQueueBase, ClientSpecificQueueBase
 
 
 class CustomS3(Base):
@@ -23,6 +25,7 @@ class CustomS3(Base):
                  save_dir='./',
                  log_verbosity=5,
                  clear_on_start=True,
+                 client_id=None,
                  **kwargs):
 
         super().__init__(name=name, log_verbosity=log_verbosity, **kwargs)
@@ -39,6 +42,9 @@ class CustomS3(Base):
                 raise EnvironmentError("SSH_PASSWORD environment variable is not set.")
 
         self._password = password  # Store for potential reconnection
+        self._username = username
+        self._endpoint = endpoint
+        self._port = port
 
         # Setup SSH client
         self.ssh = paramiko.SSHClient()
@@ -65,6 +71,10 @@ class CustomS3(Base):
         self.send = send
         self.receive = receive
         self.save_dir = save_dir
+        self.client_id = client_id or str(uuid.uuid4())
+
+        # Track processed files to avoid re-processing
+        self._seen_files = set()
 
         # Create remote directories if they don't exist
         self._ensure_remote_paths()
@@ -265,6 +275,104 @@ class CustomS3(Base):
             self.msg_error(f'Error in publish_s3_file: {str(ex)}', 1, 2)
             raise
 
+    def publish_status_file(self, file_path, name=None):
+        """Upload a status file to the remote server via SFTP"""
+        self.msg(f'Uploading status file ({self.now()})...', 4, 1)
+
+        p = Path(file_path)
+        name = p.name if name is None else f'{name}{p.suffix}'
+        
+        # Create remote status directory path
+        remote_status_dir = f'{self.remote_base_path}/vision_data/{self.bucket_name}/{self.experiment}/status/{self.send}'
+        remote_file_path = f'{remote_status_dir}/{name}'
+
+        try:
+            # Ensure remote status directory exists
+            self._ensure_remote_directory(remote_status_dir)
+
+            # Upload the file
+            self.sftp.put(str(file_path), remote_file_path)
+            
+            self.msg(f'Sent SSH status file: {remote_file_path}', 4, 2)
+
+        except Exception as ex:
+            self.msg_error(f'Error uploading status file: {str(ex)}', 1, 2)
+            raise
+
+    def get_status_files(self, name='status', timestamp=False):
+        """Download status files from the remote server via SFTP"""
+        remote_prefix = f'{self.remote_base_path}/vision_data/{self.bucket_name}/{self.experiment}/{name}'
+        now_str = self.now(str_format='%Y-%m-%d_%H%M%S')
+
+        self.msg(f'Getting status files ({self.now()})', 4, 1)
+        self.msg(f'recursive searching: {remote_prefix}', 4, 2)
+
+        try:
+            # Check if remote directory exists
+            try:
+                self.sftp.stat(remote_prefix)
+            except FileNotFoundError:
+                self.msg(f'Status directory does not exist: {remote_prefix}', 3, 2)
+                return
+
+            # Recursively download files
+            self._download_directory_recursive(remote_prefix, name, timestamp, now_str)
+
+            self.msg('Done.', 4, 2)
+
+        except Exception as ex:
+            self.msg_error(f'Error in get_status_files: {str(ex)}', 1, 2)
+
+    def _download_directory_recursive(self, remote_path, base_name, timestamp, now_str):
+        """Recursively download all files from a remote directory"""
+        try:
+            # List all items in the directory
+            for item in self.sftp.listdir_attr(remote_path):
+                remote_item_path = f'{remote_path}/{item.filename}'
+                
+                # Calculate relative path
+                relative_path = remote_item_path.split(f'{self.experiment}/{base_name}/')[-1]
+                
+                if self._is_directory(item):
+                    # Recursively process subdirectories
+                    self._download_directory_recursive(remote_item_path, base_name, timestamp, now_str)
+                else:
+                    # Download file
+                    self.msg(f'downloading: {remote_item_path}', 4, 3)
+                    
+                    if timestamp:
+                        local_file_path = Path(self.save_dir) / base_name / now_str / relative_path
+                    else:
+                        local_file_path = Path(self.save_dir) / base_name / relative_path
+
+                    # Create local directory if needed
+                    local_file_path.parent.mkdir(parents=True, exist_ok=True)
+
+                    try:
+                        self.sftp.get(remote_item_path, str(local_file_path))
+                    except Exception as ex:
+                        self.msg_error(f'Error downloading {remote_item_path}: {str(ex)}', 1, 2)
+
+        except Exception as ex:
+            self.msg_error(f'Error in _download_directory_recursive: {str(ex)}', 1, 2)
+
+    def _is_directory(self, item):
+        """Check if an SFTP item is a directory"""
+        import stat
+        return stat.S_ISDIR(item.st_mode)
+
+    def _ensure_remote_directory(self, path):
+        """Ensure a remote directory exists, creating it if necessary"""
+        try:
+            self.sftp.stat(path)
+        except FileNotFoundError:
+            # Directory doesn't exist, create it recursively
+            parent = os.path.dirname(path)
+            if parent and parent != path:
+                self._ensure_remote_directory(parent)
+            self.msg(f'Creating remote directory: {path}', 4, 2)
+            self.sftp.mkdir(path)
+
     def _try_reconnect(self):
         """Try to reconnect SFTP session"""
         try:
@@ -281,9 +389,30 @@ class CustomS3(Base):
                                  self._password)
                 self.sftp = self.ssh.open_sftp()
 
-    def clear(self):
+    def flush(self):
+        """
+        Mark all current files in the receive queue as already seen.
+        This ensures that only new files (uploaded after this call)
+        are delivered on next get().
+        """
+        try:
+            receive_path = self.receive_path()
+            try:
+                self.sftp.stat(receive_path)
+                for f in self.sftp.listdir(receive_path):
+                    remote_file = f'{receive_path}/{f}'
+                    self._seen_files.add(remote_file)
+            except FileNotFoundError:
+                pass  # Directory doesn't exist yet, nothing to flush
+        except Exception as ex:
+            self.msg_warning(f'flush() failed: {ex}', 2, 1)
+
+    def clear(self, name=None):
         """Remove all files in remote and local directories"""
         try:
+            if name is None:
+                name = self.name
+
             # Clear remote files
             receive_path = self.receive_path()
             send_path = self.send_path()
@@ -302,13 +431,14 @@ class CustomS3(Base):
 
             # Clear local files
             for stype in ['received', 'sent']:
-                path = f'{self.save_dir}/{self.name}-{stype}.npy'
+                path = f'{self.save_dir}/{name}-{stype}.npy'
                 if os.path.exists(path):
                     os.remove(path)
                     self.msg(f'Removed local file: {path}', 4, 2)
 
-            # Reset timestamp
-            self._last_processed_time = time.time()  # Update to current time
+            # Reset timestamp and seen files tracking
+            self._last_processed_time = time.time()
+            self._seen_files.clear()
 
         except Exception as e:
             self.msg_error(f'Error during clear: {str(e)}', 1, 2)
@@ -334,13 +464,67 @@ class CustomS3(Base):
         except Exception as ex:
             self.msg_error(f'Error closing connections: {str(ex)}', 1, 2)
 
-    def get(self, save=True, check_interrupted=True, force_load=False):
+    def get(self, save=True, check_interrupted=True, force_load=False, return_all=False):
+        """Get data from the queue, optionally returning all available messages"""
         if force_load or (check_interrupted and self.interrupted()):
             self.msg('Loading data/command from disk...', 4, 1)
             data = self.load()
         else:
             self.msg('Waiting for data/command...', 4, 1)
-            data = self.get_s3_file()
+            
+            messages = []
+            receive_path = self.receive_path()
+            
+            while not messages:  # Wait until at least one new file is available
+                try:
+                    self.sftp.stat(receive_path)
+                except FileNotFoundError:
+                    self._ensure_remote_paths()
+                    time.sleep(0.05)
+                    continue
+                
+                # List all files and sort chronologically
+                files = []
+                for f in self.sftp.listdir(receive_path):
+                    try:
+                        remote_file = f'{receive_path}/{f}'
+                        if remote_file in self._seen_files:
+                            continue  # Already consumed
+                        
+                        stat = self.sftp.stat(remote_file)
+                        files.append((f, stat.st_mtime, remote_file))
+                    except Exception as e:
+                        self.msg_warning(f'Failed to stat file {f}: {str(e)}', 3, 2)
+                        continue
+                
+                # Sort by modification time to ensure FIFO order
+                files.sort(key=lambda x: x[1])
+                
+                for fname, mtime, remote_file in files:
+                    tmp_file = os.path.join(self.save_dir, f'_tmp_{fname}')
+                    try:
+                        self.sftp.get(remote_file, tmp_file)
+                        msg = np.load(tmp_file, allow_pickle=True)
+                        messages.append(msg)
+                        self._seen_files.add(remote_file)
+                        
+                        if os.path.exists(tmp_file):
+                            os.remove(tmp_file)
+                            self.msg(f"{tmp_file} deleted.", 4, 3)
+                    except Exception as ex:
+                        self.msg_error(f'Error processing file {fname}: {str(ex)}', 1, 2)
+                
+                if not messages:
+                    time.sleep(0.05)  # Short pause before retrying
+            
+            # If caller wants everything (streaming) return the full list.
+            # Otherwise deliver only the newest message to avoid flooding
+            # single-shot request/reply calls with a backlog.
+            if return_all:
+                data = messages
+            else:
+                data = messages[-1]  # Newest (list is chronological)
+        
         return data
 
     def publish(self, data, save=True):
@@ -400,3 +584,165 @@ class Queue_user(CustomS3):
         super().__init__(username=username, send=send, receive=receive, endpoint=endpoint, password=password,
                          experiment=experiment, name=name, save_dir=save_dir, verbosity=verbosity,
                          remote_base_path=remote_base_path, **kwargs)
+
+
+class MultiClientQueue_AI(CustomS3, MultiClientQueueBase):
+    """
+    Multi-client queue for AI server that can handle requests from multiple clients simultaneously.
+    Each client gets its own dedicated queue path to avoid conflicts.
+    Uses SSH/SFTP backend for storage.
+    """
+
+    def __init__(self, username=USERNAME, endpoint=ENDPOINT, password=PASSWORD, port=22,
+                 experiment=EXPERIMENT, name='multiClientAI', save_dir='./', verbosity=VERBOSITY,
+                 remote_base_path=REMOTE_PATH, **kwargs):
+        CustomS3.__init__(self, username=username, send='ai', receive='user', endpoint=endpoint,
+                        password=password, port=port, experiment=experiment, name=name,
+                        save_dir=save_dir, log_verbosity=verbosity, remote_base_path=remote_base_path,
+                        clear_on_start=False, **kwargs)
+        MultiClientQueueBase.__init__(self)
+
+        # Store parameters for creating client queues
+        self.username = username
+        self.endpoint = endpoint
+        self.password = password
+        self.port = port
+        self.remote_base_path_param = remote_base_path
+
+    def _discover_clients_from_storage(self):
+        """Discover new clients by checking for client-specific directories via SSH."""
+        discovered_clients = set()
+        try:
+            # Look for directories starting with 'user_' in the base experiment path
+            base_path = f'{self.remote_base_path}/vision_data/{self.bucket_name}/{self.experiment}'
+            
+            try:
+                # List all items in the directory
+                for item in self.sftp.listdir_attr(base_path):
+                    if self._is_directory(item) and item.filename.startswith('user_'):
+                        client_id = item.filename[5:]  # Remove 'user_' prefix
+                        discovered_clients.add(client_id)
+            except FileNotFoundError:
+                self.msg(f'Base path does not exist yet: {base_path}', 4, 2)
+            except Exception as e:
+                self.msg_error(f'Error listing directory {base_path}: {str(e)}', 2, 2)
+
+        except Exception as e:
+            print(f"[MULTI-CLIENT] Error discovering clients from SSH: {e}")
+
+        return discovered_clients
+
+    def _create_client_queue(self, client_id):
+        """Create a new SSH-based queue instance for a specific client."""
+        return ClientSpecificQueue(
+            username=self.username,
+            send=f'ai_{client_id}',
+            receive=f'user_{client_id}',
+            endpoint=self.endpoint,
+            password=self.password,
+            port=self.port,
+            experiment=self.experiment,
+            name=f'aiSSH_{client_id}',
+            save_dir=self.save_dir,
+            verbosity=self.log_verbosity,
+            remote_base_path=self.remote_base_path_param,
+            client_id=client_id,
+            clear_on_start=False
+        )
+
+    def _get_client_queue_name(self, client_id):
+        """Get the queue name for a specific client."""
+        return f'aiSSH_{client_id}'
+
+
+class ClientSpecificQueue(CustomS3, ClientSpecificQueueBase):
+    """
+    Queue for a specific client with non-blocking get capability.
+    Uses SSH/SFTP backend for storage.
+    """
+
+    def __init__(self, **kwargs):
+        CustomS3.__init__(self, **kwargs)
+
+    def get_non_blocking(self):
+        """
+        Non-blocking version of get() that returns None if no data is available.
+        """
+        try:
+            receive_path = self.receive_path()
+            
+            # Check if directory exists
+            try:
+                self.sftp.stat(receive_path)
+            except FileNotFoundError:
+                return None
+
+            # Get list of files
+            files = []
+            for f in self.sftp.listdir(receive_path):
+                try:
+                    stat = self.sftp.stat(f'{receive_path}/{f}')
+                    files.append((f, stat.st_mtime))
+                except Exception as e:
+                    self.msg_warning(f'Failed to stat file {f}: {str(e)}', 3, 2)
+                    continue
+
+            if not files:
+                return None
+
+            # Sort by modification time and get oldest file
+            files.sort(key=lambda x: x[1])
+            oldest_file, _ = files[0]
+            remote_file = f'{receive_path}/{oldest_file}'
+
+            # Download file
+            local_path = f'{self.save_dir}/{self.name}-received.npy'
+            
+            try:
+                self.sftp.get(remote_file, local_path)
+                
+                if not os.path.exists(local_path) or os.path.getsize(local_path) == 0:
+                    return None
+
+                # Load data
+                loaded_data = np.load(local_path, allow_pickle=True).item()
+                data = loaded_data['data']
+
+                # Delete the remote file after reading
+                self.sftp.remove(remote_file)
+                
+                return data
+
+            except Exception as ex:
+                self.msg_error(f'Error reading file {remote_file}: {ex}', 1, 2)
+                return None
+
+        except Exception as ex:
+            self.msg_error(f'Error in get_non_blocking: {ex}', 1, 2)
+            return None
+
+
+class MultiClientQueue_user(CustomS3):
+    """
+    Multi-client queue for user clients that can send requests to the AI server.
+    Uses SSH/SFTP backend for storage.
+    """
+
+    def __init__(self, client_id=None, username=USERNAME, endpoint=ENDPOINT, password=PASSWORD, port=22,
+                 experiment=EXPERIMENT, name='multiClientUser', save_dir='./', verbosity=VERBOSITY,
+                 remote_base_path=REMOTE_PATH, **kwargs):
+        # Generate client_id if not provided
+        if client_id is None:
+            client_id = str(uuid.uuid4())
+
+        # Use client-specific queue names
+        send_queue = f'user_{client_id}'
+        receive_queue = f'ai_{client_id}'
+
+        super().__init__(username=username, send=send_queue, receive=receive_queue, endpoint=endpoint,
+                        password=password, port=port, experiment=experiment, name=name, save_dir=save_dir,
+                        log_verbosity=verbosity, remote_base_path=remote_base_path, client_id=client_id,
+                        clear_on_start=False, **kwargs)
+
+        print(f"[MULTI-CLIENT-USER] Initialized with client_id: {client_id}")
+        print(f"[MULTI-CLIENT-USER] Send queue: {send_queue}, Receive queue: {receive_queue}")

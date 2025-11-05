@@ -149,8 +149,12 @@ base_models_path = {
         'model': "qwen2.5-coder:32b",
         'provider': LLMProviders.OLLAMA,
     },
-    'claude-3.5-sonnet': {  # 20241022
+    'claude-3.5-sonnet': {  # 20241022, retired now
         'model': "claude-3-5-sonnet-20241022",
+        'provider': LLMProviders.CLAUDE,
+    },
+    'claude-4.5-sonnet': {
+        'model': "claude-sonnet-4-5-20250929",
         'provider': LLMProviders.CLAUDE,
     },
     'qwen2': {
@@ -390,11 +394,12 @@ model_configurations = {
     },
     "claude": {
         "text": {
-            "default": "claude-3.5-sonnet",
-            "classifier": "claude-3.5-sonnet",
-            "operator": "claude-3.5-sonnet",
-            "analysis": "claude-3.5-sonnet",
-            "refinement": "claude-3.5-sonnet"
+            "default": "claude-4.5-sonnet",
+            "classifier": "claude-4.5-sonnet",
+            "operator": "claude-4.5-sonnet",
+            "analysis": "claude-4.5-sonnet",
+            "refinement": "claude-4.5-sonnet",
+            "pv_evaluator": "claude-4.5-sonnet"
         },
         "audio": {
             "default": "whisper-large-v3-most-recent",
@@ -425,7 +430,7 @@ model_configurations = {
 }
 
 # Current active configuration
-ACTIVE_CONFIG = "azure"  # Change this to "azure" to use Azure models
+ACTIVE_CONFIG = "claude"  # Change this to "azure" to use Azure models
 
 
 # ------------------------------------------------------------------ #
